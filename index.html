@@ -2123,13 +2123,13 @@
     </div>
 
     <ul class="sidebar-menu">
-      <li class="menu-item active" id="menu-overview">
+      <li class="menu-item {{ 'active' if active_tab != 'disease' else '' }}" id="menu-overview" data-tab="overview">
         <a href="/dashboard" onclick="return handleNavClick('overview', event)" title="Dashboard"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
       </li>
       <li class="menu-item" id="menu-soil">
         <a href="/dashboard/soil" onclick="return handleNavClick('soil', event)" title="Soil Intelligence"><i class="fa-solid fa-seedling"></i> <span>Soil Intelligence</span></a>
       </li>
-      <li class="menu-item" id="menu-disease">
+      <li class="menu-item {{ 'active' if active_tab == 'disease' else '' }}" id="menu-disease" data-tab="disease">
         <a href="/dashboard/disease" onclick="return handleNavClick('disease', event)" title="Plant Disease Detection"><i class="fa-solid fa-crop-simple"></i> <span>Plant Disease</span></a>
       </li>
       <li class="menu-item" id="menu-monitoring">
@@ -2149,7 +2149,6 @@
       </li>
       <li class="menu-item" id="menu-settings">
         <a href="/dashboard/settings" onclick="return handleNavClick('settings', event)" title="Settings"><i class="fa-solid fa-gear"></i> <span>Settings</span></a>
-      </li>
       </li>
       <li class="menu-item">
         <a href="/logout" title="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Logout</span></a>
@@ -2291,7 +2290,7 @@
     </header>
 
     <!-- ================= TAB 1: OVERVIEW ================= -->
-    <div id="tab-overview" class="dashboard-tab-pane">
+    <div id="tab-overview" class="dashboard-tab-pane" style="display: {{ 'none' if active_tab == 'disease' else 'block' }};">
       <!-- ================= 285px CINEMATIC BANNER ================= -->
       <section class="banner-container" id="farmBannerContainer">
         <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1600&q=80" class="bg-slide-item slide-visible" alt="Sunrise Farm" />
@@ -2425,7 +2424,7 @@
         </a>
 
         <!-- Feature 2: Plant Disease -->
-        <a href="/dashboard/disease" class="core-feature-card" data-keyword="plant disease detection blight leaf pathogen scan">
+        <a href="/dashboard/disease" data-tab="disease" onclick="return handleNavClick('disease', event)" class="core-feature-card" data-keyword="plant disease detection blight leaf pathogen scan">
           <div>
             <div class="feat-card-top">
               <div class="feat-icon-box icon-disease"><i class="fa-solid fa-microscope"></i></div>
@@ -2488,7 +2487,7 @@
   </div> <!-- end #tab-overview -->
 
   <!-- ================= TAB 2: CROP HEALTH & LEAF SCANNER ================= -->
-  <div id="tab-disease" class="dashboard-tab-pane" style="display: none;">
+  <div id="tab-disease" class="dashboard-tab-pane" style="display: {{ 'block' if active_tab == 'disease' else 'none' }};">
     
     <!-- Welcoming Warm Banner matching Namaste Farmer Ramesh -->
     <section class="disease-banner-card">
@@ -2912,8 +2911,12 @@
       const allTabs = document.querySelectorAll('.dashboard-tab-pane');
       const allMenuItems = document.querySelectorAll('.sidebar-menu .menu-item');
 
-      allTabs.forEach(pane => pane.style.display = 'none');
-      allMenuItems.forEach(item => item.classList.remove('active'));
+      allTabs.forEach(pane => {
+        pane.style.display = 'none';
+      });
+      allMenuItems.forEach(item => {
+        item.classList.remove('active');
+      });
 
       if (tabName === 'disease') {
         const diseasePane = document.getElementById('tab-disease');
@@ -2927,17 +2930,40 @@
         if (overviewMenu) overviewMenu.classList.add('active');
       }
 
+      // Close mobile sidebar if open
+      document.body.classList.remove('sidebar-mobile-open');
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function handleNavClick(tabName, event) {
-      if (event) event.preventDefault();
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
       switchTab(tabName);
       if (history.pushState) {
-        history.pushState(null, '', tabName === 'overview' ? '/dashboard' : '/dashboard/' + tabName);
+        const targetUrl = (tabName === 'overview') ? '/dashboard' : '/dashboard/' + tabName;
+        history.pushState({ tab: tabName }, '', targetUrl);
       }
       return false;
     }
+
+    window.switchTab = switchTab;
+    window.handleNavClick = handleNavClick;
+
+    window.addEventListener('popstate', (e) => {
+      if (e.state && e.state.tab) {
+        switchTab(e.state.tab);
+      } else {
+        const path = window.location.pathname.toLowerCase();
+        if (path.includes('disease')) {
+          switchTab('disease');
+        } else {
+          switchTab('overview');
+        }
+      }
+    });
 
     // Auto-activate tab based on URL path, query params, hash or server variable
     document.addEventListener('DOMContentLoaded', () => {
@@ -2951,6 +2977,16 @@
       } else {
         switchTab('overview');
       }
+
+      // Attach delegated click listeners to all [data-tab] elements
+      document.querySelectorAll('[data-tab]').forEach(el => {
+        el.addEventListener('click', (e) => {
+          const tab = el.getAttribute('data-tab');
+          if (tab) {
+            handleNavClick(tab, e);
+          }
+        });
+      });
 
       initLeafDetectionEngine();
     });
@@ -3167,19 +3203,11 @@
 
     // ================= 8. CLICKABLE METRICS DETAIL ALERT =================
     function showMetricDetail(name, val, status, advisory) {
-      alert(`[TELEMETRY INSPECTOR]
-Metric: ${name}
-Current Reading: ${val}
-Status: ${status}
-
-Agronomic Note: ${advisory}`);
+      alert(`[TELEMETRY INSPECTOR]\nMetric: ${name}\nCurrent Reading: ${val}\nStatus: ${status}\n\nAgronomic Note: ${advisory}`);
     }
 
     function showTelemetryToast() {
-      alert('Hardware Telemetry Mesh Status:
-• ESP32 Node Array #04: CONNECTED
-• LoRaWAN Gateway RSSI: -68 dBm (Strong)
-• Telemetry Polling Rate: Every 30 seconds');
+      alert("Hardware Telemetry Mesh Status:\n• ESP32 Node Array #04: CONNECTED\n• LoRaWAN Gateway RSSI: -68 dBm (Strong)\n• Telemetry Polling Rate: Every 30 seconds");
     }
 
     // ================= 9. 3-SECOND 5-IMAGE BANNER CAROUSEL =================
@@ -3264,7 +3292,6 @@ Agronomic Note: ${advisory}`);
         area.appendChild(botBubble);
         area.scrollTop = area.scrollHeight;
       }, 600);
-    }
     }
   </script>
 </body>
