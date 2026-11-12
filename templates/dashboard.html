@@ -8,7 +8,7 @@
   <!-- Google Fonts & Font Awesome & Chart.js -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -47,9 +47,15 @@
     body {
       background-color: var(--bg-canvas);
       color: var(--text-dark);
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-family: 'Bricolage Grotesque', 'Plus Jakarta Sans', sans-serif;
       min-height: 100vh;
       display: flex;
+    }
+
+    h1, h2, h3, h4, h5, h6,
+    button, input, select, textarea,
+    .card-panel, .banner-slide, .metric-box {
+      font-family: 'Bricolage Grotesque', 'Plus Jakarta Sans', sans-serif;
     }
 
     /* ================= LEFT SIDEBAR ================= */
@@ -808,6 +814,861 @@
       .features-bottom-ribbon { flex-direction: column; align-items: flex-start; }
       .pillar-divider { display: none; }
     }
+
+        /* ================= CROP HEALTH & LEAF SCANNER (BRICOLAGE GROTESQUE) ================= */
+    #tab-disease,
+    #tab-disease * {
+      font-family: 'Bricolage Grotesque', sans-serif !important;
+    }
+
+    .dashboard-tab-pane {
+      width: 100%;
+      height: auto;
+      min-height: auto;
+      overflow: visible;
+    }
+
+    /* Welcoming Warm Banner matching Namaste Farmer Ramesh */
+    .disease-banner-card {
+      position: relative;
+      background: linear-gradient(135deg, #FAF3E0 0%, #E8F5E9 50%, #FEF9E7 100%);
+      border-radius: var(--radius-lg);
+      margin-bottom: 22px;
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+      min-height: 155px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 28px;
+    }
+
+    .disease-banner-left {
+      position: relative;
+      z-index: 5;
+      max-width: 520px;
+    }
+
+    .disease-banner-left h2 {
+      font-size: 1.95rem;
+      font-weight: 800;
+      color: #1B412E;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .disease-banner-left h2 .highlight-name {
+      color: var(--accent-orange);
+    }
+
+    .disease-banner-left h2 .banner-icon {
+      color: #2E7D32;
+      font-size: 1.8rem;
+    }
+
+    .disease-banner-left p {
+      font-size: 0.95rem;
+      color: #526359;
+      margin-bottom: 12px;
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    .disease-banner-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      border: 1px solid #D8EADF;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #2E7D32;
+      box-shadow: 0 2px 6px rgba(46, 125, 50, 0.08);
+    }
+
+    /* Half-side feathered leaf image backdrop */
+    .disease-banner-backdrop {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 58%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .disease-banner-backdrop img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center right;
+      -webkit-mask-image: linear-gradient(to left, black 65%, rgba(0,0,0,0.5) 85%, transparent 100%);
+      mask-image: linear-gradient(to left, black 65%, rgba(0,0,0,0.5) 85%, transparent 100%);
+      filter: saturate(1.15) contrast(1.02);
+    }
+
+    /* Floating insight card on the banner */
+    .disease-banner-tip {
+      position: relative;
+      z-index: 5;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      width: 250px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .disease-banner-tip .tip-tag {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent-orange);
+      margin-bottom: 5px;
+    }
+
+    .disease-banner-tip p {
+      font-size: 0.8rem;
+      color: var(--text-dark);
+      line-height: 1.42;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .disease-banner-tip .tip-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--accent-green);
+    }
+
+    /* Equal-Height 2-Column Grid (items-stretch) */
+    .disease-lab-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 22px;
+      margin-bottom: 24px;
+      align-items: stretch;
+      height: auto;
+      min-height: auto;
+      overflow: visible;
+    }
+
+    /* Left Upload Panel: unconstrained height & visible overflow */
+    .disease-upload-panel {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: auto;
+      overflow: visible;
+      padding: 22px 24px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+    }
+
+    .card-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .panel-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #1A3E2C;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-pill-badge {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #2E7D32;
+      background: #E8F5E9;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* File Dropzone */
+    .disease-dropzone {
+      border: 2px dashed #CBD5E1;
+      background: #FAF8F2;
+      border-radius: var(--radius-md);
+      padding: 16px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+      margin-bottom: 16px;
+      height: auto;
+      overflow: visible;
+    }
+
+    .disease-dropzone:hover, .disease-dropzone.dropzone-active {
+      border-color: #2E7D32;
+      background: #F2F9F4;
+    }
+
+    .dropzone-prompt-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dropzone-icon-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #E8F5E9;
+      color: #2E7D32;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 4px;
+      transition: transform 0.2s ease;
+    }
+
+    .disease-dropzone:hover .dropzone-icon-circle {
+      transform: scale(1.08);
+    }
+
+    .dropzone-text-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #1A3E2C;
+    }
+
+    .dropzone-text-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .dropzone-text-sub .browse-link {
+      color: #2E7D32;
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .dropzone-hint {
+      font-size: 0.72rem;
+      color: #64748B;
+      margin-top: 3px;
+    }
+
+    .dropzone-preview-box {
+      position: relative;
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .disease-preview-img {
+      width: 100%;
+      max-height: 180px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+
+    .disease-remove-btn {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(30, 41, 34, 0.82);
+      color: #FFFFFF;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      transition: background 0.2s;
+    }
+
+    .disease-remove-btn:hover {
+      background: #E53935;
+    }
+
+    .disease-file-caption {
+      margin-top: 6px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #526359;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Sensor Telemetry Form: Current Field Conditions */
+    .sensor-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .synced-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #2E7D32;
+      background: #E8F5E9;
+      padding: 3px 9px;
+      border-radius: var(--radius-pill);
+    }
+
+    .field-conditions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .field-condition-box {
+      background: #FAF8F2;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .field-condition-box:focus-within {
+      border-color: #2E7D32;
+      background: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(46, 125, 50, 0.08);
+    }
+
+    .condition-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .condition-icon-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+    }
+
+    .icon-bg-moisture { background: #DCFCE7; color: #16A34A; }
+    .icon-bg-ph { background: #FEF3C7; color: #D97706; }
+    .icon-bg-temp { background: #E0F2FE; color: #0284C7; }
+
+    .condition-status-pill {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+    }
+    .pill-moisture { background: #E8F5E9; color: #2E7D32; }
+    .pill-ph { background: #FEF3E2; color: #D97706; }
+    .pill-temp { background: #E0F2FE; color: #0284C7; }
+
+    .condition-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .condition-label {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #64748B;
+      margin-bottom: 2px;
+    }
+
+    .condition-val-row {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .condition-input {
+      width: 58px;
+      border: none;
+      background: transparent;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #1B412E;
+      font-family: inherit;
+      outline: none;
+      padding: 0;
+    }
+
+    .condition-unit {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #64748B;
+    }
+
+    .condition-presets-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .presets-text {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #64748B;
+    }
+
+    .preset-tag {
+      background: #FAF8F2;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-pill);
+      padding: 3px 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #526359;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .preset-tag:hover, .preset-tag.active {
+      background: #1B412E;
+      color: #FFFFFF;
+      border-color: #1B412E;
+    }
+
+    /* Action Submit Button */
+    .action-submit-wrap {
+      margin-top: auto;
+      padding-top: 10px;
+    }
+
+    .btn-analyze-leaf {
+      background: #1B412E;
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 12px 20px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 14px rgba(27, 65, 46, 0.22);
+      transition: all 0.2s ease;
+    }
+
+    .btn-analyze-leaf:hover:not(:disabled) {
+      background: #2D6A4F;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(27, 65, 46, 0.32);
+    }
+
+    .btn-analyze-leaf:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .disease-error-box {
+      margin-top: 10px;
+      background: #FFEBEE;
+      border: 1px solid #FFCDD2;
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #C62828;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Right Results Panel: Equal Height & Stretched */
+    .disease-results-panel {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: auto;
+      overflow: visible;
+      padding: 22px 24px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+    }
+
+    /* Empty Placeholder Card */
+    .disease-placeholder-card {
+      flex: 1;
+      min-height: 380px;
+      border: 2px dashed #E2DDD2;
+      background: #FAF8F2;
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 28px 24px;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .placeholder-icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #E8F5E9;
+      color: #2E7D32;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+    }
+
+    .disease-placeholder-card h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #1A3E2C;
+      margin-bottom: 6px;
+    }
+
+    .disease-placeholder-card p {
+      font-size: 0.85rem;
+      color: #526359;
+      max-width: 440px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .supported-crops-pill {
+      background: #FFFFFF;
+      border: 1px solid #EAE6DB;
+      border-radius: var(--radius-pill);
+      padding: 6px 16px;
+      font-size: 0.76rem;
+      color: #526359;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+
+    .supported-crops-pill span {
+      font-weight: 700;
+      color: #2E7D32;
+    }
+
+    /* Loading Card */
+    .disease-loading-card {
+      flex: 1;
+      min-height: 380px;
+      background: #FAF8F2;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 24px;
+      text-align: center;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .loading-spinner-ring {
+      width: 42px;
+      height: 42px;
+      border: 3.5px solid #E2E8F0;
+      border-top-color: #2E7D32;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin-bottom: 14px;
+    }
+
+    .loading-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #1A3E2C;
+      margin-bottom: 12px;
+    }
+
+    .loading-steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-align: left;
+      font-size: 0.82rem;
+      color: #526359;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-item.active i { color: #2E7D32; }
+    .step-item.loading i { color: #E67E22; }
+
+    /* Results Display Wrapper */
+    .disease-results-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      height: auto;
+      overflow: visible;
+    }
+
+    .verdict-banner-box {
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      position: relative;
+      height: auto;
+      overflow: visible;
+    }
+
+    .verdict-healthy {
+      background: linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);
+      border: 1px solid #C8E6C9;
+    }
+
+    .verdict-diseased {
+      background: linear-gradient(135deg, #FFEBEE 0%, #FFF3E0 100%);
+      border: 1px solid #FFCDD2;
+    }
+
+    .verdict-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .verdict-status-pill {
+      font-size: 0.74rem;
+      font-weight: 800;
+      padding: 3px 12px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-healthy { background: #2E7D32; color: #FFFFFF; }
+    .pill-diseased { background: #E53935; color: #FFFFFF; }
+
+    .verdict-main-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .verdict-crop-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #526359;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 2px;
+    }
+
+    .verdict-disease-heading {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #1A3E2C;
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    .verdict-confidence-box {
+      background: #FFFFFF;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: var(--radius-sm);
+      padding: 6px 12px;
+      min-width: 110px;
+      text-align: right;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    .conf-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .conf-number {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #2E7D32;
+      line-height: 1.1;
+    }
+
+    .conf-bar-track {
+      width: 100%;
+      height: 4px;
+      background: #E2E8F0;
+      border-radius: var(--radius-pill);
+      margin-top: 4px;
+      overflow: hidden;
+    }
+
+    .conf-bar-fill {
+      height: 100%;
+      background: #2E7D32;
+      border-radius: var(--radius-pill);
+      transition: width 0.4s ease;
+    }
+
+    .result-section-box {
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+      height: auto;
+      overflow: visible;
+    }
+
+    .result-box-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-bottom: 5px;
+    }
+
+    .green-header { color: #2E7D32; }
+    .blue-header { color: #0284C7; }
+    .orange-header { color: #E67E22; }
+    .hindi-header { color: #D97706; }
+
+    .result-prose-text {
+      font-size: 0.84rem;
+      color: #334155;
+      line-height: 1.48;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .treatment-steps-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 0;
+      margin: 0;
+    }
+
+    .treatment-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: #FAF9F5;
+      border: 1px solid #EAE6DB;
+      border-radius: var(--radius-sm);
+      padding: 7px 10px;
+    }
+
+    .treatment-step-badge {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #FEF3E2;
+      color: #E67E22;
+      font-size: 0.68rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .treatment-step-text {
+      font-size: 0.82rem;
+      color: #1E2922;
+      line-height: 1.38;
+      font-weight: 500;
+    }
+
+    .hindi-advisory-box {
+      background: linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 100%);
+      border: 1px solid #FDE68A;
+      padding: 12px 16px;
+      height: auto;
+      overflow: visible;
+    }
+
+    .hindi-prose-text {
+      font-size: 0.9rem;
+      color: #1E2922;
+      line-height: 1.5;
+      font-weight: 500;
+      background: #FFFFFF;
+      border: 1px solid #FEF3C7;
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      margin: 0;
+    }
+
+    @media (max-width: 1024px) {
+      .disease-lab-grid {
+        grid-template-columns: 1fr;
+      }
+      .disease-banner-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .disease-banner-backdrop {
+        width: 100%;
+        opacity: 0.35;
+      }
+      .disease-banner-tip {
+        width: 100%;
+        margin-top: 14px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -823,32 +1684,32 @@
     </div>
 
     <ul class="sidebar-menu">
-      <li class="menu-item active">
-        <a href="/dashboard"><i class="fa-solid fa-house"></i> Overview</a>
+      <li class="menu-item active" id="menu-overview">
+        <a href="/dashboard" onclick="return handleNavClick('overview', event)"><i class="fa-solid fa-house"></i> Overview</a>
       </li>
-      <li class="menu-item">
-        <a href="/dashboard/soil"><i class="fa-solid fa-seedling"></i> Soil Intelligence</a>
+      <li class="menu-item" id="menu-soil">
+        <a href="/dashboard/soil" onclick="return handleNavClick('soil', event)"><i class="fa-solid fa-seedling"></i> Soil Intelligence</a>
       </li>
-      <li class="menu-item">
-        <a href="/dashboard/disease"><i class="fa-solid fa-crop-simple"></i> Plant Disease Detection</a>
+      <li class="menu-item" id="menu-disease">
+        <a href="/dashboard/disease" onclick="return handleNavClick('disease', event)"><i class="fa-solid fa-crop-simple"></i> Plant Disease Detection</a>
       </li>
-      <li class="menu-item">
-        <a href="/dashboard/monitoring"><i class="fa-solid fa-video"></i> Live Farm Monitoring</a>
+      <li class="menu-item" id="menu-monitoring">
+        <a href="/dashboard/monitoring" onclick="return handleNavClick('monitoring', event)"><i class="fa-solid fa-video"></i> Live Farm Monitoring</a>
       </li>
-      <li class="menu-item">
-        <a href="/dashboard/irrigation"><i class="fa-solid fa-droplet"></i> Smart Irrigation</a>
+      <li class="menu-item" id="menu-irrigation">
+        <a href="/dashboard/irrigation" onclick="return handleNavClick('irrigation', event)"><i class="fa-solid fa-droplet"></i> Smart Irrigation</a>
       </li>
-      <li class="menu-item">
-        <a href="/dashboard/assistant"><i class="fa-solid fa-robot"></i> AI Farmer Assistant</a>
+      <li class="menu-item" id="menu-assistant">
+        <a href="/dashboard/assistant" onclick="return handleNavClick('assistant', event)"><i class="fa-solid fa-robot"></i> AI Farmer Assistant</a>
       </li>
-      <li class="menu-item">
-        <a href="/dashboard/alerts">
+      <li class="menu-item" id="menu-alerts">
+        <a href="/dashboard/alerts" onclick="return handleNavClick('alerts', event)">
           <i class="fa-solid fa-bell"></i> Farm Alerts
           <span class="menu-badge">2</span>
         </a>
       </li>
-      <li class="menu-item">
-        <a href="/dashboard/settings"><i class="fa-solid fa-gear"></i> Settings</a>
+      <li class="menu-item" id="menu-settings">
+        <a href="/dashboard/settings" onclick="return handleNavClick('settings', event)"><i class="fa-solid fa-gear"></i> Settings</a>
       </li>
       <li class="menu-item">
         <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
@@ -899,8 +1760,10 @@
       </div>
     </header>
 
-    <!-- ================= MULTI-IMAGE BLURRED FUSION BANNER (4 SLIDES) ================= -->
-    <section class="banner-carousel-container" id="bannerCarousel">
+    <!-- ================= TAB 1: OVERVIEW ================= -->
+    <div id="tab-overview" class="dashboard-tab-pane">
+      <!-- ================= MULTI-IMAGE BLURRED FUSION BANNER (4 SLIDES) ================= -->
+      <section class="banner-carousel-container" id="bannerCarousel">
 
       <!-- SLIDE 1: Sunrise Soil Intelligence -->
       <div class="banner-slide active-slide" style="background: linear-gradient(135deg, #FEF7DE 0%, #FFF3D6 45%, #E8F5E9 100%);">
@@ -1003,7 +1866,7 @@
             <span>Crop Advisory</span>
           </div>
           <p>Nitrogen balance healthy. No chemical spray required this week.</p>
-          <a href="/dashboard/disease" class="btn-insight-action" style="color: #16A34A;">
+          <a href="/dashboard/disease" onclick="return handleNavClick('disease', event)" class="btn-insight-action" style="color: #16A34A;">
             <span>Run Diagnostic</span>
             <i class="fa-solid fa-arrow-right"></i>
           </a>
@@ -1167,14 +2030,14 @@
           </div>
 
           <!-- Alert 2 -->
-          <div class="alert-row">
+          <div class="alert-row" style="cursor: pointer;" onclick="handleNavClick('disease')">
             <div class="alert-bubble alert-green">
               <i class="fa-solid fa-leaf"></i>
             </div>
             <div class="alert-text-content">
               <div class="alert-title-text">Leaf disease detected (Healthy Leaf)</div>
             </div>
-            <div class="alert-timestamp">4h ago</div>
+            <div class="alert-timestamp">4h ago &bull; <span style="color: #2E7D32; font-weight: 700;">Open Lab &rarr;</span></div>
           </div>
 
           <!-- Alert 3 -->
@@ -1238,6 +2101,268 @@
         <span>Multilingual Support (English | हिंदी | मराठी)</span>
       </div>
     </section>
+  </div> <!-- end #tab-overview -->
+
+  <!-- ================= TAB 2: CROP HEALTH & LEAF SCANNER ================= -->
+  <div id="tab-disease" class="dashboard-tab-pane" style="display: none;">
+    
+    <!-- Welcoming Warm Banner matching Namaste Farmer Ramesh -->
+    <section class="disease-banner-card">
+      <div class="disease-banner-left">
+        <h2>
+          <i class="fa-solid fa-leaf banner-icon"></i>
+          <span>Crop Health &amp; <span class="highlight-name">Leaf Scanner</span></span>
+        </h2>
+        <p>Upload a photo of your crop leaf to instantly check for diseases and get treatment advice.</p>
+        <div class="disease-banner-status">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Instant Plant Doctor &amp; Crop Advisory</span>
+        </div>
+      </div>
+
+      <!-- Half-Side Image with Feathered Edge Blur matching overview banner -->
+      <div class="disease-banner-backdrop">
+        <img 
+          src="https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=1200&q=80" 
+          alt="Healthy Crop Leaves" 
+        />
+      </div>
+
+      <!-- Floating Insight Card on top of the blurred seam -->
+      <div class="disease-banner-tip">
+        <div class="tip-tag">
+          <i class="fa-solid fa-lightbulb"></i>
+          <span>Photo Tip</span>
+        </div>
+        <p>Capture a clear, well-lit photo of the affected leaf for the most accurate diagnosis.</p>
+        <div class="tip-badge">
+          <i class="fa-solid fa-seedling"></i>
+          <span>38 Crop Varieties Supported</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Equal-Height 2-Column Grid (items-stretch) -->
+    <div class="disease-lab-grid">
+
+      <!-- Column 1: Upload & Current Field Conditions -->
+      <div class="disease-upload-panel">
+        <div class="card-panel-header">
+          <div class="panel-title">
+            <i class="fa-solid fa-camera" style="color: #2E7D32;"></i>
+            <span>Upload Crop Leaf Image</span>
+          </div>
+          <span class="panel-pill-badge">JPEG, PNG, WebP</span>
+        </div>
+
+        <!-- File Dropzone -->
+        <div id="diseaseDropzone" class="disease-dropzone">
+          <input type="file" id="diseaseFileInput" accept="image/*" style="display: none;" />
+          
+          <div id="diseaseDropzonePrompt" class="dropzone-prompt-box">
+            <div class="dropzone-icon-circle">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+            </div>
+            <div class="dropzone-text-title">Drag &amp; drop leaf photo here</div>
+            <div class="dropzone-text-sub">or <span class="browse-link">click to browse</span> from device</div>
+            <div class="dropzone-hint">Clear close-up of leaf showing front and back</div>
+          </div>
+
+          <div id="diseasePreviewBox" class="dropzone-preview-box" style="display: none;">
+            <img id="diseaseImgPreview" src="" alt="Uploaded Leaf" class="disease-preview-img" />
+            <button type="button" id="diseaseRemoveBtn" class="disease-remove-btn" title="Remove image">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="diseaseFileName" class="disease-file-caption">leaf.jpg</div>
+          </div>
+        </div>
+
+        <!-- Sensor Telemetry Form: Current Field Conditions -->
+        <div class="sensor-section-header">
+          <div class="panel-title" style="font-size: 0.95rem;">
+            <i class="fa-solid fa-microchip" style="color: #2E7D32;"></i>
+            <span>Current Field Conditions</span>
+          </div>
+          <span class="synced-badge">
+            <i class="fa-solid fa-wifi"></i>
+            <span>Auto-synced from Farm Sensors</span>
+          </span>
+        </div>
+
+        <div class="field-conditions-grid">
+          <!-- Soil Moisture -->
+          <div class="field-condition-box">
+            <div class="condition-box-header">
+              <div class="condition-icon-circle icon-bg-moisture">
+                <i class="fa-solid fa-seedling"></i>
+              </div>
+              <span class="condition-status-pill pill-moisture">Optimal</span>
+            </div>
+            <div class="condition-meta">
+              <div class="condition-label">Soil Moisture</div>
+              <div class="condition-val-row">
+                <input type="number" id="diseaseMoisture" value="72" min="0" max="100" step="0.5" class="condition-input" />
+                <span class="condition-unit">%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Soil pH -->
+          <div class="field-condition-box">
+            <div class="condition-box-header">
+              <div class="condition-icon-circle icon-bg-ph">
+                <i class="fa-solid fa-flask"></i>
+              </div>
+              <span class="condition-status-pill pill-ph">Neutral</span>
+            </div>
+            <div class="condition-meta">
+              <div class="condition-label">Soil pH</div>
+              <div class="condition-val-row">
+                <input type="number" id="diseasePh" value="6.8" min="0" max="14" step="0.1" class="condition-input" />
+                <span class="condition-unit">pH</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ambient Temp -->
+          <div class="field-condition-box">
+            <div class="condition-box-header">
+              <div class="condition-icon-circle icon-bg-temp">
+                <i class="fa-solid fa-temperature-half"></i>
+              </div>
+              <span class="condition-status-pill pill-temp">Normal</span>
+            </div>
+            <div class="condition-meta">
+              <div class="condition-label">Ambient Temp</div>
+              <div class="condition-val-row">
+                <input type="number" id="diseaseTemp" value="27" min="-10" max="60" step="0.5" class="condition-input" />
+                <span class="condition-unit">°C</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Scenarios Presets -->
+        <div class="condition-presets-bar">
+          <span class="presets-text">Quick Scenarios:</span>
+          <button type="button" class="preset-tag active" onclick="setTelemetryPreset(72, 6.8, 27)">Live Field (72%, 6.8, 27°C)</button>
+          <button type="button" class="preset-tag" onclick="setTelemetryPreset(85, 6.2, 29)">High Moisture (85%, 6.2, 29°C)</button>
+          <button type="button" class="preset-tag" onclick="setTelemetryPreset('', '', '')">Reset</button>
+        </div>
+
+        <!-- Action Button -->
+        <div class="action-submit-wrap">
+          <button type="button" id="diseaseSubmitBtn" class="btn-analyze-leaf" onclick="runLeafDiagnosis()">
+            <i id="submitBtnIcon" class="fa-solid fa-leaf"></i>
+            <span id="submitBtnText">Scan Crop Leaf</span>
+          </button>
+        </div>
+
+        <!-- Error message banner -->
+        <div id="diseaseErrorBanner" class="disease-error-box" style="display: none;">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span id="diseaseErrorMessage">An error occurred during diagnosis.</span>
+        </div>
+
+      </div>
+
+      <!-- Column 2: Health Report (Equal Height) -->
+      <div class="disease-results-panel">
+        
+        <!-- Placeholder State -->
+        <div id="diseaseEmptyState" class="disease-placeholder-card">
+          <div class="placeholder-icon-wrap">
+            <i class="fa-solid fa-leaf"></i>
+          </div>
+          <h3>Ready to Scan Your Crop</h3>
+          <p>
+            Upload or drag &amp; drop a clear crop leaf photo on the left, then click <strong>Scan Crop Leaf</strong> to get an instant health diagnosis, condition summary, and treatment advice.
+          </p>
+          <div class="supported-crops-pill">
+            <i class="fa-solid fa-seedling" style="color: #2E7D32;"></i>
+            <span>Supported Crops:</span> Tomato, Potato, Apple, Grape, Corn, Pepper, Strawberry, Peach &amp; more
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="diseaseLoadingState" class="disease-loading-card" style="display: none;">
+          <div class="loading-spinner-ring"></div>
+          <div class="loading-title">Scanning Crop Leaf...</div>
+          <div class="loading-steps-list">
+            <div class="step-item active"><i class="fa-solid fa-circle-check"></i> Inspecting leaf image texture and color patterns...</div>
+            <div class="step-item active"><i class="fa-solid fa-circle-check"></i> Checking crop pathology and disease database...</div>
+            <div class="step-item loading"><i class="fa-solid fa-circle-notch fa-spin"></i> Synthesizing field sensor conditions &amp; treatment guide...</div>
+          </div>
+        </div>
+
+        <!-- Active Results Display: Clear Health Report without Technical Model Labels -->
+        <div id="diseaseResultContent" class="disease-results-wrapper" style="display: none;">
+          
+          <!-- Verdict Banner -->
+          <div id="diseaseVerdictCard" class="verdict-banner-box verdict-healthy">
+            <div class="verdict-top-row">
+              <span id="diseaseStatusBadge" class="verdict-status-pill pill-healthy">
+                <i class="fa-solid fa-circle-check"></i> Healthy Crop
+              </span>
+            </div>
+            <div class="verdict-main-row">
+              <div>
+                <div id="resCropName" class="verdict-crop-tag">Crop: Tomato</div>
+                <h2 id="resDiseaseName" class="verdict-disease-heading">Healthy &amp; Vigorous</h2>
+              </div>
+              <div class="verdict-confidence-box">
+                <div class="conf-title">Match Confidence</div>
+                <div id="resConfidenceVal" class="conf-number">98.4%</div>
+                <div class="conf-bar-track">
+                  <div id="resConfidenceBar" class="conf-bar-fill" style="width: 98.4%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Health & Condition Summary -->
+          <div class="result-section-box">
+            <div class="result-box-header green-header">
+              <i class="fa-solid fa-heart-pulse"></i>
+              <span>Crop Health Summary</span>
+            </div>
+            <p id="resSummaryText" class="result-prose-text"></p>
+          </div>
+
+          <!-- Field Conditions Insight -->
+          <div class="result-section-box">
+            <div class="result-box-header blue-header">
+              <i class="fa-solid fa-cloud-sun-rain"></i>
+              <span>Field Condition Insights</span>
+            </div>
+            <p id="resSensorInsightText" class="result-prose-text"></p>
+          </div>
+
+          <!-- Recommended Action Steps -->
+          <div class="result-section-box">
+            <div class="result-box-header orange-header">
+              <i class="fa-solid fa-clipboard-check"></i>
+              <span>Recommended Action Steps</span>
+            </div>
+            <ul id="resTreatmentList" class="treatment-steps-list"></ul>
+          </div>
+
+          <!-- Farmer Advisory in Hindi -->
+          <div class="result-section-box hindi-advisory-box">
+            <div class="result-box-header hindi-header">
+              <span class="flag-icon">🇮🇳</span>
+              <span>किसान सलाह (Hindi Advisory)</span>
+            </div>
+            <p id="resHindiSummaryText" class="hindi-prose-text"></p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 
   </main>
 
@@ -1374,6 +2499,279 @@
         }
       }
     });
+
+    // ================= 3. TAB NAVIGATION & AI LEAF DETECTOR LOGIC =================
+    function switchTab(tabName) {
+      const allTabs = document.querySelectorAll('.dashboard-tab-pane');
+      const allMenuItems = document.querySelectorAll('.sidebar-menu .menu-item');
+
+      allTabs.forEach(pane => pane.style.display = 'none');
+      allMenuItems.forEach(item => item.classList.remove('active'));
+
+      if (tabName === 'disease') {
+        const diseasePane = document.getElementById('tab-disease');
+        if (diseasePane) diseasePane.style.display = 'block';
+        const diseaseMenu = document.getElementById('menu-disease');
+        if (diseaseMenu) diseaseMenu.classList.add('active');
+      } else {
+        const overviewPane = document.getElementById('tab-overview');
+        if (overviewPane) overviewPane.style.display = 'block';
+        const overviewMenu = document.getElementById('menu-overview');
+        if (overviewMenu) overviewMenu.classList.add('active');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleNavClick(tabName, event) {
+      if (event) event.preventDefault();
+      switchTab(tabName);
+      if (history.pushState) {
+        history.pushState(null, '', tabName === 'overview' ? '/dashboard' : '/dashboard/' + tabName);
+      }
+      return false;
+    }
+
+    // Auto-activate tab based on URL path, query params, hash or server variable
+    document.addEventListener('DOMContentLoaded', () => {
+      const serverTab = "{{ active_tab or 'overview' }}";
+      const path = window.location.pathname.toLowerCase();
+      const search = window.location.search.toLowerCase();
+      const hash = window.location.hash.toLowerCase();
+
+      if (serverTab === 'disease' || path.includes('disease') || search.includes('disease') || hash.includes('disease')) {
+        switchTab('disease');
+      } else {
+        switchTab('overview');
+      }
+
+      initLeafDetectionEngine();
+    });
+
+    // ================= 4. LEAF DISEASE DETECTION ENGINE =================
+    let currentLeafFile = null;
+
+    function initLeafDetectionEngine() {
+      const dropzone = document.getElementById('diseaseDropzone');
+      const fileInput = document.getElementById('diseaseFileInput');
+      const previewBox = document.getElementById('diseasePreviewBox');
+      const promptBox = document.getElementById('diseaseDropzonePrompt');
+      const imgPreview = document.getElementById('diseaseImgPreview');
+      const removeBtn = document.getElementById('diseaseRemoveBtn');
+      const fileNameTag = document.getElementById('diseaseFileName');
+
+      if (!dropzone) return;
+
+      dropzone.addEventListener('click', (e) => {
+        if (e.target !== removeBtn && !removeBtn.contains(e.target)) {
+          fileInput.click();
+        }
+      });
+
+      dropzone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropzone.classList.add('dropzone-active');
+      });
+
+      dropzone.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dropzone-active');
+      });
+
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('dropzone-active');
+        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleFileChoice(e.dataTransfer.files[0]);
+        }
+      });
+
+      fileInput.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          handleFileChoice(e.target.files[0]);
+        }
+      });
+
+      function handleFileChoice(file) {
+        if (!file.type.startsWith('image/')) {
+          showDiseaseError('Please upload a valid image file (JPEG, PNG, or WebP).');
+          return;
+        }
+        currentLeafFile = file;
+        hideDiseaseError();
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          imgPreview.src = e.target.result;
+          fileNameTag.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+          promptBox.style.display = 'none';
+          previewBox.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+
+      removeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        currentLeafFile = null;
+        fileInput.value = '';
+        imgPreview.src = '';
+        previewBox.style.display = 'none';
+        promptBox.style.display = 'flex';
+      });
+    }
+
+    function setTelemetryPreset(moisture, ph, temp) {
+      document.getElementById('diseaseMoisture').value = moisture;
+      document.getElementById('diseasePh').value = ph;
+      document.getElementById('diseaseTemp').value = temp;
+
+      // Update preset pill styles
+      document.querySelectorAll('.preset-pill').forEach(btn => btn.classList.remove('active'));
+      if (event && event.target) event.target.classList.add('active');
+    }
+
+    function showDiseaseError(msg) {
+      const errBox = document.getElementById('diseaseErrorBanner');
+      document.getElementById('diseaseErrorMessage').textContent = msg;
+      errBox.style.display = 'flex';
+    }
+
+    function hideDiseaseError() {
+      const errBox = document.getElementById('diseaseErrorBanner');
+      if (errBox) errBox.style.display = 'none';
+    }
+
+    function toggleRawJsonViewer() {
+      const pre = document.getElementById('rawJsonDisplayBox');
+      const arrow = document.getElementById('rawJsonArrowIcon');
+      if (pre.style.display === 'none') {
+        pre.style.display = 'block';
+        arrow.className = 'fa-solid fa-chevron-up';
+      } else {
+        pre.style.display = 'none';
+        arrow.className = 'fa-solid fa-chevron-down';
+      }
+    }
+
+    async function runLeafDiagnosis() {
+      if (!currentLeafFile) {
+        showDiseaseError('Please upload or drag & drop a crop leaf image first.');
+        return;
+      }
+      hideDiseaseError();
+
+      const submitBtn = document.getElementById('diseaseSubmitBtn');
+      const btnIcon = document.getElementById('submitBtnIcon');
+      const btnText = document.getElementById('submitBtnText');
+      const emptyState = document.getElementById('diseaseEmptyState');
+      const loadingState = document.getElementById('diseaseLoadingState');
+      const resultContent = document.getElementById('diseaseResultContent');
+
+      // Loading state
+      submitBtn.disabled = true;
+      btnIcon.className = 'fa-solid fa-circle-notch fa-spin';
+      btnText.textContent = 'Scanning Crop Leaf...';
+      emptyState.style.display = 'none';
+      resultContent.style.display = 'none';
+      loadingState.style.display = 'flex';
+
+      const formData = new FormData();
+      formData.append('file', currentLeafFile);
+
+      const m = document.getElementById('diseaseMoisture').value;
+      const p = document.getElementById('diseasePh').value;
+      const t = document.getElementById('diseaseTemp').value;
+
+      if (m !== '') formData.append('moisture', m);
+      if (p !== '') formData.append('ph', p);
+      if (t !== '') formData.append('temp', t);
+
+      try {
+        const endpoint = '/analyze-leaf';
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          let errDetail = 'Leaf diagnosis failed.';
+          try {
+            const errJson = await response.json();
+            errDetail = errJson.detail || errDetail;
+          } catch(e) {}
+          throw new Error(`Server returned ${response.status}: ${errDetail}`);
+        }
+
+        const data = await response.json();
+        renderDiagnosisResult(data);
+
+      } catch (err) {
+        console.error(err);
+        loadingState.style.display = 'none';
+        emptyState.style.display = 'flex';
+        showDiseaseError(err.message || 'Could not communicate with the AgroSenseX backend.');
+      } finally {
+        submitBtn.disabled = false;
+        btnIcon.className = 'fa-solid fa-leaf';
+        btnText.textContent = 'Scan Crop Leaf';
+      }
+    }
+
+    function renderDiagnosisResult(data) {
+      document.getElementById('diseaseLoadingState').style.display = 'none';
+      document.getElementById('diseaseResultContent').style.display = 'block';
+
+      // Disease & Crop Titles
+      document.getElementById('resDiseaseName').textContent = data.disease;
+      document.getElementById('resCropName').textContent = `Crop: ${data.crop}`;
+
+      // Verdict Banner Style
+      const verdictCard = document.getElementById('diseaseVerdictCard');
+      const statusBadge = document.getElementById('diseaseStatusBadge');
+
+      if (data.is_healthy) {
+        verdictCard.className = 'verdict-banner-box verdict-healthy';
+        statusBadge.className = 'verdict-status-pill pill-healthy';
+        statusBadge.innerHTML = '<i class="fa-solid fa-circle-check"></i> Healthy Crop';
+      } else {
+        verdictCard.className = 'verdict-banner-box verdict-diseased';
+        statusBadge.className = 'verdict-status-pill pill-diseased';
+        statusBadge.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Condition: ${data.disease}`;
+      }
+
+      // Confidence
+      const confVal = typeof data.confidence === 'number' ? data.confidence.toFixed(1) : data.confidence;
+      document.getElementById('resConfidenceVal').textContent = `${confVal}% Match`;
+      document.getElementById('resConfidenceBar').style.width = `${Math.min(100, Math.max(0, confVal))}%`;
+
+      // Summary & Sensor Insight
+      document.getElementById('resSummaryText').textContent = data.summary;
+      document.getElementById('resSensorInsightText').textContent = data.sensor_insight;
+
+      // Treatment Steps List
+      const treatList = document.getElementById('resTreatmentList');
+      treatList.innerHTML = '';
+      if (Array.isArray(data.treatment_steps) && data.treatment_steps.length > 0) {
+        data.treatment_steps.forEach((step, idx) => {
+          const li = document.createElement('li');
+          li.className = 'treatment-item';
+          li.innerHTML = `
+            <span class="treatment-step-badge">${idx + 1}</span>
+            <span class="treatment-step-text">${step}</span>
+          `;
+          treatList.appendChild(li);
+        });
+      } else {
+        treatList.innerHTML = '<li class="treatment-item"><span class="treatment-step-text">No treatment needed. Continue regular crop care and irrigation.</span></li>';
+      }
+
+      // Hindi Advisory
+      document.getElementById('resHindiSummaryText').textContent = data.hindi_summary || 'कोई हिंदी सारांश उपलब्ध नहीं है।';
+
+      // Raw JSON (if present)
+      const rawBox = document.getElementById('rawJsonDisplayBox');
+      if (rawBox) rawBox.textContent = JSON.stringify(data, null, 2);
+    }
   </script>
 </body>
 </html>

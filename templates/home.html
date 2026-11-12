@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TERRAVYX — Autonomous AI & IoT Agriculture Platform</title>
 
-  <!-- Google Fonts: Plus Jakarta Sans (Clean, Modern, Light & Refined) -->
+  <!-- Google Fonts: Bricolage Grotesque & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <style>
@@ -1001,14 +1001,14 @@
         </div>
 
         <!-- Feature 2: Plant Disease -->
-        <div class="bento-card">
+        <div class="bento-card" style="cursor: pointer;" onclick="window.location.href='/dashboard/disease'">
           <div class="bento-icon"><i class="fa-solid fa-microscope"></i></div>
           <div class="micro-status-pill"><i class="fa-solid fa-circle-check"></i> 98.4% Confidence</div>
           <h3 class="bento-title">AI Plant Disease Detection</h3>
           <p class="bento-desc">One-click leaf image diagnosis identifying 30+ crop blights with organic &amp; chemical remedies instantly.</p>
           <div class="bento-tag-list">
             <span>Computer Vision</span>
-            <span>Leaf Pathogen Scan</span>
+            <span>Leaf Pathogen Scan &rarr;</span>
           </div>
         </div>
 
@@ -1230,7 +1230,7 @@
           <h5>Platform</h5>
           <ul>
             <li><a href="/dashboard">Soil Intelligence</a></li>
-            <li><a href="/dashboard">Plant Disease Detection</a></li>
+            <li><a href="/dashboard/disease">Plant Disease Detection</a></li>
             <li><a href="/dashboard">Smart Irrigation Relay</a></li>
             <li><a href="/dashboard">Intrusion Camera</a></li>
           </ul>

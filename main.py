@@ -12,9 +12,11 @@ from PIL import Image
 from pydantic import BaseModel, Field
 
 import keras
-from fastapi import FastAPI, File, UploadFile, Form, HTTPException
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from google import genai
 from google.genai import types
 
@@ -125,6 +127,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ---------------------------------------------------------------------------
+# Static Files & Jinja2 Templates (kalyanijha445 UI Integration)
+# ---------------------------------------------------------------------------
+static_path = os.path.join(os.path.dirname(__file__), "static")
+if os.path.exists(static_path):
+    app.mount("/static", StaticFiles(directory=static_path), name="static")
+
+templates_path = os.path.join(os.path.dirname(__file__), "templates")
+templates = Jinja2Templates(directory=templates_path)
+
+# Custom url_for helper supporting both path and filename parameters
+def custom_url_for(name: str, **params):
+    if name == "static":
+        path = params.get("path") or params.get("filename") or ""
+        return f"/static/{path.lstrip('/')}"
+    return f"/{name}"
+
+templates.env.globals["url_for"] = custom_url_for
+
 # Helper function to parse label
 def parse_label(label: str):
     if "___" in label:
@@ -139,15 +160,64 @@ def parse_label(label: str):
     return crop, disease, is_healthy
 
 # ---------------------------------------------------------------------------
-# Root Endpoint (Serves test_ui.html if present)
+# Primary Frontend Routes (kalyanijha445 Design)
 # ---------------------------------------------------------------------------
+
 @app.get("/", response_class=HTMLResponse)
-async def serve_index():
+async def home_page(request: Request):
+    """Primary Landing Page matching teammate's UI design."""
+    home_file = os.path.join(templates_path, "home.html")
+    if os.path.exists(home_file):
+        return templates.TemplateResponse(request, "home.html", {"user": "Farmer Ramesh"})
+    return RedirectResponse(url="/dashboard")
+
+@app.get("/dashboard", response_class=HTMLResponse)
+async def dashboard_page(request: Request, tab: str = "overview"):
+    """Main SaaS Farm Dashboard with interactive tabs."""
+    return templates.TemplateResponse(request, "dashboard.html", {
+        "user": "Farmer Ramesh",
+        "active_tab": tab
+    })
+
+@app.get("/dashboard/disease", response_class=HTMLResponse)
+async def dashboard_disease_page(request: Request):
+    """Direct route into the AI Plant Disease Detection diagnostic lab."""
+    return templates.TemplateResponse(request, "dashboard.html", {
+        "user": "Farmer Ramesh",
+        "active_tab": "disease"
+    })
+
+@app.get("/dashboard/{tab_name}", response_class=HTMLResponse)
+async def dashboard_tab_page(request: Request, tab_name: str):
+    """Direct route for any specific dashboard section."""
+    return templates.TemplateResponse(request, "dashboard.html", {
+        "user": "Farmer Ramesh",
+        "active_tab": tab_name
+    })
+
+@app.get("/check")
+async def check_get():
+    """Authentication gateway."""
+    return RedirectResponse(url="/dashboard")
+
+@app.post("/check")
+async def check_post():
+    """Form auth redirection into dashboard."""
+    return RedirectResponse(url="/dashboard", status_code=303)
+
+@app.get("/logout")
+async def logout():
+    """Logout redirect back to home."""
+    return RedirectResponse(url="/")
+
+@app.get("/test", response_class=HTMLResponse)
+async def serve_test_ui():
+    """Backup standalone route for test_ui.html."""
     ui_path = os.path.join(os.path.dirname(__file__), "test_ui.html")
     if os.path.exists(ui_path):
         with open(ui_path, "r", encoding="utf-8") as f:
             return HTMLResponse(content=f.read())
-    return HTMLResponse("<h2>AgroSenseX Microservice is running! Access POST /analyze-leaf or open test_ui.html.</h2>")
+    return HTMLResponse("<h2>test_ui.html not found</h2>")
 
 # ---------------------------------------------------------------------------
 # Analyze Leaf Endpoint
