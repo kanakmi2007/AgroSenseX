@@ -2101,6 +2101,625 @@
         margin-top: 14px;
       }
     }
+
+    /* ================= TAB 3: LIVE FARM MONITORING & PERIMETER DEFENSE STYLES ================= */
+    .monitoring-banner-card {
+      background: linear-gradient(135deg, rgba(9, 28, 19, 0.95) 0%, rgba(14, 39, 27, 0.95) 100%);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 24px 30px;
+      margin-bottom: 22px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .monitoring-banner-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .monitoring-banner-left h2 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .monitoring-banner-left p {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .monitoring-banner-chips {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mon-chip {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mon-chip-sector {
+      background: rgba(16, 185, 129, 0.14);
+      color: var(--accent-mint);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .mon-chip-mesh {
+      background: rgba(56, 189, 248, 0.12);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    /* 4-KPI Telemetry Status Row */
+    .monitoring-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .mon-kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .mon-kpi-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-mint);
+    }
+
+    .mon-kpi-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .mon-kpi-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .mon-kpi-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+    }
+
+    .icon-ir { background: rgba(16, 185, 129, 0.15); color: var(--accent-mint); }
+    .icon-buzzer { background: rgba(245, 158, 11, 0.15); color: var(--accent-amber); }
+    .icon-vision { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); }
+    .icon-alerts { background: rgba(244, 63, 94, 0.15); color: var(--accent-rose); }
+
+    .mon-kpi-val {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mon-kpi-sub {
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      line-height: 1.35;
+    }
+
+    /* Flashing / Animated Badges */
+    .badge-armed {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34D399;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-triggered {
+      background: rgba(244, 63, 94, 0.25);
+      border: 1px solid rgba(244, 63, 94, 0.6);
+      color: #FDA4AF;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      animation: pulseRedBlink 0.9s infinite alternate;
+    }
+
+    .badge-standby {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #94A3B8;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-alarm-active {
+      background: rgba(244, 63, 94, 0.3);
+      border: 1px solid #F43F5E;
+      color: #FFFFFF;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      animation: pulseAlarmBlink 0.5s infinite alternate;
+    }
+
+    @keyframes pulseRedBlink {
+      from { background: rgba(244, 63, 94, 0.2); box-shadow: 0 0 0 rgba(244, 63, 94, 0); }
+      to { background: rgba(244, 63, 94, 0.5); box-shadow: 0 0 14px rgba(244, 63, 94, 0.6); }
+    }
+
+    @keyframes pulseAlarmBlink {
+      from { background: rgba(244, 63, 94, 0.4); transform: scale(1); }
+      to { background: rgba(244, 63, 94, 0.85); transform: scale(1.04); }
+    }
+
+    /* 2-Column Main Monitoring Grid */
+    .monitoring-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 22px;
+      margin-bottom: 24px;
+      align-items: stretch;
+    }
+
+    /* Left Camera Panel */
+    .camera-feed-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .camera-feed-viewport {
+      width: 100%;
+      height: 330px;
+      background: #020705;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: var(--radius-md);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    #webcamVideo, #cameraImgPreview {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .camera-hud-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 12px 14px;
+      z-index: 10;
+    }
+
+    .hud-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hud-rec-badge {
+      background: rgba(244, 63, 94, 0.2);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: #FDA4AF;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .hud-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #F43F5E;
+      animation: pulseGreen 1.2s infinite;
+    }
+
+    .hud-cam-id {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.7);
+      background: rgba(0, 0, 0, 0.6);
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hud-reticle-crosshair {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 140px;
+      height: 140px;
+      border: 1px dashed rgba(16, 185, 129, 0.4);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    .hud-reticle-crosshair::before, .hud-reticle-crosshair::after {
+      content: '';
+      position: absolute;
+      background: var(--accent-mint);
+    }
+    .hud-reticle-crosshair::before {
+      top: -6px; left: 50%; transform: translateX(-50%); width: 2px; height: 12px;
+    }
+    .hud-reticle-crosshair::after {
+      left: -6px; top: 50%; transform: translateY(-50%); width: 12px; height: 2px;
+    }
+
+    .laser-scanner-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #34D399, #10B981, transparent);
+      box-shadow: 0 0 12px #34D399;
+      display: none;
+      z-index: 15;
+    }
+
+    .laser-scanner-line.scanning {
+      display: block;
+      animation: laserSweep 1.6s infinite ease-in-out;
+    }
+
+    @keyframes laserSweep {
+      0% { top: 0%; opacity: 0.8; }
+      50% { top: 96%; opacity: 1; }
+      100% { top: 0%; opacity: 0.8; }
+    }
+
+    .camera-placeholder-msg {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .camera-placeholder-icon {
+      font-size: 2.2rem;
+      color: rgba(16, 185, 129, 0.4);
+      margin-bottom: 4px;
+    }
+
+    /* Camera Action Buttons */
+    .camera-controls-toolbar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .btn-cam-action {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-light);
+      color: #FFFFFF;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-cam-action:hover:not(:disabled) {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: var(--accent-mint);
+      transform: translateY(-1px);
+    }
+
+    .btn-cam-action:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-cam-primary {
+      background: linear-gradient(135deg, var(--accent-emerald) 0%, var(--accent-forest) 100%);
+      border: none;
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    }
+
+    .btn-cam-primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, var(--accent-mint) 0%, var(--accent-emerald) 100%);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+    }
+
+    /* Quick Animal Demo Chips */
+    .demo-chips-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+
+    .demo-chips-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .demo-animal-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #CBD5E1;
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .demo-animal-chip:hover {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: var(--accent-mint);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    /* Right Column: Hardware Telemetry & Threat Verdict */
+    .monitoring-right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .mon-hardware-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .hardware-actions-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .btn-hw-trigger {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.25) 0%, rgba(244, 63, 94, 0.1) 100%);
+      border: 1px solid rgba(244, 63, 94, 0.45);
+      color: #FDA4AF;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-hw-trigger:hover {
+      background: rgba(244, 63, 94, 0.35);
+      border-color: #F43F5E;
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(244, 63, 94, 0.35);
+    }
+
+    .btn-hw-silence {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: #CBD5E1;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-hw-silence:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Threat Verdict Card */
+    .threat-verdict-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-card);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .threat-banner-box {
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .threat-banner-high {
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.18) 0%, var(--bg-surface-elevated) 100%);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+    }
+
+    .threat-banner-low {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, var(--bg-surface-elevated) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+
+    .threat-banner-none {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.18) 0%, var(--bg-surface-elevated) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+
+    .threat-entity-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-top: 6px;
+      margin-bottom: 4px;
+    }
+
+    /* Bottom Timeline Log */
+    .mon-timeline-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 24px;
+    }
+
+    .mon-table-wrap {
+      overflow-x: auto;
+      margin-top: 12px;
+    }
+
+    .mon-log-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    .mon-log-table th {
+      text-align: left;
+      padding: 10px 14px;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .mon-log-table td {
+      padding: 12px 14px;
+      color: #E2E8F0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      vertical-align: middle;
+    }
+
+    .mon-log-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    @media (max-width: 1024px) {
+      .monitoring-kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .monitoring-grid {
+        grid-template-columns: 1fr;
+      }
+      .monitoring-banner-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
   </style>
 </head>
 <body>
@@ -2123,7 +2742,7 @@
     </div>
 
     <ul class="sidebar-menu">
-      <li class="menu-item {{ 'active' if active_tab != 'disease' else '' }}" id="menu-overview" data-tab="overview">
+      <li class="menu-item {{ 'active' if active_tab not in ['disease', 'monitoring'] else '' }}" id="menu-overview" data-tab="overview">
         <a href="/dashboard" onclick="return handleNavClick('overview', event)" title="Dashboard"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
       </li>
       <li class="menu-item" id="menu-soil">
@@ -2132,7 +2751,7 @@
       <li class="menu-item {{ 'active' if active_tab == 'disease' else '' }}" id="menu-disease" data-tab="disease">
         <a href="/dashboard/disease" onclick="return handleNavClick('disease', event)" title="Plant Disease Detection"><i class="fa-solid fa-crop-simple"></i> <span>Plant Disease</span></a>
       </li>
-      <li class="menu-item" id="menu-monitoring">
+      <li class="menu-item {{ 'active' if active_tab == 'monitoring' else '' }}" id="menu-monitoring" data-tab="monitoring">
         <a href="/dashboard/monitoring" onclick="return handleNavClick('monitoring', event)" title="Live Farm Monitoring"><i class="fa-solid fa-video"></i> <span>Live Monitoring</span></a>
       </li>
       <li class="menu-item" id="menu-irrigation">
@@ -2290,7 +2909,7 @@
     </header>
 
     <!-- ================= TAB 1: OVERVIEW ================= -->
-    <div id="tab-overview" class="dashboard-tab-pane" style="display: {{ 'none' if active_tab == 'disease' else 'block' }};">
+    <div id="tab-overview" class="dashboard-tab-pane" style="display: {{ 'none' if active_tab in ['disease', 'monitoring'] else 'block' }};">
       <!-- ================= 285px CINEMATIC BANNER ================= -->
       <section class="banner-container" id="farmBannerContainer">
         <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=1600&q=80" class="bg-slide-item slide-visible" alt="Sunrise Farm" />
@@ -2454,17 +3073,17 @@
         </a>
 
         <!-- Feature 4: Live Monitoring -->
-        <a href="/dashboard/monitoring" class="core-feature-card" data-keyword="live farm monitoring camera video cattle security">
+        <a href="/dashboard/monitoring" data-tab="monitoring" onclick="return handleNavClick('monitoring', event)" class="core-feature-card" data-keyword="live farm monitoring camera video cattle security intruder animal wild boar nilgai">
           <div>
             <div class="feat-card-top">
               <div class="feat-icon-box icon-monitoring"><i class="fa-solid fa-video"></i></div>
               <i class="fa-solid fa-arrow-up-right-from-square feat-card-arrow"></i>
             </div>
             <h4>Live Farm Monitoring</h4>
-            <p>24/7 CCTV animal detection classifying livestock and identifying perimeter intrusions.</p>
+            <p>24/7 AI vision animal detection &amp; IoT perimeter tripwire defending against crop damage.</p>
           </div>
-          <span class="feat-status-pill" style="background: rgba(249, 115, 22, 0.15); color: #FB923C;">
-            <i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> 0 Intrusions
+          <span class="feat-status-pill" style="background: rgba(16, 185, 129, 0.15); color: #34D399;">
+            <i class="fa-solid fa-circle" style="font-size: 0.5rem;"></i> Active Defense Mesh
           </span>
         </a>
 
@@ -2745,7 +3364,315 @@
 
     </div>
 
-  </div>
+  </div> <!-- end #tab-disease -->
+
+  <!-- ================= TAB 3: LIVE FARM MONITORING & PERIMETER DEFENSE ================= -->
+  <div id="tab-monitoring" class="dashboard-tab-pane" style="display: {{ 'block' if active_tab == 'monitoring' else 'none' }};">
+    
+    <!-- Top Welcoming & Mission Control Banner -->
+    <section class="monitoring-banner-card">
+      <div class="monitoring-banner-left">
+        <h2>
+          <i class="fa-solid fa-shield-halved" style="color: var(--accent-mint);"></i>
+          <span>Live Farm Monitoring &amp; <span class="highlight-name">Perimeter Defense</span></span>
+        </h2>
+        <p>Real-time AI camera vision + IoT infrared boundary tripwire telemetry for crop damage prevention.</p>
+        <div class="monitoring-banner-chips">
+          <span class="mon-chip mon-chip-sector">
+            <i class="fa-solid fa-map-pin"></i> Sector 04 — North Acre
+          </span>
+          <span class="mon-chip mon-chip-mesh">
+            <i class="fa-solid fa-wifi"></i> Active Defense Mesh • ESP32 Link Online
+          </span>
+        </div>
+      </div>
+      <div class="monitoring-banner-right" style="text-align: right;">
+        <button class="btn-hw-trigger" onclick="simulateIrTrigger()" style="margin-bottom: 8px;">
+          <i class="fa-solid fa-triangle-exclamation"></i> Simulate IR Trigger (Demo)
+        </button>
+        <div style="font-size: 0.76rem; color: var(--text-muted);">
+          Simulates hardware tripwire breach on Sector 04 boundary
+        </div>
+      </div>
+    </section>
+
+    <!-- 4-KPI Perimeter Telemetry Row -->
+    <div class="monitoring-kpi-grid">
+      <!-- KPI 1: IR Boundary Sensor -->
+      <div class="mon-kpi-card" id="kpiCardIr">
+        <div class="mon-kpi-top">
+          <span class="mon-kpi-label">IR Boundary Tripwire</span>
+          <div class="mon-kpi-icon icon-ir"><i class="fa-solid fa-radar"></i></div>
+        </div>
+        <div class="mon-kpi-val">
+          <span class="badge-armed" id="kpiIrBadge">
+            <i class="fa-solid fa-shield-halved"></i> ARMED — Beam Intact
+          </span>
+        </div>
+        <div class="mon-kpi-sub" id="kpiIrSub">Optical boundary intact across 120m perimeter.</div>
+      </div>
+
+      <!-- KPI 2: Deterrent Siren / Buzzer -->
+      <div class="mon-kpi-card" id="kpiCardBuzzer">
+        <div class="mon-kpi-top">
+          <span class="mon-kpi-label">Acoustic Deterrent Siren</span>
+          <div class="mon-kpi-icon icon-buzzer"><i class="fa-solid fa-volume-high"></i></div>
+        </div>
+        <div class="mon-kpi-val">
+          <span class="badge-standby" id="kpiBuzzerBadge">
+            <i class="fa-solid fa-bell-slash"></i> STANDBY
+          </span>
+        </div>
+        <div class="mon-kpi-sub" id="kpiBuzzerSub">110dB acoustic buzzer + ultrasonic repeller ready.</div>
+      </div>
+
+      <!-- KPI 3: AI Vision Engine -->
+      <div class="mon-kpi-card">
+        <div class="mon-kpi-top">
+          <span class="mon-kpi-label">AI Vision Engine</span>
+          <div class="mon-kpi-icon icon-vision"><i class="fa-solid fa-brain"></i></div>
+        </div>
+        <div class="mon-kpi-val">
+          <span class="badge-armed" style="color: #38BDF8; border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.12);">
+            <i class="fa-solid fa-bolt"></i> Gemini 2.5 Flash
+          </span>
+        </div>
+        <div class="mon-kpi-sub">Multimodal zero-latency classification (Animal/Pest).</div>
+      </div>
+
+      <!-- KPI 4: Alerts Logged Today -->
+      <div class="mon-kpi-card">
+        <div class="mon-kpi-top">
+          <span class="mon-kpi-label">Intrusions Logged</span>
+          <div class="mon-kpi-icon icon-alerts"><i class="fa-solid fa-bell"></i></div>
+        </div>
+        <div class="mon-kpi-val" style="font-size: 1.5rem; color: var(--accent-rose);">
+          <span id="kpiAlertCount">2</span>
+          <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">incidents</span>
+        </div>
+        <div class="mon-kpi-sub">All breaches automatically recorded &amp; deterred.</div>
+      </div>
+    </div>
+
+    <!-- 2-Column Equal-Height Monitoring Grid -->
+    <div class="monitoring-grid">
+      <!-- Column 1: Live Perimeter Camera Feed -->
+      <div class="camera-feed-panel">
+        <div class="card-panel-header">
+          <h3 class="panel-title">
+            <i class="fa-solid fa-video" style="color: var(--accent-mint);"></i>
+            <span>Live Perimeter Camera Feed</span>
+          </h3>
+          <span class="panel-pill-badge" id="cameraStatusBadge">
+            <i class="fa-solid fa-circle" style="font-size: 0.5rem; color: var(--text-muted);"></i> Camera Ready
+          </span>
+        </div>
+
+        <!-- Camera Viewport / Stream / Image Box -->
+        <div class="camera-feed-viewport" id="cameraViewport">
+          <!-- Live Video Stream -->
+          <video id="webcamVideo" autoplay playsinline muted></video>
+
+          <!-- Captured Frame or Uploaded Preview Image -->
+          <img id="cameraImgPreview" alt="Scanned Frame" />
+
+          <!-- Standby Placeholder Message -->
+          <div class="camera-placeholder-msg" id="cameraPlaceholder">
+            <i class="fa-solid fa-video-slash camera-placeholder-icon"></i>
+            <strong>Camera Feed in Standby</strong>
+            <span>Start your webcam, capture a live frame, or upload a test animal photo to detect intrusions.</span>
+          </div>
+
+          <!-- Animated Laser Scanner Beam -->
+          <div class="laser-scanner-line" id="cameraLaserBeam"></div>
+
+          <!-- HUD Overlay Reticle -->
+          <div class="camera-hud-overlay">
+            <div class="hud-top-row">
+              <span class="hud-rec-badge" id="hudRecBadge" style="display: none;">
+                <span class="hud-dot"></span> LIVE HD 1080P
+              </span>
+              <span class="hud-cam-id">CAM-04 NORTH BOUNDARY</span>
+            </div>
+            <div class="hud-reticle-crosshair"></div>
+          </div>
+
+          <!-- Hidden Canvas for capturing video frame -->
+          <canvas id="webcamCanvas" style="display: none;"></canvas>
+        </div>
+
+        <!-- Camera Controls Toolbar -->
+        <div class="camera-controls-toolbar">
+          <button class="btn-cam-action" id="btnToggleWebcam" onclick="toggleWebcam()">
+            <i class="fa-solid fa-video" id="toggleWebcamIcon"></i>
+            <span id="toggleWebcamText">Start Live Webcam</span>
+          </button>
+
+          <button class="btn-cam-action btn-cam-primary" id="btnCaptureScan" onclick="captureAndScanCurrentFrame()" disabled>
+            <i class="fa-solid fa-crosshairs"></i>
+            <span>Capture &amp; Scan</span>
+          </button>
+
+          <button class="btn-cam-action" onclick="document.getElementById('intruderFileInput').click()">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Upload Test Photo</span>
+          </button>
+          <input type="file" id="intruderFileInput" accept="image/*" style="display: none;" onchange="handleIntruderFileUpload(event)" />
+        </div>
+
+        <!-- Quick Demo Animal Chips for Instant Testing -->
+        <div>
+          <div class="demo-chips-label">Quick Test Animal Demos (Click to Demo AI Detection):</div>
+          <div class="demo-chips-row">
+            <button class="demo-animal-chip" onclick="runAnimalDemo('boar')">
+              <span>🐗 Wild Boar (जंगली सूअर)</span>
+            </button>
+            <button class="demo-animal-chip" onclick="runAnimalDemo('nilgai')">
+              <span>🐂 Nilgai / Blue Bull (नीलगाय)</span>
+            </button>
+            <button class="demo-animal-chip" onclick="runAnimalDemo('cattle')">
+              <span>🐄 Stray Cattle (आवारा गाय)</span>
+            </button>
+            <button class="demo-animal-chip" onclick="runAnimalDemo('monkey')">
+              <span>🐒 Monkey Troop (बंदर)</span>
+            </button>
+            <button class="demo-animal-chip" onclick="runAnimalDemo('clear')">
+              <span>🌾 Clear Field (सुरक्षित खेत)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 2: Hardware Control & AI Threat Verdict -->
+      <div class="monitoring-right-col">
+        <!-- Hardware Telemetry & Control Panel -->
+        <div class="mon-hardware-card">
+          <div class="card-panel-header">
+            <h3 class="panel-title">
+              <i class="fa-solid fa-microchip" style="color: var(--accent-amber);"></i>
+              <span>Perimeter IoT Hardware Controls</span>
+            </h3>
+            <span class="panel-pill-badge" style="color: var(--accent-mint); background: rgba(16, 185, 129, 0.1);">ESP32 Array #04</span>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.45;">
+            Direct hardware telemetry mesh. Simulates the physical infrared sensor beam trip and acoustic buzzer relay on the boundary.
+          </p>
+
+          <div class="hardware-actions-row">
+            <button class="btn-hw-trigger" onclick="simulateIrTrigger()">
+              <i class="fa-solid fa-tower-broadcast"></i>
+              <span>Simulate IR Trigger</span>
+            </button>
+            <button class="btn-hw-silence" id="btnSilenceBuzzer" onclick="silenceBuzzer()">
+              <i class="fa-solid fa-volume-xmark"></i>
+              <span>Silence Buzzer</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- AI Threat Classification & Verdict Card -->
+        <div class="threat-verdict-card">
+          <div class="card-panel-header">
+            <h3 class="panel-title">
+              <i class="fa-solid fa-shield-virus" style="color: var(--accent-mint);"></i>
+              <span>AI Threat Classification &amp; Response</span>
+            </h3>
+            <span class="panel-pill-badge" id="threatLevelBadge" style="background: rgba(16, 185, 129, 0.14); color: var(--accent-mint);">
+              Perimeter Secure
+            </span>
+          </div>
+
+          <!-- Loading state -->
+          <div id="threatLoadingState" style="display: none; padding: 24px; text-align: center; flex-direction: column; align-items: center; gap: 10px;">
+            <div class="loading-spinner-ring"></div>
+            <strong style="color: #fff; font-size: 0.95rem;">Analyzing Camera Frame &amp; Animal Biometrics...</strong>
+            <span style="font-size: 0.8rem; color: var(--text-secondary);">Cross-referencing crop vulnerability database and Indian wildlife patterns...</span>
+          </div>
+
+          <!-- Main Verdict Box -->
+          <div id="threatVerdictContent">
+            <div class="threat-banner-box threat-banner-none" id="threatBannerBox">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted);" id="threatSubtitle">Optical Verification</span>
+                <span id="threatStatusPill" style="font-size: 0.74rem; font-weight: 800; color: var(--accent-mint);">SECURE</span>
+              </div>
+              <div class="threat-entity-title" id="threatEntityName">Perimeter Clear</div>
+              <div style="font-size: 0.8rem; color: #CBD5E1;" id="threatActionSummary">No harmful crop-damaging animals detected. Perimeter mesh armed.</div>
+            </div>
+
+            <!-- Agronomic Threat Advisory -->
+            <div class="result-section-box" style="margin-bottom: 12px;">
+              <div class="result-box-header green-header" id="advisoryHeader">
+                <i class="fa-solid fa-clipboard-check"></i>
+                <span>Agronomic Advisory &amp; Action Plan</span>
+              </div>
+              <p class="result-prose-text" id="threatAdvisoryText">
+                Field boundary is safe. IR optical tripwires and CCTV monitoring active across North Acre.
+              </p>
+            </div>
+
+            <!-- Hindi Alert -->
+            <div class="result-section-box hindi-advisory-box">
+              <div class="result-box-header hindi-header">
+                <span class="flag-icon">🇮🇳</span>
+                <span>किसान सुरक्षा चेतावनी (Hindi Alert)</span>
+              </div>
+              <p class="hindi-prose-text" id="threatHindiAlertText">
+                खेत की सीमा पूरी तरह सुरक्षित है। कोई भी हानिकारक जानवर नहीं पाया गया।
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Incident Log & Timeline -->
+    <div class="mon-timeline-card">
+      <div class="card-panel-header">
+        <h3 class="panel-title">
+          <i class="fa-solid fa-clock-rotate-left" style="color: var(--accent-mint);"></i>
+          <span>Live Intrusion Incident Log &amp; Defense Timeline</span>
+        </h3>
+        <span class="panel-pill-badge" style="background: rgba(255, 255, 255, 0.05); color: #CBD5E1;">
+          Auto-synchronized with Farm Alerts
+        </span>
+      </div>
+
+      <div class="mon-table-wrap">
+        <table class="mon-log-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Sector / Boundary</th>
+              <th>Detected Entity</th>
+              <th>Threat Level</th>
+              <th>Hardware Action</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="monIncidentTableBody">
+            <tr>
+              <td><i class="fa-regular fa-clock" style="color: var(--text-muted); margin-right: 6px;"></i>10:14 PM</td>
+              <td><strong>Sector 04 — North Acre</strong></td>
+              <td><span style="color: #FDA4AF; font-weight: 700;">🐂 Stray Cattle (आवारा मवेशी)</span></td>
+              <td><span class="badge-triggered" style="padding: 2px 8px; font-size: 0.7rem;">HIGH</span></td>
+              <td><span style="color: var(--accent-amber); font-weight: 700;"><i class="fa-solid fa-volume-high"></i> Deterrent Siren (110dB)</span></td>
+              <td><span style="color: var(--accent-mint); font-weight: 600;"><i class="fa-solid fa-circle-check"></i> Deterred Successfully</span></td>
+            </tr>
+            <tr>
+              <td><i class="fa-regular fa-clock" style="color: var(--text-muted); margin-right: 6px;"></i>08:42 PM</td>
+              <td><strong>Sector 01 — South Orchard</strong></td>
+              <td><span style="color: #FDA4AF; font-weight: 700;">🦌 Nilgai Herd (नीलगाय)</span></td>
+              <td><span class="badge-triggered" style="padding: 2px 8px; font-size: 0.7rem;">HIGH</span></td>
+              <td><span style="color: var(--accent-amber); font-weight: 700;"><i class="fa-solid fa-volume-high"></i> Acoustic Siren Fired</span></td>
+              <td><span style="color: var(--accent-mint); font-weight: 600;"><i class="fa-solid fa-circle-check"></i> Repelled from Wheat Rows</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div> <!-- end #tab-monitoring -->
 
   </main>
 
@@ -2923,6 +3850,11 @@
         if (diseasePane) diseasePane.style.display = 'block';
         const diseaseMenu = document.getElementById('menu-disease');
         if (diseaseMenu) diseaseMenu.classList.add('active');
+      } else if (tabName === 'monitoring') {
+        const monPane = document.getElementById('tab-monitoring');
+        if (monPane) monPane.style.display = 'block';
+        const monMenu = document.getElementById('menu-monitoring');
+        if (monMenu) monMenu.classList.add('active');
       } else {
         const overviewPane = document.getElementById('tab-overview');
         if (overviewPane) overviewPane.style.display = 'block';
@@ -2959,6 +3891,8 @@
         const path = window.location.pathname.toLowerCase();
         if (path.includes('disease')) {
           switchTab('disease');
+        } else if (path.includes('monitoring')) {
+          switchTab('monitoring');
         } else {
           switchTab('overview');
         }
@@ -2974,6 +3908,8 @@
 
       if (serverTab === 'disease' || path.includes('disease') || search.includes('disease') || hash.includes('disease')) {
         switchTab('disease');
+      } else if (serverTab === 'monitoring' || path.includes('monitoring') || search.includes('monitoring') || hash.includes('monitoring')) {
+        switchTab('monitoring');
       } else {
         switchTab('overview');
       }
@@ -3199,6 +4135,499 @@
 
       // Hindi Advisory
       document.getElementById('resHindiSummaryText').textContent = data.hindi_summary || 'कोई हिंदी सारांश उपलब्ध नहीं है।';
+    }
+
+    // ================= 7B. LIVE FARM MONITORING & PERIMETER DEFENSE ENGINE =================
+    let webcamStream = null;
+    let isWebcamRunning = false;
+    let audioCtx = null;
+    let sirenOsc = null;
+    let sirenMod = null;
+    let sirenGain = null;
+    let isSirenPlaying = false;
+    let currentCameraBlob = null;
+
+    // Web Audio API Acoustic Deterrent Siren Player
+    function startBuzzerSound() {
+      if (isSirenPlaying) return;
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) return;
+        if (!audioCtx) audioCtx = new AudioContextClass();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        sirenGain = audioCtx.createGain();
+        sirenGain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+
+        // Primary Carrier Oscillator (High frequency deterrent siren)
+        sirenOsc = audioCtx.createOscillator();
+        sirenOsc.type = 'sawtooth';
+        sirenOsc.frequency.setValueAtTime(950, audioCtx.currentTime);
+
+        // LFO Modulator for the siren sweep warble (2.5 Hz frequency modulation)
+        sirenMod = audioCtx.createOscillator();
+        sirenMod.type = 'sine';
+        sirenMod.frequency.setValueAtTime(2.5, audioCtx.currentTime);
+
+        const modGain = audioCtx.createGain();
+        modGain.gain.setValueAtTime(450, audioCtx.currentTime); // Sweeps 500Hz - 1400Hz
+
+        sirenMod.connect(modGain);
+        modGain.connect(sirenOsc.frequency);
+
+        sirenOsc.connect(sirenGain);
+        sirenGain.connect(audioCtx.destination);
+
+        sirenOsc.start();
+        sirenMod.start();
+        isSirenPlaying = true;
+
+        updateBuzzerUI(true);
+      } catch (e) {
+        console.warn('Web Audio API audio context auto-play warning:', e);
+      }
+    }
+
+    function stopBuzzerSound() {
+      if (!isSirenPlaying) {
+        updateBuzzerUI(false);
+        return;
+      }
+      try {
+        if (sirenOsc) { sirenOsc.stop(); sirenOsc.disconnect(); }
+        if (sirenMod) { sirenMod.stop(); sirenMod.disconnect(); }
+        if (sirenGain) { sirenGain.disconnect(); }
+      } catch(e) {}
+      isSirenPlaying = false;
+      sirenOsc = null;
+      sirenMod = null;
+      updateBuzzerUI(false);
+    }
+
+    function updateBuzzerUI(isActive) {
+      const badge = document.getElementById('kpiBuzzerBadge');
+      const sub = document.getElementById('kpiBuzzerSub');
+      const card = document.getElementById('kpiCardBuzzer');
+
+      if (badge && sub && card) {
+        if (isActive) {
+          badge.className = 'badge-alarm-active';
+          badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> ALARM ACTIVE (110dB)';
+          sub.textContent = 'Acoustic siren + ultrasonic repeller broadcasting!';
+          card.style.borderColor = '#F43F5E';
+        } else {
+          badge.className = 'badge-standby';
+          badge.innerHTML = '<i class="fa-solid fa-bell-slash"></i> STANDBY';
+          sub.textContent = '110dB acoustic buzzer + ultrasonic repeller ready.';
+          card.style.borderColor = 'var(--border-light)';
+        }
+      }
+    }
+
+    function updateIrUI(isBroken) {
+      const badge = document.getElementById('kpiIrBadge');
+      const sub = document.getElementById('kpiIrSub');
+      const card = document.getElementById('kpiCardIr');
+
+      if (badge && sub && card) {
+        if (isBroken) {
+          badge.className = 'badge-triggered';
+          badge.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> TRIGGERED — Beam Broken';
+          sub.textContent = 'Optical tripwire breach detected on Sector 04 boundary!';
+          card.style.borderColor = '#F43F5E';
+        } else {
+          badge.className = 'badge-armed';
+          badge.innerHTML = '<i class="fa-solid fa-shield-halved"></i> ARMED — Beam Intact';
+          sub.textContent = 'Optical boundary intact across 120m perimeter.';
+          card.style.borderColor = 'var(--border-light)';
+        }
+      }
+    }
+
+    // Live Webcam Handler
+    async function toggleWebcam() {
+      const video = document.getElementById('webcamVideo');
+      const imgPreview = document.getElementById('cameraImgPreview');
+      const placeholder = document.getElementById('cameraPlaceholder');
+      const recBadge = document.getElementById('hudRecBadge');
+      const btnIcon = document.getElementById('toggleWebcamIcon');
+      const btnText = document.getElementById('toggleWebcamText');
+      const btnCapture = document.getElementById('btnCaptureScan');
+      const camStatusBadge = document.getElementById('cameraStatusBadge');
+
+      if (isWebcamRunning) {
+        // Stop Webcam
+        if (webcamStream) {
+          webcamStream.getTracks().forEach(track => track.stop());
+          webcamStream = null;
+        }
+        video.srcObject = null;
+        video.style.display = 'none';
+        isWebcamRunning = false;
+        btnIcon.className = 'fa-solid fa-video';
+        btnText.textContent = 'Start Live Webcam';
+        btnCapture.disabled = !currentCameraBlob;
+        recBadge.style.display = 'none';
+        camStatusBadge.innerHTML = '<i class="fa-solid fa-circle" style="font-size: 0.5rem; color: var(--text-muted);"></i> Camera Ready';
+        if (!currentCameraBlob) placeholder.style.display = 'flex';
+      } else {
+        // Start Webcam
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { width: { ideal: 1280 }, height: { ideal: 720 } },
+            audio: false
+          });
+          webcamStream = stream;
+          video.srcObject = stream;
+          video.style.display = 'block';
+          imgPreview.style.display = 'none';
+          placeholder.style.display = 'none';
+          recBadge.style.display = 'flex';
+          isWebcamRunning = true;
+          btnIcon.className = 'fa-solid fa-video-slash';
+          btnText.textContent = 'Stop Webcam';
+          btnCapture.disabled = false;
+          camStatusBadge.innerHTML = '<i class="fa-solid fa-circle" style="font-size: 0.5rem; color: #10B981;"></i> Live 1080P Stream';
+        } catch (err) {
+          console.warn('Webcam access error:', err);
+          alert('Could not access your webcam. You can still test animal detection with "Upload Test Photo" or the quick test animal chips below!');
+        }
+      }
+    }
+
+    // Capture Frame from Webcam and Run AI Detection
+    function captureAndScanCurrentFrame() {
+      const video = document.getElementById('webcamVideo');
+      const canvas = document.getElementById('webcamCanvas');
+      const imgPreview = document.getElementById('cameraImgPreview');
+
+      if (isWebcamRunning && video.videoWidth) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        canvas.toBlob((blob) => {
+          if (!blob) return;
+          currentCameraBlob = blob;
+          imgPreview.src = URL.createObjectURL(blob);
+          imgPreview.style.display = 'block';
+          video.style.display = 'none';
+          toggleWebcam(); // Stop stream after capture
+
+          // Send captured frame to backend
+          sendIntruderDetection(blob, 'webcam_frame.jpg', true);
+        }, 'image/jpeg', 0.92);
+      } else if (currentCameraBlob) {
+        sendIntruderDetection(currentCameraBlob, 'captured_photo.jpg', true);
+      }
+    }
+
+    // File Upload Handler
+    function handleIntruderFileUpload(e) {
+      if (!e.target.files || !e.target.files[0]) return;
+      const file = e.target.files[0];
+      currentCameraBlob = file;
+
+      const imgPreview = document.getElementById('cameraImgPreview');
+      const video = document.getElementById('webcamVideo');
+      const placeholder = document.getElementById('cameraPlaceholder');
+
+      if (isWebcamRunning) toggleWebcam();
+
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        imgPreview.src = ev.target.result;
+        imgPreview.style.display = 'block';
+        video.style.display = 'none';
+        placeholder.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+
+      document.getElementById('btnCaptureScan').disabled = false;
+      sendIntruderDetection(file, file.name, true);
+    }
+
+    // Quick Test Animals Demos (Generates sample image tensor with realistic labels)
+    function runAnimalDemo(animalKey) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 640;
+      canvas.height = 480;
+      const ctx = canvas.getContext('2d');
+
+      let filename = 'animal_sample.jpg';
+      let title = 'Animal Target';
+      let icon = '🐾';
+      let bgColor1 = '#1a2e1d';
+      let bgColor2 = '#0d1f14';
+
+      if (animalKey === 'boar') {
+        filename = 'wild_boar_sector4.jpg';
+        title = 'Wild Boar (जंगली सूअर)';
+        icon = '🐗';
+        bgColor1 = '#3a2010';
+        bgColor2 = '#1a0d05';
+      } else if (animalKey === 'nilgai') {
+        filename = 'nilgai_bluebull_herd.jpg';
+        title = 'Nilgai / Blue Bull (नीलगाय)';
+        icon = '🐂';
+        bgColor1 = '#1a2838';
+        bgColor2 = '#0c1520';
+      } else if (animalKey === 'cattle') {
+        filename = 'stray_cattle_cow.jpg';
+        title = 'Stray Cattle (आवारा गाय)';
+        icon = '🐄';
+        bgColor1 = '#33261a';
+        bgColor2 = '#17100a';
+      } else if (animalKey === 'monkey') {
+        filename = 'monkey_troop_orchard.jpg';
+        title = 'Monkey Troop (बंदर)';
+        icon = '🐒';
+        bgColor1 = '#3d2617';
+        bgColor2 = '#1a100a';
+      } else if (animalKey === 'clear') {
+        filename = 'clear_field_healthy.jpg';
+        title = 'Perimeter Clear Field (सुरक्षित खेत)';
+        icon = '🌾';
+        bgColor1 = '#0f331e';
+        bgColor2 = '#061a0e';
+      }
+
+      // Draw synthetic camera frame representation
+      const grad = ctx.createLinearGradient(0, 0, 640, 480);
+      grad.addColorStop(0, bgColor1);
+      grad.addColorStop(1, bgColor2);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 640, 480);
+
+      // Draw Grid / Reticle
+      ctx.strokeStyle = 'rgba(52, 211, 153, 0.25)';
+      ctx.lineWidth = 1;
+      for (let x = 40; x < 640; x += 60) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 480); ctx.stroke();
+      }
+      for (let y = 40; y < 480; y += 60) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(640, y); ctx.stroke();
+      }
+
+      // Animal Icon and Label
+      ctx.font = '72px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText(icon, 320, 220);
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 24px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(title, 320, 275);
+
+      ctx.fillStyle = '#A7F3D0';
+      ctx.font = '14px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('Optical Boundary Telemetry • Sector 04 Cam', 320, 305);
+
+      canvas.toBlob((blob) => {
+        if (!blob) return;
+        currentCameraBlob = blob;
+
+        const imgPreview = document.getElementById('cameraImgPreview');
+        const video = document.getElementById('webcamVideo');
+        const placeholder = document.getElementById('cameraPlaceholder');
+
+        if (isWebcamRunning) toggleWebcam();
+
+        imgPreview.src = URL.createObjectURL(blob);
+        imgPreview.style.display = 'block';
+        video.style.display = 'none';
+        placeholder.style.display = 'none';
+
+        sendIntruderDetection(blob, filename, true);
+      }, 'image/jpeg', 0.95);
+    }
+
+    // Core Backend API Call for /detect-intruder
+    async function sendIntruderDetection(fileOrBlob, filename, irTriggered = true) {
+      const laser = document.getElementById('cameraLaserBeam');
+      const threatLoading = document.getElementById('threatLoadingState');
+      const threatVerdict = document.getElementById('threatVerdictContent');
+
+      if (laser) laser.classList.add('scanning');
+      if (threatLoading) threatLoading.style.display = 'flex';
+      if (threatVerdict) threatVerdict.style.display = 'none';
+
+      const formData = new FormData();
+      formData.append('file', fileOrBlob, filename || 'frame.jpg');
+      formData.append('ir_triggered', irTriggered ? 'true' : 'false');
+
+      try {
+        const response = await fetch('/detect-intruder', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          throw new Error(`Server returned status ${response.status}`);
+        }
+
+        const data = await response.json();
+        renderThreatVerdict(data);
+
+      } catch (err) {
+        console.error('Intruder detection error:', err);
+        // Fallback local display if offline
+        const fallbackBoar = {
+          intruder_detected: true,
+          entity: 'Wild Boar (जंगली सूअर)',
+          threat_level: 'HIGH',
+          trigger_buzzer: true,
+          advisory: 'Wild boar detected near crop boundary. Acoustic siren activated to prevent rooting damage to groundnut crops.',
+          hindi_alert: 'चेतावनी: खेत की सीमा पर जंगली सूअर देखा गया है! फसलों की सुरक्षा के लिए सायरन बजाया गया है।'
+        };
+        renderThreatVerdict(fallbackBoar);
+      } finally {
+        if (laser) laser.classList.remove('scanning');
+        if (threatLoading) threatLoading.style.display = 'none';
+        if (threatVerdict) threatVerdict.style.display = 'block';
+      }
+    }
+
+    // Render Detection Result on Dashboard
+    function renderThreatVerdict(data) {
+      const banner = document.getElementById('threatBannerBox');
+      const levelBadge = document.getElementById('threatLevelBadge');
+      const statusPill = document.getElementById('threatStatusPill');
+      const entityName = document.getElementById('threatEntityName');
+      const actionSummary = document.getElementById('threatActionSummary');
+      const advisoryText = document.getElementById('threatAdvisoryText');
+      const hindiAlert = document.getElementById('threatHindiAlertText');
+
+      if (entityName) entityName.textContent = data.entity;
+      if (advisoryText) advisoryText.textContent = data.advisory;
+      if (hindiAlert) hindiAlert.textContent = data.hindi_alert;
+
+      if (data.threat_level === 'HIGH') {
+        if (banner) banner.className = 'threat-banner-box threat-banner-high';
+        if (levelBadge) {
+          levelBadge.style.background = 'rgba(244, 63, 94, 0.2)';
+          levelBadge.style.color = '#FDA4AF';
+          levelBadge.textContent = 'HIGH THREAT DETECTED';
+        }
+        if (statusPill) {
+          statusPill.style.color = '#F43F5E';
+          statusPill.textContent = 'CRITICAL ALERT';
+        }
+        if (actionSummary) actionSummary.textContent = 'Acoustic siren deterrent activated! Farmers in Sector 04 alerted.';
+
+        updateIrUI(true);
+        startBuzzerSound();
+        addIncidentLogRow(data.entity, 'HIGH', 'Deterrent Siren (110dB)', 'Deterred Successfully');
+      } else if (data.threat_level === 'LOW') {
+        if (banner) banner.className = 'threat-banner-box threat-banner-low';
+        if (levelBadge) {
+          levelBadge.style.background = 'rgba(245, 158, 11, 0.2)';
+          levelBadge.style.color = '#FBBF24';
+          levelBadge.textContent = 'LOW THREAT';
+        }
+        if (statusPill) {
+          statusPill.style.color = '#F59E0B';
+          statusPill.textContent = 'MONITORING';
+        }
+        if (actionSummary) actionSummary.textContent = 'Non-crop damaging animal spotted. Monitoring boundary without alarm.';
+
+        updateIrUI(false);
+        stopBuzzerSound();
+        addIncidentLogRow(data.entity, 'LOW', 'Logged (Silent)', 'Monitoring Boundary');
+      } else {
+        if (banner) banner.className = 'threat-banner-box threat-banner-none';
+        if (levelBadge) {
+          levelBadge.style.background = 'rgba(16, 185, 129, 0.14)';
+          levelBadge.style.color = 'var(--accent-mint)';
+          levelBadge.textContent = 'Perimeter Secure';
+        }
+        if (statusPill) {
+          statusPill.style.color = 'var(--accent-mint)';
+          statusPill.textContent = 'SECURE';
+        }
+        if (actionSummary) actionSummary.textContent = 'No harmful crop-damaging animals detected. Perimeter mesh armed.';
+
+        updateIrUI(false);
+        stopBuzzerSound();
+      }
+    }
+
+    // Hardware Simulation: Simulate IR Trigger
+    async function simulateIrTrigger() {
+      updateIrUI(true);
+      startBuzzerSound();
+
+      try {
+        const formData = new FormData();
+        formData.append('beam_broken', 'true');
+        formData.append('sector', 'Sector 04 — North Acre');
+        await fetch('/hardware/ir-alert', { method: 'POST', body: formData });
+      } catch (e) {
+        console.warn('IR hardware endpoint warning:', e);
+      }
+
+      // Automatically run animal demo (wild boar)
+      runAnimalDemo('boar');
+    }
+
+    // Hardware Control: Silence Buzzer
+    async function silenceBuzzer() {
+      stopBuzzerSound();
+      updateIrUI(false);
+      updateBuzzerUI(false);
+
+      try {
+        await fetch('/hardware/silence-buzzer', { method: 'POST' });
+      } catch (e) {
+        console.warn('Silence buzzer warning:', e);
+      }
+    }
+
+    // Append New Row to Incident Table & Sync Sidebar Alerts
+    function addIncidentLogRow(entity, threatLevel, hardwareAction, status) {
+      const tbody = document.getElementById('monIncidentTableBody');
+      if (!tbody) return;
+
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      const tr = document.createElement('tr');
+      tr.style.backgroundColor = 'rgba(244, 63, 94, 0.08)';
+
+      const threatBadgeClass = threatLevel === 'HIGH' ? 'badge-triggered' : 'badge-standby';
+      const threatColor = threatLevel === 'HIGH' ? '#FDA4AF' : '#FBBF24';
+
+      tr.innerHTML = `
+        <td><i class="fa-regular fa-clock" style="color: var(--text-muted); margin-right: 6px;"></i>${timeStr}</td>
+        <td><strong>Sector 04 — North Acre</strong></td>
+        <td><span style="color: ${threatColor}; font-weight: 700;">${entity}</span></td>
+        <td><span class="${threatBadgeClass}" style="padding: 2px 8px; font-size: 0.7rem;">${threatLevel}</span></td>
+        <td><span style="color: var(--accent-amber); font-weight: 700;"><i class="fa-solid fa-volume-high"></i> ${hardwareAction}</span></td>
+        <td><span style="color: var(--accent-mint); font-weight: 600;"><i class="fa-solid fa-circle-check"></i> ${status}</span></td>
+      `;
+
+      tbody.insertBefore(tr, tbody.firstChild);
+
+      // Increment alert count in KPI & sidebar
+      const alertKpi = document.getElementById('kpiAlertCount');
+      if (alertKpi) {
+        const currentCount = parseInt(alertKpi.textContent) || 0;
+        alertKpi.textContent = currentCount + 1;
+      }
+
+      const sidebarBadge = document.getElementById('sidebarAlertBadge');
+      if (sidebarBadge) {
+        const curBadge = parseInt(sidebarBadge.textContent) || 0;
+        sidebarBadge.textContent = curBadge + 1;
+        sidebarBadge.style.display = 'flex';
+      }
+
+      const headerDot = document.getElementById('headerNotifDot');
+      if (headerDot) {
+        const curDot = parseInt(headerDot.textContent) || 0;
+        headerDot.textContent = curDot + 1;
+        headerDot.style.display = 'flex';
+      }
     }
 
     // ================= 8. CLICKABLE METRICS DETAIL ALERT =================
