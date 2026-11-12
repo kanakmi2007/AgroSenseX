@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroSenseX - Crop Disease Detection & Gemini AI Summary</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .hindi-text {
+      font-family: 'Noto Sans Devanagari', 'Plus Jakarta Sans', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-emerald-500 selection:text-white">
+
+  <!-- Navigation Bar -->
+  <header class="border-b border-slate-800 bg-slate-950/70 backdrop-blur sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-lg font-bold tracking-tight text-white">AgroSense<span class="text-emerald-400">X</span></h1>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">MobileNetV2 + Gemini 2.5 Flash</span>
+          </div>
+          <p class="text-xs text-slate-400">Zero-Training Transfer Inference & Microclimate AI Reasoning</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3 text-xs">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          API Endpoint: <code class="text-emerald-400 font-mono">/analyze-leaf</code>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+      <!-- Left Column: Input Form (5 cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-6 shadow-xl backdrop-blur-sm">
+          <h2 class="text-base font-semibold text-white flex items-center gap-2 mb-4">
+            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            1. Crop Leaf Image Upload
+          </h2>
+
+          <!-- Dropzone -->
+          <div id="dropzone" class="border-2 border-dashed border-slate-600 hover:border-emerald-500 rounded-xl p-5 text-center cursor-pointer transition-all duration-200 bg-slate-900/50 group relative">
+            <input type="file" id="leafInput" accept="image/*" class="hidden">
+            
+            <div id="dropzonePlaceholder" class="space-y-3">
+              <div class="w-12 h-12 mx-auto rounded-full bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-emerald-400 group-hover:scale-110 transition-transform">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-slate-200 group-hover:text-emerald-400">Click to upload or drag & drop</p>
+                <p class="text-xs text-slate-500 mt-1">JPEG, PNG or WebP (Resized to 224x224 RGB)</p>
+              </div>
+            </div>
+
+            <!-- Image Preview Box -->
+            <div id="previewContainer" class="hidden relative">
+              <img id="imagePreview" src="" alt="Leaf Preview" class="w-full h-56 object-cover rounded-lg border border-slate-700 shadow-md">
+              <button type="button" id="removeImageBtn" class="absolute top-2 right-2 bg-slate-900/80 hover:bg-rose-600 text-white rounded-full p-1.5 shadow backdrop-blur transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <div id="imageFileName" class="mt-2 text-xs text-slate-400 truncate"></div>
+            </div>
+          </div>
+
+          <!-- IoT Sensor Inputs -->
+          <div class="mt-6 pt-6 border-t border-slate-700/60">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-base font-semibold text-white flex items-center gap-2">
+                <svg class="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                </svg>
+                2. Live Arduino Sensor Data
+              </h2>
+              <span class="text-xs text-slate-400">(Optional)</span>
+            </div>
+
+            <!-- Quick Presets -->
+            <div class="flex items-center gap-2 mb-4 overflow-x-auto pb-1">
+              <span class="text-xs text-slate-400 whitespace-nowrap">Presets:</span>
+              <button type="button" onclick="setPreset(75, 6.2, 28)" class="text-xs px-2.5 py-1 rounded bg-slate-700/60 hover:bg-slate-700 text-slate-300 border border-slate-600 transition whitespace-nowrap">
+                Fungal Risk (Wet/Warm)
+              </button>
+              <button type="button" onclick="setPreset(45, 6.5, 24)" class="text-xs px-2.5 py-1 rounded bg-slate-700/60 hover:bg-slate-700 text-slate-300 border border-slate-600 transition whitespace-nowrap">
+                Balanced Garden
+              </button>
+              <button type="button" onclick="setPreset(null, null, null)" class="text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 transition">
+                Clear
+              </button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3">
+              <!-- Soil Moisture -->
+              <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1.5 flex items-center justify-between">
+                  <span>Moisture</span>
+                  <span class="text-emerald-400 font-mono text-[11px]">%</span>
+                </label>
+                <input type="number" id="moistureInput" placeholder="e.g. 72" min="0" max="100" step="0.5" class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition">
+              </div>
+
+              <!-- Soil pH -->
+              <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1.5 flex items-center justify-between">
+                  <span>Soil pH</span>
+                  <span class="text-teal-400 font-mono text-[11px]">0-14</span>
+                </label>
+                <input type="number" id="phInput" placeholder="e.g. 6.4" min="0" max="14" step="0.1" class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition">
+              </div>
+
+              <!-- Ambient Temp -->
+              <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1.5 flex items-center justify-between">
+                  <span>Temp</span>
+                  <span class="text-amber-400 font-mono text-[11px]">°C</span>
+                </label>
+                <input type="number" id="tempInput" placeholder="e.g. 29.5" min="-10" max="60" step="0.5" class="w-full bg-slate-900/80 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition">
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="mt-6">
+            <button id="analyzeBtn" type="button" class="w-full bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-semibold py-3 px-4 rounded-xl shadow-lg shadow-emerald-600/30 flex items-center justify-center space-x-2 transition disabled:opacity-50 disabled:cursor-not-allowed">
+              <svg id="btnIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <svg id="btnSpinner" class="w-5 h-5 animate-spin hidden" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+              </svg>
+              <span id="btnText">Analyze Crop Leaf</span>
+            </button>
+          </div>
+
+          <div id="errorAlert" class="mt-4 p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs hidden flex items-start gap-2">
+            <svg class="w-4 h-4 text-rose-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span id="errorMessage">Error details will appear here</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right Column: Results Dashboard (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+
+        <!-- Initial Placeholder State -->
+        <div id="emptyState" class="bg-slate-800/40 border border-dashed border-slate-700 rounded-2xl p-12 text-center h-full flex flex-col items-center justify-center min-h-[460px]">
+          <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-slate-500 mb-4 shadow-inner">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          <h3 class="text-base font-semibold text-slate-300">Ready for Leaf Diagnosis</h3>
+          <p class="text-sm text-slate-500 max-w-sm mt-1">
+            Upload an image of a crop leaf and enter your Arduino sensor readings to run zero-training MobileNetV2 inference and Gemini 2.5 Flash reasoning.
+          </p>
+        </div>
+
+        <!-- Diagnosis Result Container -->
+        <div id="resultsContainer" class="hidden space-y-6">
+
+          <!-- Card 1: Vision Model Detection Banner -->
+          <div class="bg-slate-800/90 border border-slate-700 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+            <div id="statusAccentBar" class="absolute top-0 left-0 right-0 h-1.5 bg-emerald-500"></div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span id="statusBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    Healthy Crop
+                  </span>
+                  <span class="text-xs text-slate-400 font-mono">MobileNetV2 PlantVillage</span>
+                </div>
+                <h3 id="diseaseHeading" class="text-2xl font-extrabold text-white mt-2">Tomato Early Blight</h3>
+                <p id="cropSubheading" class="text-sm text-slate-300 font-medium">Crop: Tomato</p>
+              </div>
+
+              <!-- Confidence Meter -->
+              <div class="sm:text-right bg-slate-900/60 p-3 rounded-xl border border-slate-700/60 min-w-[140px]">
+                <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Confidence</div>
+                <div id="confidenceVal" class="text-2xl font-bold text-emerald-400">98.7%</div>
+                <div class="w-full bg-slate-800 rounded-full h-1.5 mt-1.5 overflow-hidden">
+                  <div id="confidenceBar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-1.5 rounded-full" style="width: 98.7%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Gemini Diagnosis Summary -->
+          <div class="bg-slate-800/90 border border-slate-700 rounded-2xl p-6 shadow-xl space-y-3">
+            <div class="flex items-center gap-2 text-emerald-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h4 class="text-sm font-bold uppercase tracking-wider text-slate-200">Pathology & AI Diagnosis Summary</h4>
+            </div>
+            <p id="summaryText" class="text-sm text-slate-300 leading-relaxed"></p>
+          </div>
+
+          <!-- Card 3: IoT Sensor Correlation & Microclimate Insight -->
+          <div class="bg-slate-800/90 border border-slate-700 rounded-2xl p-6 shadow-xl space-y-3">
+            <div class="flex items-center gap-2 text-teal-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <h4 class="text-sm font-bold uppercase tracking-wider text-slate-200">IoT Sensor Correlation & Microclimate Insight</h4>
+            </div>
+            <p id="sensorInsightText" class="text-sm text-slate-300 leading-relaxed"></p>
+          </div>
+
+          <!-- Card 4: Actionable Treatment & Prevention Steps -->
+          <div class="bg-slate-800/90 border border-slate-700 rounded-2xl p-6 shadow-xl space-y-3">
+            <div class="flex items-center gap-2 text-amber-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+              </svg>
+              <h4 class="text-sm font-bold uppercase tracking-wider text-slate-200">Actionable Treatment & Management Steps</h4>
+            </div>
+            <ul id="treatmentList" class="space-y-2 text-sm text-slate-300">
+              <!-- Dynamically populated -->
+            </ul>
+          </div>
+
+          <!-- Card 5: Hindi Summary for Indian Farmers -->
+          <div class="bg-gradient-to-br from-slate-800/90 to-slate-800/60 border border-amber-500/30 rounded-2xl p-6 shadow-xl space-y-3 relative">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2 text-amber-400">
+                <span class="text-lg">🇮🇳</span>
+                <h4 class="text-sm font-bold uppercase tracking-wider text-amber-300">किसान परामर्श (Hindi Advisory)</h4>
+              </div>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">सरल हिंदी</span>
+            </div>
+            <p id="hindiSummaryText" class="hindi-text text-base text-slate-100 leading-relaxed font-normal bg-slate-900/60 p-4 rounded-xl border border-slate-700/60"></p>
+          </div>
+
+          <!-- Card 6: Raw JSON Viewer Toggle -->
+          <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4">
+            <button type="button" onclick="toggleRawJson()" class="w-full flex items-center justify-between text-xs text-slate-400 hover:text-slate-200 font-mono transition">
+              <span>View Raw JSON Response</span>
+              <svg id="rawJsonArrow" class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <pre id="rawJsonContainer" class="hidden mt-3 p-3 bg-slate-900 text-emerald-400 rounded-lg text-xs overflow-x-auto font-mono max-h-60 border border-slate-800"></pre>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
+    AgroSenseX Microservice &bull; MobileNetV2 Transfer Inference + Gemini 2.5 Flash &bull; Built for zero-latency agricultural decision support
+  </footer>
+
+  <script>
+    const leafInput = document.getElementById('leafInput');
+    const dropzone = document.getElementById('dropzone');
+    const dropzonePlaceholder = document.getElementById('dropzonePlaceholder');
+    const previewContainer = document.getElementById('previewContainer');
+    const imagePreview = document.getElementById('imagePreview');
+    const removeImageBtn = document.getElementById('removeImageBtn');
+    const imageFileName = document.getElementById('imageFileName');
+
+    const moistureInput = document.getElementById('moistureInput');
+    const phInput = document.getElementById('phInput');
+    const tempInput = document.getElementById('tempInput');
+
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const btnIcon = document.getElementById('btnIcon');
+    const btnSpinner = document.getElementById('btnSpinner');
+    const btnText = document.getElementById('btnText');
+
+    const errorAlert = document.getElementById('errorAlert');
+    const errorMessage = document.getElementById('errorMessage');
+
+    const emptyState = document.getElementById('emptyState');
+    const resultsContainer = document.getElementById('resultsContainer');
+
+    let selectedFile = null;
+
+    // Trigger file chooser on dropzone click
+    dropzone.addEventListener('click', (e) => {
+      if (e.target !== removeImageBtn && !removeImageBtn.contains(e.target)) {
+        leafInput.click();
+      }
+    });
+
+    // Drag and drop handlers
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('border-emerald-500', 'bg-slate-800/80');
+    });
+
+    dropzone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('border-emerald-500', 'bg-slate-800/80');
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('border-emerald-500', 'bg-slate-800/80');
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        handleFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    leafInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) {
+        handleFile(e.target.files[0]);
+      }
+    });
+
+    function handleFile(file) {
+      if (!file.type.startsWith('image/')) {
+        showError('Please upload an image file (JPEG, PNG, or WebP).');
+        return;
+      }
+      selectedFile = file;
+      hideError();
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        imagePreview.src = e.target.result;
+        imageFileName.textContent = `${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+        dropzonePlaceholder.classList.add('hidden');
+        previewContainer.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    removeImageBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      selectedFile = null;
+      leafInput.value = '';
+      previewContainer.classList.add('hidden');
+      dropzonePlaceholder.classList.remove('hidden');
+      imagePreview.src = '';
+    });
+
+    function setPreset(moisture, ph, temp) {
+      moistureInput.value = moisture !== null ? moisture : '';
+      phInput.value = ph !== null ? ph : '';
+      tempInput.value = temp !== null ? temp : '';
+    }
+
+    function showError(msg) {
+      errorMessage.textContent = msg;
+      errorAlert.classList.remove('hidden');
+    }
+
+    function hideError() {
+      errorAlert.classList.add('hidden');
+    }
+
+    function toggleRawJson() {
+      const container = document.getElementById('rawJsonContainer');
+      const arrow = document.getElementById('rawJsonArrow');
+      const isHidden = container.classList.contains('hidden');
+      if (isHidden) {
+        container.classList.remove('hidden');
+        arrow.classList.add('rotate-180');
+      } else {
+        container.classList.add('hidden');
+        arrow.classList.remove('rotate-180');
+      }
+    }
+
+    // Submit analysis
+    analyzeBtn.addEventListener('click', async () => {
+      if (!selectedFile) {
+        showError('Please select or drop a leaf image first.');
+        return;
+      }
+      hideError();
+
+      // UI Loading state
+      analyzeBtn.disabled = true;
+      btnIcon.classList.add('hidden');
+      btnSpinner.classList.remove('hidden');
+      btnText.textContent = 'Diagnosing with CNN & Gemini...';
+
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+
+      if (moistureInput.value !== '') formData.append('moisture', moistureInput.value);
+      if (phInput.value !== '') formData.append('ph', phInput.value);
+      if (tempInput.value !== '') formData.append('temp', tempInput.value);
+
+      // Determine API endpoint: use same origin if hosted or fallback to localhost:8000
+      const endpoint = window.location.protocol.startsWith('http') 
+        ? `${window.location.origin}/analyze-leaf` 
+        : 'http://localhost:8000/analyze-leaf';
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: formData
+        });
+
+        if (!response.ok) {
+          let errDetail = 'Failed to analyze leaf image.';
+          try {
+            const errJson = await response.json();
+            errDetail = errJson.detail || errDetail;
+          } catch(e) {}
+          throw new Error(`Server returned ${response.status}: ${errDetail}`);
+        }
+
+        const data = await response.json();
+        renderResults(data);
+
+      } catch (err) {
+        console.error(err);
+        showError(err.message || 'Could not connect to AgroSenseX microservice. Make sure uvicorn is running on port 8000.');
+      } finally {
+        analyzeBtn.disabled = false;
+        btnIcon.classList.remove('hidden');
+        btnSpinner.classList.add('hidden');
+        btnText.textContent = 'Analyze Crop Leaf';
+      }
+    });
+
+    function renderResults(data) {
+      emptyState.classList.add('hidden');
+      resultsContainer.classList.remove('hidden');
+
+      // Update Disease Heading & Subheading
+      document.getElementById('diseaseHeading').textContent = data.disease;
+      document.getElementById('cropSubheading').textContent = `Crop: ${data.crop}`;
+
+      // Status Badge & Accent Bar
+      const statusBadge = document.getElementById('statusBadge');
+      const statusAccentBar = document.getElementById('statusAccentBar');
+
+      if (data.is_healthy) {
+        statusBadge.className = 'text-xs font-semibold px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+        statusBadge.textContent = '✓ Healthy Crop';
+        statusAccentBar.className = 'absolute top-0 left-0 right-0 h-1.5 bg-emerald-500';
+      } else {
+        statusBadge.className = 'text-xs font-semibold px-2.5 py-0.5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20';
+        statusBadge.textContent = '⚠ Diseased Crop';
+        statusAccentBar.className = 'absolute top-0 left-0 right-0 h-1.5 bg-rose-500';
+      }
+
+      // Confidence
+      const conf = typeof data.confidence === 'number' ? data.confidence.toFixed(1) : data.confidence;
+      document.getElementById('confidenceVal').textContent = `${conf}%`;
+      document.getElementById('confidenceBar').style.width = `${Math.min(100, Math.max(0, conf))}%`;
+
+      // Summary & Insights
+      document.getElementById('summaryText').textContent = data.summary;
+      document.getElementById('sensorInsightText').textContent = data.sensor_insight;
+
+      // Treatment steps
+      const treatmentList = document.getElementById('treatmentList');
+      treatmentList.innerHTML = '';
+      if (Array.isArray(data.treatment_steps) && data.treatment_steps.length > 0) {
+        data.treatment_steps.forEach((step, idx) => {
+          const li = document.createElement('li');
+          li.className = 'flex items-start gap-2.5 bg-slate-900/40 p-2.5 rounded-lg border border-slate-700/50';
+          li.innerHTML = `
+            <span class="w-5 h-5 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">${idx + 1}</span>
+            <span class="text-slate-200">${step}</span>
+          `;
+          treatmentList.appendChild(li);
+        });
+      } else {
+        treatmentList.innerHTML = '<li class="text-slate-400 text-xs">No specific treatment required. Maintain standard crop management.</li>';
+      }
+
+      // Hindi Summary
+      document.getElementById('hindiSummaryText').textContent = data.hindi_summary || 'कोई हिंदी सारांश उपलब्ध नहीं है।';
+
+      // Raw JSON
+      document.getElementById('rawJsonContainer').textContent = JSON.stringify(data, null, 2);
+
+      // Smooth scroll to top of results on mobile
+      if (window.innerWidth < 1024) {
+        resultsContainer.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  </script>
+</body>
+</html>

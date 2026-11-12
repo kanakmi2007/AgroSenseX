@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+python-multipart
+pillow
+numpy
+tensorflow
+keras
+huggingface_hub
+google-genai
+pydantic
+python-dotenv
