@@ -2746,13 +2746,14 @@
         <a href="/dashboard" onclick="return handleNavClick('overview', event)" title="Dashboard"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
       </li>
 <<<<<<< HEAD
-      <li class="menu-item">
-        <a href="{{ url_for('soil_dashboard') }}"><i class="fa-solid fa-seedling"></i> Soil Intelligence</a>
-=======
-      <li class="menu-item" id="menu-soil">
-        <a href="/dashboard/soil" onclick="return handleNavClick('soil', event)" title="Soil Intelligence"><i class="fa-solid fa-seedling"></i> <span>Soil Intelligence</span></a>
->>>>>>> a6ce304c9191ab8b5d6a1992147d014728239e8e
-      </li>
+    <li class="menu-item" id="menu-soil">
+    <a href="{{ url_for('soil_dashboard') }}"
+       onclick="return handleNavClick('soil', event)"
+       title="Soil Intelligence">
+        <i class="fa-solid fa-seedling"></i>
+        Soil Intelligence
+    </a>
+</li>
       <li class="menu-item {{ 'active' if active_tab == 'disease' else '' }}" id="menu-disease" data-tab="disease">
         <a href="/dashboard/disease" onclick="return handleNavClick('disease', event)" title="Plant Disease Detection"><i class="fa-solid fa-crop-simple"></i> <span>Plant Disease</span></a>
       </li>
