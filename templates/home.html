@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TERRAVYX — Autonomous AI & IoT Agriculture Platform</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans (Clean, Modern, Light & Refined) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <style>
+    /* ================= WORLD-CLASS DESIGN SYSTEM ================= */
+    :root {
+      --bg-base: #040906;
+      --bg-surface: #08140e;
+      --bg-surface-elevated: #0d2017;
+      --bg-glass: rgba(6, 15, 10, 0.72);
+      
+      --accent-emerald: #10B981;
+      --accent-mint: #34D399;
+      --accent-gold: #F59E0B;
+      --accent-gold-soft: #FDE68A;
+      
+      --text-white: #FFFFFF;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      
+      --border-subtle: rgba(255, 255, 255, 0.07);
+      --border-glow: rgba(16, 185, 129, 0.3);
+      
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-pill: 9999px;
+
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-white);
+      font-family: var(--font-main);
+      overflow-x: hidden;
+      line-height: 1.6;
+
+      /* Elegant, subtle cinematic background grid & lighting */
+      background-image: 
+        radial-gradient(circle at 18% 18%, rgba(16, 185, 129, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 82% 22%, rgba(245, 158, 11, 0.07) 0%, transparent 40%),
+        radial-gradient(circle at 50% 85%, rgba(16, 185, 129, 0.05) 0%, transparent 55%),
+        linear-gradient(to right, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+      background-attachment: fixed;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1260px;
+      margin: 0 auto;
+    }
+
+    /* ================= SLEEK FROSTED NAVBAR ================= */
+    .navbar-wrapper {
+      position: sticky;
+      top: 16px;
+      z-index: 1000;
+      padding: 0 16px;
+      margin-bottom: 24px;
+    }
+
+    .navbar {
+      max-width: 1140px;
+      margin: 0 auto;
+      background: var(--bg-glass);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      padding: 8px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+      transition: all 0.3s ease;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--text-white);
+      letter-spacing: -0.02em;
+    }
+
+    .brand-logo-symbol {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--accent-emerald), #059669);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #042416;
+      font-size: 0.95rem;
+    }
+
+    .brand-logo span.accent {
+      color: var(--accent-gold);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 7px 16px;
+      border-radius: var(--radius-pill);
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-white);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lang-selector {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-white);
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .lang-selector:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .btn-launch {
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      color: #042416;
+      text-decoration: none;
+      padding: 8px 20px;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      font-size: 0.88rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-launch:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 22px rgba(16, 185, 129, 0.45);
+    }
+
+    /* ================= REFINED HERO SECTION ================= */
+    .hero-section {
+      padding: 44px 0 80px 0;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 1.15fr;
+      align-items: center;
+      gap: 48px;
+    }
+
+    /* Sophisticated, lighter typography hierarchy */
+    .hero-headline {
+      font-size: 3.5rem;
+      line-height: 1.14;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+
+    .hero-headline .text-emerald-refined {
+      font-weight: 600;
+      color: var(--accent-emerald);
+      letter-spacing: -0.025em;
+    }
+
+    .hero-headline .text-white-light {
+      font-weight: 400;
+      color: #FFFFFF;
+      letter-spacing: -0.025em;
+    }
+
+    .hero-headline .text-gold-refined {
+      font-weight: 500;
+      background: linear-gradient(135deg, #FFF7ED 0%, #F59E0B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.025em;
+    }
+
+    .hero-subtext {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 470px;
+      font-weight: 400;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .btn-hero-primary {
+      background: #FFFFFF;
+      color: #040906;
+      padding: 13px 26px;
+      border-radius: var(--radius-pill);
+      font-weight: 600;
+      font-size: 0.92rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 8px 22px rgba(255, 255, 255, 0.12);
+      transition: all 0.25s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-hero-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(255, 255, 255, 0.22);
+    }
+
+    .btn-hero-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-white);
+      border: 1px solid var(--border-subtle);
+      padding: 13px 24px;
+      border-radius: var(--radius-pill);
+      font-weight: 500;
+      font-size: 0.92rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn-hero-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .hero-stats-bar {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .stat-node h4 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: var(--text-white);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-node p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .stat-node-divider {
+      width: 1px;
+      height: 30px;
+      background: var(--border-subtle);
+    }
+
+    /* ================= BALANCED HERO IMAGE ================= */
+    .hero-visual-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ambient-volumetric-glow {
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(245, 158, 11, 0.06) 50%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      filter: blur(80px);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .banner-graphic-wrapper {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 620px;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .banner-graphic-wrapper:hover {
+      transform: translateY(-3px);
+    }
+
+    .banner-graphic-wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: var(--radius-lg);
+      filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 35px rgba(16, 185, 129, 0.12));
+    }
+
+    /* ================= MARQUEE TICKER ================= */
+    .ticker-section {
+      padding: 16px 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(6, 15, 10, 0.5);
+      overflow: hidden;
+      margin-bottom: 84px;
+    }
+
+    .ticker-wrapper {
+      display: flex;
+      width: max-content;
+      animation: scrollTicker 30s linear infinite;
+      gap: 50px;
+    }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .ticker-item i {
+      color: var(--accent-emerald);
+    }
+
+    @keyframes scrollTicker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ================= SECTION COMMON ================= */
+    .section-wrap {
+      padding: 75px 0;
+    }
+
+    .section-header-center {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 50px auto;
+    }
+
+    .section-eyebrow {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-mint);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .section-heading-lg {
+      font-size: 2.6rem;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.18;
+      margin-bottom: 12px;
+    }
+
+    .section-subheading {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      font-weight: 400;
+    }
+
+    /* ================= BENTO GRID FEATURES ================= */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .bento-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 30px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bento-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(16, 185, 129, 0.4);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .bento-col-2 {
+      grid-column: span 2;
+    }
+
+    .bento-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      color: var(--accent-mint);
+      margin-bottom: 18px;
+    }
+
+    .bento-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      margin-bottom: 8px;
+    }
+
+    .bento-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 18px;
+      flex-grow: 1;
+      font-weight: 400;
+    }
+
+    .micro-metric-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+    }
+
+    .micro-metric-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      font-weight: 500;
+    }
+
+    .micro-metric-bar {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+    }
+
+    .micro-metric-fill {
+      height: 100%;
+      width: 68%;
+      background: linear-gradient(90deg, #10B981, #34D399);
+      border-radius: var(--radius-pill);
+    }
+
+    .micro-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      color: var(--accent-mint);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 0.76rem;
+      font-weight: 500;
+      margin-bottom: 14px;
+      align-self: flex-start;
+    }
+
+    .bento-tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .bento-tag-list span {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-white);
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* ================= TIMELINE ================= */
+    .timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .timeline-card {
+      background: rgba(8, 20, 14, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 26px 18px;
+      position: relative;
+    }
+
+    .timeline-step {
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--accent-emerald);
+      opacity: 0.75;
+      margin-bottom: 8px;
+      line-height: 1;
+    }
+
+    .timeline-card h4 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .timeline-card p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    /* ================= TEAM ================= */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .team-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 30px 20px;
+      text-align: center;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .team-box:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-glow);
+    }
+
+    .team-avatar-frame {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(245, 158, 11, 0.08));
+      border: 2px solid var(--accent-emerald);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px auto;
+      font-size: 1.8rem;
+      color: var(--accent-mint);
+    }
+
+    .team-box h4 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .team-role {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-gold);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .team-bio {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .team-social-links {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .team-social-links a {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-white);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: background 0.2s;
+    }
+
+    .team-social-links a:hover {
+      background: var(--accent-emerald);
+      color: #042416;
+    }
+
+    /* ================= ENTERPRISE CTA ================= */
+    .cta-enterprise {
+      background: linear-gradient(135deg, #071710 0%, #0d2419 100%);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 48px 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      margin: 60px auto;
+    }
+
+    .cta-enterprise h2 {
+      font-size: 2.1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .cta-enterprise p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 500px;
+    }
+
+    /* ================= FOOTER ================= */
+    .footer-enterprise {
+      background: #030805;
+      border-top: 1px solid var(--border-subtle);
+      padding: 65px 0 30px 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1.3fr;
+      gap: 40px;
+      margin-bottom: 45px;
+    }
+
+    .footer-brand p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin-top: 12px;
+      line-height: 1.6;
+      max-width: 320px;
+    }
+
+    .footer-col h5 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-white);
+      margin-bottom: 16px;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col li {
+      margin-bottom: 10px;
+    }
+
+    .footer-col a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.86rem;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover {
+      color: var(--accent-mint);
+    }
+
+    .footer-bottom-bar {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* ================= AUTH MODAL ================= */
+    .auth-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-modal-card {
+      background: #0B1C15;
+      border: 1px solid var(--border-glow);
+      width: 90%;
+      max-width: 420px;
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      position: relative;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .form-group {
+      margin-top: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .form-group input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      padding: 11px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.92rem;
+      font-family: inherit;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--accent-emerald);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-subtext { margin-left: auto; margin-right: auto; }
+      .hero-actions { justify-content: center; }
+      .hero-stats-bar { justify-content: center; }
+      .bento-grid { grid-template-columns: 1fr; }
+      .bento-col-2 { grid-column: span 1; }
+      .timeline-grid { grid-template-columns: 1fr 1fr; }
+      .cta-enterprise { flex-direction: column; text-align: center; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero-headline { font-size: 2.6rem; }
+      .timeline-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom-bar { flex-direction: column; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= SLEEK FROSTED NAVBAR ================= -->
+  <div class="navbar-wrapper">
+    <nav class="navbar">
+      <a href="/" class="brand-logo">
+        <div class="brand-logo-symbol">
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+        <span>TERRA<span class="accent">VYX</span></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">Architecture</a></li>
+        <li><a href="#telemetry">Live Telemetry</a></li>
+        <li><a href="#usecases">Solution</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-right">
+        <div class="lang-selector">
+          <i class="fa-solid fa-earth-americas"></i>
+          <span>EN / हिं</span>
+        </div>
+        <button onclick="openAuthModal()" class="btn-launch">
+          <span>Open Dashboard</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ================= REFINED HERO SECTION ================= -->
+  <section class="hero-section">
+    <div class="container hero-grid">
+      
+      <!-- Left Column: Lighter, Executive Typography -->
+      <div class="hero-left">
+        <h1 class="hero-headline">
+          <span class="text-emerald-refined">Grow Smarter.</span> <br />
+          <span class="text-white-light">Farm Better.</span> <br />
+          <span class="text-gold-refined">Harvest More.</span>
+        </h1>
+
+        <p class="hero-subtext">
+          Empowering modern agriculture with autonomous soil intelligence, AI leaf disease diagnostics, and precision irrigation for sustainable, maximum-yield harvests.
+        </p>
+
+        <div class="hero-actions">
+          <button onclick="openAuthModal()" class="btn-hero-primary">
+            <span>Launch Dashboard</span>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </button>
+          <a href="#features" class="btn-hero-secondary">
+            <span>Explore Platform</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </a>
+        </div>
+
+        <!-- Live Metrics Row -->
+        <div class="hero-stats-bar">
+          <div class="stat-node">
+            <h4>98.4%</h4>
+            <p>AI Diagnostic Precision</p>
+          </div>
+          <div class="stat-node-divider"></div>
+          <div class="stat-node">
+            <h4>35%</h4>
+            <p>Water Saved via Relays</p>
+          </div>
+          <div class="stat-node-divider"></div>
+          <div class="stat-node">
+            <h4>&lt; 50ms</h4>
+            <p>Telemetry Node Latency</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Clean floating illustration stage -->
+      <div class="hero-visual-stage">
+        <div class="ambient-volumetric-glow"></div>
+
+        <div class="banner-graphic-wrapper">
+          <img 
+            src="{{ url_for('static', filename='images/banner.png') }}" 
+            alt="TERRAVYX Farmers and AI Intelligence"
+            onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=1200&q=80';"
+          />
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= MARQUEE TICKER ================= -->
+  <div class="ticker-section" id="telemetry">
+    <div class="ticker-wrapper">
+      <div class="ticker-item"><i class="fa-solid fa-bolt"></i> ESP32 IoT Soil Arrays Active</div>
+      <div class="ticker-item"><i class="fa-solid fa-check"></i> 100% Non-Invasive Leaf Vision Model</div>
+      <div class="ticker-item"><i class="fa-solid fa-faucet-drip"></i> Automated Water Cutoff Online</div>
+      <div class="ticker-item"><i class="fa-solid fa-language"></i> Multilingual: English, हिंदी, मराठी</div>
+      <div class="ticker-item"><i class="fa-solid fa-video"></i> 24/7 Livestock &amp; Intrusion Camera Feeds</div>
+      <!-- Duplicate for loop -->
+      <div class="ticker-item"><i class="fa-solid fa-bolt"></i> ESP32 IoT Soil Arrays Active</div>
+      <div class="ticker-item"><i class="fa-solid fa-check"></i> 100% Non-Invasive Leaf Vision Model</div>
+      <div class="ticker-item"><i class="fa-solid fa-faucet-drip"></i> Automated Water Cutoff Online</div>
+    </div>
+  </div>
+
+  <!-- ================= BENTO GRID FEATURES ================= -->
+  <section class="section-wrap" id="features">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-eyebrow">Enterprise Features</span>
+        <h2 class="section-heading-lg">Engineered for Agricultural Excellence</h2>
+        <p class="section-subheading">A unified operating dashboard merging physical IoT sensors with state-of-the-art vision models.</p>
+      </div>
+
+      <div class="bento-grid">
+        <!-- Feature 1: Soil Intelligence -->
+        <div class="bento-card bento-col-2">
+          <div class="bento-icon"><i class="fa-solid fa-flask-vial"></i></div>
+          <h3 class="bento-title">AI Soil Intelligence &amp; NPK Analysis</h3>
+          <p class="bento-desc">Continuous telemetry of ground chemical balance, volumetric moisture content, and precise pH level. Automatically suggests targeted bio-fertilizer dosages based on current crop phase.</p>
+
+          <div class="micro-metric-box">
+            <div class="micro-metric-header">
+              <span>Volumetric Water Content</span>
+              <span>68% (Optimal)</span>
+            </div>
+            <div class="micro-metric-bar">
+              <div class="micro-metric-fill"></div>
+            </div>
+          </div>
+
+          <div class="bento-tag-list">
+            <span>Soil Moisture (0-100%)</span>
+            <span>Accurate pH Sensor</span>
+            <span>NPK Calibration</span>
+            <span>Temperature Logging</span>
+          </div>
+        </div>
+
+        <!-- Feature 2: Plant Disease -->
+        <div class="bento-card">
+          <div class="bento-icon"><i class="fa-solid fa-microscope"></i></div>
+          <div class="micro-status-pill"><i class="fa-solid fa-circle-check"></i> 98.4% Confidence</div>
+          <h3 class="bento-title">AI Plant Disease Detection</h3>
+          <p class="bento-desc">One-click leaf image diagnosis identifying 30+ crop blights with organic &amp; chemical remedies instantly.</p>
+          <div class="bento-tag-list">
+            <span>Computer Vision</span>
+            <span>Leaf Pathogen Scan</span>
+          </div>
+        </div>
+
+        <!-- Feature 3: Smart Irrigation -->
+        <div class="bento-card">
+          <div class="bento-icon"><i class="fa-solid fa-faucet-drip"></i></div>
+          <div class="micro-status-pill" style="color: #38BDF8; border-color: rgba(56, 189, 248, 0.3); background: rgba(56, 189, 248, 0.1);">
+            <i class="fa-solid fa-droplet"></i> 35% Water Conserved
+          </div>
+          <h3 class="bento-title">Smart Irrigation</h3>
+          <p class="bento-desc">Automated pump triggering based on soil thresholds and weather forecast to prevent root oversaturation.</p>
+          <div class="bento-tag-list">
+            <span>Auto Relays</span>
+            <span>Submersible Cutoff</span>
+          </div>
+        </div>
+
+        <!-- Feature 4: Live Monitoring -->
+        <div class="bento-card">
+          <div class="bento-icon"><i class="fa-solid fa-video"></i></div>
+          <h3 class="bento-title">Live Farm Camera &amp; Animal Detection</h3>
+          <p class="bento-desc">Deep-learning camera surveillance identifying livestock, stray cattle, and nighttime intrusions in real-time.</p>
+          <div class="bento-tag-list">
+            <span>Livestock Tracking</span>
+            <span>Intrusion Alert</span>
+          </div>
+        </div>
+
+        <!-- Feature 5: Multilingual Co-pilot -->
+        <div class="bento-card">
+          <div class="bento-icon"><i class="fa-solid fa-robot"></i></div>
+          <h3 class="bento-title">Multilingual AI Farmer Assistant</h3>
+          <p class="bento-desc">Friendly conversational copilot offering regional agricultural advisory in English, Hindi, and Marathi.</p>
+          <div class="bento-tag-list">
+            <span>English</span>
+            <span>हिंदी</span>
+            <span>मराठी</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ARCHITECTURE TIMELINE ================= -->
+  <section class="section-wrap" id="how-it-works" style="background: rgba(6, 15, 10, 0.35);">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-eyebrow">Closed Loop Architecture</span>
+        <h2 class="section-heading-lg">From Field Probes to High-Yield Harvest</h2>
+        <p class="section-subheading">A continuous four-stage pipeline delivering autonomous precision.</p>
+      </div>
+
+      <div class="timeline-grid">
+        <div class="timeline-card">
+          <div class="timeline-step">01</div>
+          <h4>Sense</h4>
+          <p>IoT field arrays capture moisture, pH, humidity, and micro-climate indicators every 60 seconds.</p>
+        </div>
+
+        <div class="timeline-card">
+          <div class="timeline-step">02</div>
+          <h4>Detect</h4>
+          <p>Neural inference models analyze leaf photos and live feeds for early-stage biological pathogens.</p>
+        </div>
+
+        <div class="timeline-card">
+          <div class="timeline-step">03</div>
+          <h4>Predict</h4>
+          <p>Predictive algorithms forecast irrigation demands and compute optimal soil replenishment windows.</p>
+        </div>
+
+        <div class="timeline-card">
+          <div class="timeline-step">04</div>
+          <h4>Recommend</h4>
+          <p>Actionable SMS advisories, dashboard telemetry, and automated pump relay triggers are deployed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEAM SECTION ================= -->
+  <!-- ================= 3 CORE USE CASES (Replaces Team Section) ================= -->
+  <section class="section-wrap" id="usecases">
+    <div class="container">
+      <div class="section-header-center">
+        <span class="section-eyebrow">Real-World Field Applications</span>
+        <h2 class="section-heading-lg">Precision Agriculture in Action</h2>
+        <p class="section-subheading">Three autonomous vision and sensor systems solving everyday farming challenges on the ground.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px;">
+        
+        <!-- USE CASE 1: SOIL DETECTION -->
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); overflow: hidden; transition: transform 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;"
+             onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='rgba(16, 185, 129, 0.45)';"
+             onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--border-subtle)';">
+          
+          <div style="position: relative; height: 210px; overflow: hidden;">
+            <img 
+              src="https://images.unsplash.com/photo-1592417817098-8f3d69102a46?auto=format&fit=crop&w=800&q=80" 
+              alt="AI Soil Health Detection" 
+              style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;"
+              onmouseover="this.style.transform='scale(1.05)';"
+              onmouseout="this.style.transform='scale(1)';"
+            />
+            <div style="position: absolute; top: 14px; left: 14px; background: rgba(6, 15, 10, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--accent-mint); padding: 4px 12px; border-radius: 50px; font-size: 0.76rem; font-weight: 600;">
+              <i class="fa-solid fa-flask-vial"></i> Soil Intelligence
+            </div>
+          </div>
+
+          <div style="padding: 24px; flex-grow: 1; display: flex; flex-direction: column;">
+            <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 8px; color: var(--text-white);">AI Soil &amp; Nutrient Detection</h3>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 18px; flex-grow: 1;">
+              Sub-surface multi-depth IoT probes analyze real-time volumetric moisture, ground pH levels, and NPK chemical balance to prevent soil salinity and over-fertilization.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle); color: #fff; font-size: 0.74rem; padding: 4px 10px; border-radius: 50px;">Moisture 0–100%</span>
+              <span style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle); color: #fff; font-size: 0.74rem; padding: 4px 10px; border-radius: 50px;">pH Level Sensor</span>
+              <span style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle); color: var(--accent-mint); font-size: 0.74rem; padding: 4px 10px; border-radius: 50px;">NPK Scoring</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- USE CASE 2: ANIMAL & INTRUSION DETECTION -->
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); overflow: hidden; transition: transform 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;"
+             onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='rgba(16, 185, 129, 0.45)';"
+             onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--border-subtle)';">
+          
+          <div style="position: relative; height: 210px; overflow: hidden;">
+            <img 
+              src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=800&q=80" 
+              alt="Animal and Intrusion Monitoring" 
+              style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;"
+              onmouseover="this.style.transform='scale(1.05)';"
+              onmouseout="this.style.transform='scale(1)';"
+            />
+            <div style="position: absolute; top: 14px; left: 14px; background: rgba(6, 15, 10, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(245, 158, 11, 0.4); color: var(--accent-gold); padding: 4px 12px; border-radius: 50px; font-size: 0.76rem; font-weight: 600;">
+              <i class="fa-solid fa-video"></i> Livestock &amp; Security
+            </div>
+          </div>
+
+          <div style="padding: 24px; flex-grow: 1; display: flex; flex-direction: column;">
+            <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 8px; color: var(--text-white);">Animal &amp; Intrusion Defense</h3>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 18px; flex-grow: 1;">
+              Deep-learning vision cameras monitor field perimeters 24/7. Instantly detects stray cattle, wild boars, and nighttime intruders with instant push notifications.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle); color: #fff; font-size: 0.74rem; padding: 4px 10px; border-radius: 50px;">Cattle Tracking</span>
+              <span style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle); color: #fff; font-size: 0.74rem; padding: 4px 10px; border-radius: 50px;">Night Perimeter Alert</span>
+              <span style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle); color: var(--accent-gold); font-size: 0.74rem; padding: 4px 10px; border-radius: 50px;">Zero Crop Trampling</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- USE CASE 3: PLANT DISEASE & AI ADVISOR -->
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); overflow: hidden; transition: transform 0.3s ease, border-color 0.3s ease; display: flex; flex-direction: column;"
+             onmouseover="this.style.transform='translateY(-6px)'; this.style.borderColor='rgba(16, 185, 129, 0.45)';"
+             onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='var(--border-subtle)';">
+          
+          <div style="position: relative; height: 210px; overflow: hidden;">
+            <img 
+              src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=800&q=80" 
+              alt="AI Plant Disease Diagnosis" 
+              style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;"
+              onmouseover="this.style.transform='scale(1.05)';"
+              onmouseout="this.style.transform='scale(1)';"
+            />
+            <div style="position: absolute; top: 14px; left: 14px; background: rgba(6, 15, 10, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--accent-mint); padding: 4px 12px; border-radius: 50px; font-size: 0.76rem; font-weight: 600;">
+              <i class="fa-solid fa-microscope"></i> Neural Crop Diagnosis
+            </div>
+          </div>
+
+          <div style="padding: 24px; flex-grow: 1; display: flex; flex-direction: column;">
+            <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 8px; color: var(--text-white);">Plant Disease &amp; AI Krishi Co-Pilot</h3>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 18px; flex-grow: 1;">
+              Snap or upload a leaf photograph for sub-second pathogen diagnosis. Instantly suggests organic sprays and personalized treatments in English, Hindi, and Marathi.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle); color: #fff; font-size: 0.74rem; padding: 4px 10px; border-radius: 50px;">30+ Crop Blights</span>
+              <span style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle); color: #fff; font-size: 0.74rem; padding: 4px 10px; border-radius: 50px;">98.4% Confidence</span>
+              <span style="background: rgba(255,255,255,0.04); border: 1px solid var(--border-subtle); color: var(--accent-mint); font-size: 0.74rem; padding: 4px 10px; border-radius: 50px;">हिंदी / मराठी Advisory</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ENTERPRISE CTA ================= -->
+  <div class="container">
+    <div class="cta-enterprise">
+      <div>
+        <h2>Ready to upgrade your farm intelligence?</h2>
+        <p>Access live soil sensors, disease diagnostics, and automated irrigation in one unified dashboard.</p>
+      </div>
+      <div>
+        <button onclick="openAuthModal()" class="btn-hero-primary">
+          <span>Enter Dashboard</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer-enterprise" id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="brand-logo">
+            <div class="brand-logo-symbol"><i class="fa-solid fa-leaf"></i></div>
+            <span>TERRA<span class="accent">VYX</span></span>
+          </a>
+          <p>TERRAVYX is the pioneering autonomous agricultural operating system unifying edge IoT computing, neural diagnostics, and precision water management.</p>
+        </div>
+
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <ul>
+            <li><a href="/dashboard">Soil Intelligence</a></li>
+            <li><a href="/dashboard">Plant Disease Detection</a></li>
+            <li><a href="/dashboard">Smart Irrigation Relay</a></li>
+            <li><a href="/dashboard">Intrusion Camera</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">Architecture</a></li>
+            <li><a href="#team">Our Team</a></li>
+            <li><a href="javascript:void(0)" onclick="openAuthModal()">Sign In</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <ul>
+            <li><i class="fa-solid fa-location-dot" style="color: var(--accent-mint); margin-right: 8px;"></i> AgriTech Hub, India</li>
+            <li><i class="fa-solid fa-envelope" style="color: var(--accent-mint); margin-right: 8px;"></i> contact@terravyx.com</li>
+            <li><i class="fa-solid fa-phone" style="color: var(--accent-mint); margin-right: 8px;"></i> +91 98765 43210</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div>&copy; 2026 TERRAVYX Technologies Inc. All rights reserved.</div>
+        <div>Grow Smarter • Farm Better • Harvest More</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= AUTH MODAL ================= -->
+  <div class="auth-modal-overlay" id="authModal">
+    <div class="auth-modal-card">
+      <button class="modal-close-btn" onclick="closeAuthModal()">&times;</button>
+      <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 6px;">Sign In to TERRAVYX</h3>
+      <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 20px;">
+        Access real-time sector telemetry and AI crop controls.
+      </p>
+
+      <form action="/check" method="POST">
+        <div class="form-group">
+          <label>Farmer Name or Email</label>
+          <input type="text" name="email" value="Farmer Ramesh" required />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" name="password" value="••••••••" required />
+        </div>
+        <button type="submit" class="btn-launch" style="width: 100%; justify-content: center; margin-top: 24px; padding: 13px;">
+          Open Dashboard &rarr;
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openAuthModal() {
+      document.getElementById('authModal').style.display = 'flex';
+    }
+    function closeAuthModal() {
+      document.getElementById('authModal').style.display = 'none';
+    }
+    window.onclick = function(e) {
+      const modal = document.getElementById('authModal');
+      if (e.target === modal) modal.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
