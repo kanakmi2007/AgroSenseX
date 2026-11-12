@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TERRAVYX — Smart Agriculture Dashboard</title>
+
+  <!-- Google Fonts & Font Awesome & Chart.js -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* ================= COLOR & DESIGN TOKENS ================= */
+    :root {
+      --bg-canvas: #F8F5EE;
+      --bg-card: #FFFFFF;
+      --sidebar-bg: #1B412E;
+      --sidebar-active-pill: #FDF7E7;
+      --sidebar-text: #B7D0C2;
+      
+      --accent-green: #2E7D32;
+      --accent-green-light: #E8F5E9;
+      --accent-orange: #E67E22;
+      --accent-orange-light: #FEF3E2;
+      --accent-blue: #0284C7;
+      --accent-blue-light: #E0F2FE;
+      --accent-red: #E53935;
+      --accent-red-light: #FFEBEE;
+      
+      --text-dark: #1E2922;
+      --text-muted: #64746A;
+      --border-soft: #EAE6DB;
+      
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 22px;
+      --radius-pill: 9999px;
+      
+      --shadow-card: 0 4px 20px rgba(40, 30, 10, 0.04);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-dark);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* ================= LEFT SIDEBAR ================= */
+    .sidebar {
+      width: 255px;
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 24px 20px 20px 22px;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #FFFFFF;
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-leaf-icon {
+      width: 34px;
+      height: 34px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4ADE80;
+      font-size: 1.15rem;
+    }
+
+    .sidebar-tagline {
+      font-size: 0.72rem;
+      color: #92B5A2;
+      margin-top: 4px;
+      padding-left: 44px;
+      line-height: 1.3;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex-grow: 1;
+    }
+
+    .menu-item a {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 11px 16px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--sidebar-text);
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .menu-item a i {
+      font-size: 1rem;
+      width: 20px;
+      text-align: center;
+    }
+
+    .menu-item a:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    /* Active Ivory Pill */
+    .menu-item.active a {
+      background: var(--sidebar-active-pill);
+      color: #1A3E2C;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-badge {
+      margin-left: auto;
+      background: var(--accent-red);
+      color: #FFFFFF;
+      font-size: 0.7rem;
+      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sidebar-footer-art {
+      padding: 0 14px 14px 14px;
+      margin-top: auto;
+    }
+
+    .farm-art-box {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      height: 95px;
+      position: relative;
+      background: linear-gradient(180deg, #2D6A4F 0%, #1B4332 100%);
+    }
+
+    .farm-art-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+    }
+
+    /* ================= MAIN DASHBOARD CANVAS ================= */
+    .main-viewport {
+      margin-left: 255px;
+      flex: 1;
+      padding: 20px 28px 30px 28px;
+      max-width: 1320px;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .search-pill-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-pill);
+      padding: 9px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 380px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .search-pill-box input {
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 0.88rem;
+      color: var(--text-dark);
+      width: 100%;
+    }
+
+    .search-pill-box i {
+      color: #94A3B8;
+      font-size: 0.95rem;
+    }
+
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .lang-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-pill);
+      padding: 8px 16px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+    }
+
+    .notification-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dark);
+      cursor: pointer;
+      position: relative;
+      box-shadow: var(--shadow-card);
+    }
+
+    .notification-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: var(--accent-red);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .user-avatar-wrap {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .user-avatar-img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      object-fit: cover;
+    }
+
+    .status-online-dot {
+      width: 10px;
+      height: 10px;
+      background: #22C55E;
+      border: 2px solid #FFFFFF;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 2px;
+      right: 0;
+    }
+
+    /* ================= MULTI-IMAGE BLURRED FUSION BANNER ================= */
+    .banner-carousel-container {
+      position: relative;
+      border-radius: var(--radius-lg);
+      border: 1px solid #F1E5C7;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 20px;
+      background: #FFFDF9;
+      min-height: 205px;
+    }
+
+    /* Slides container */
+    .banner-slide {
+      display: none;
+      position: relative;
+      padding: 24px 30px;
+      min-height: 205px;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeInSlide 0.6s ease;
+    }
+
+    .banner-slide.active-slide {
+      display: flex;
+    }
+
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: scale(0.99); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Left Text Content */
+    .banner-left-content {
+      position: relative;
+      z-index: 5;
+      max-width: 460px;
+    }
+
+    .banner-left-content h2 {
+      font-size: 1.95rem;
+      font-weight: 800;
+      color: #1B412E;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .banner-left-content h2 .highlight-name {
+      color: var(--accent-orange);
+    }
+
+    .banner-left-content h2 .banner-icon {
+      color: #F59E0B;
+      font-size: 1.8rem;
+    }
+
+    .banner-left-content p {
+      font-size: 0.92rem;
+      color: #526359;
+      margin-bottom: 14px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .banner-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      border: 1px solid #D8EADF;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #2E7D32;
+      box-shadow: 0 2px 6px rgba(46, 125, 50, 0.08);
+    }
+
+    /* Half-Side Banner Image with Soft Feathered Blur Mask */
+    .banner-image-backdrop {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 58%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .banner-image-backdrop img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center right;
+      
+      /* The secret: smooth feathered gradient + edge blur to blend into the ivory canvas */
+      -webkit-mask-image: linear-gradient(to left, black 65%, rgba(0,0,0,0.5) 85%, transparent 100%);
+      mask-image: linear-gradient(to left, black 65%, rgba(0,0,0,0.5) 85%, transparent 100%);
+      filter: saturate(1.15) contrast(1.02);
+      transition: transform 6s ease;
+    }
+
+    .banner-slide.active-slide .banner-image-backdrop img {
+      transform: scale(1.04);
+    }
+
+    /* Floating Insight Card on top of the blurred seam */
+    .banner-insight-card {
+      position: relative;
+      z-index: 5;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      width: 250px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    }
+
+    .insight-header-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent-orange);
+      margin-bottom: 6px;
+    }
+
+    .banner-insight-card p {
+      font-size: 0.82rem;
+      color: var(--text-dark);
+      line-height: 1.45;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .btn-insight-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent-green);
+      text-decoration: none;
+      transition: gap 0.2s;
+    }
+
+    .btn-insight-action:hover {
+      gap: 9px;
+    }
+
+    /* Slider Navigation Controls & Indicator Pills */
+    .carousel-controls-bar {
+      position: absolute;
+      bottom: 14px;
+      left: 30px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .indicator-pill {
+      height: 5px;
+      width: 20px;
+      background: rgba(27, 65, 46, 0.2);
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .indicator-pill.active {
+      width: 38px;
+      background: #1B412E;
+    }
+
+    .carousel-arrow-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1B412E;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .carousel-arrow-btn:hover {
+      background: #FFFFFF;
+    }
+
+    /* ================= 4 METRIC SUMMARY CARDS ================= */
+    .metric-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .metric-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+    }
+
+    .metric-icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .icon-bg-moisture { background: #E8F5E9; color: #2E7D32; }
+    .icon-bg-ph { background: #FEF3E2; color: #D97706; }
+    .icon-bg-temp { background: #E0F2FE; color: #0284C7; }
+    .icon-bg-health { background: #DCFCE7; color: #16A34A; }
+
+    .metric-meta {
+      flex-grow: 1;
+    }
+
+    .metric-label-title {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .metric-stat-val {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .metric-trend {
+      font-size: 0.74rem;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    .trend-up { color: #16A34A; }
+    .trend-stable { color: #D97706; }
+
+    .sparkline-svg {
+      width: 55px;
+      height: 25px;
+    }
+
+    /* ================= MAIN DASHBOARD MID-SECTION ================= */
+    .dashboard-mid-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr 0.85fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .card-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .card-panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .panel-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-select {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--radius-pill);
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      outline: none;
+    }
+
+    .chart-container-wrap {
+      position: relative;
+      height: 195px;
+      width: 100%;
+    }
+
+    /* Alerts list */
+    .alert-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .alert-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      background: #FAFAF7;
+      border: 1px solid #F1EFEA;
+    }
+
+    .alert-bubble {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .alert-red { background: #FEE2E2; color: #DC2626; }
+    .alert-green { background: #DCFCE7; color: #16A34A; }
+    .alert-amber { background: #FEF3C7; color: #D97706; }
+
+    .alert-text-content {
+      flex-grow: 1;
+    }
+
+    .alert-title-text {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .alert-timestamp {
+      font-size: 0.72rem;
+      color: #94A3B8;
+      font-weight: 500;
+    }
+
+    /* Right Promo Card */
+    .grow-promo-card {
+      background: linear-gradient(180deg, #FEF7DE 0%, #FFF3D6 100%);
+      border: 1px solid #F1E5C7;
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .grow-promo-card h3 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #1A3E2C;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .grow-sprout-img {
+      width: 100%;
+      max-height: 110px;
+      object-fit: contain;
+      margin-bottom: 14px;
+    }
+
+    .btn-explore-features {
+      background: #1B4332;
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 9px 20px;
+      border-radius: var(--radius-pill);
+      box-shadow: 0 4px 12px rgba(27, 67, 50, 0.25);
+      transition: all 0.2s ease;
+    }
+
+    .btn-explore-features:hover {
+      background: #2D6A4F;
+      transform: translateY(-2px);
+    }
+
+    /* ================= BOTTOM 5-PILLAR FEATURE RIBBON ================= */
+    .features-bottom-ribbon {
+      background: #FFFFFF;
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .ribbon-pillar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    .ribbon-pillar i {
+      font-size: 1.15rem;
+    }
+
+    .pillar-divider {
+      width: 1px;
+      height: 24px;
+      background: #EAE6DB;
+    }
+
+    /* ================= BOTTOM-RIGHT FLOATING AI BOT ================= */
+    .floating-ai-assistant {
+      position: fixed;
+      bottom: 18px;
+      right: 28px;
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      z-index: 1000;
+      cursor: pointer;
+    }
+
+    .bot-speech-bubble {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px 16px 4px 16px;
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #1E2922;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+      white-space: nowrap;
+      animation: floatBubble 3s ease-in-out infinite;
+    }
+
+    .bot-character-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 2px solid #22C55E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(34, 197, 94, 0.25);
+      font-size: 1.8rem;
+      color: #15803D;
+      transition: transform 0.2s;
+    }
+
+    .floating-ai-assistant:hover .bot-character-icon {
+      transform: scale(1.08);
+    }
+
+    @keyframes floatBubble {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .metric-cards-grid { grid-template-columns: repeat(2, 1fr); }
+      .dashboard-mid-grid { grid-template-columns: 1fr; }
+      .banner-slide { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .banner-insight-card { width: 100%; }
+      .banner-image-backdrop { width: 100%; opacity: 0.35; }
+    }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main-viewport { margin-left: 0; padding: 16px; }
+      .features-bottom-ribbon { flex-direction: column; align-items: flex-start; }
+      .pillar-divider { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= LEFT SIDEBAR ================= -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <a href="/" class="sidebar-brand">
+        <div class="brand-leaf-icon"><i class="fa-solid fa-leaf"></i></div>
+        <span>TERRAVYX</span>
+      </a>
+      <div class="sidebar-tagline">Smart Agriculture<br>For a Better Tomorrow</div>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li class="menu-item active">
+        <a href="/dashboard"><i class="fa-solid fa-house"></i> Overview</a>
+      </li>
+      <li class="menu-item">
+        <a href="/dashboard/soil"><i class="fa-solid fa-seedling"></i> Soil Intelligence</a>
+      </li>
+      <li class="menu-item">
+        <a href="/dashboard/disease"><i class="fa-solid fa-crop-simple"></i> Plant Disease Detection</a>
+      </li>
+      <li class="menu-item">
+        <a href="/dashboard/monitoring"><i class="fa-solid fa-video"></i> Live Farm Monitoring</a>
+      </li>
+      <li class="menu-item">
+        <a href="/dashboard/irrigation"><i class="fa-solid fa-droplet"></i> Smart Irrigation</a>
+      </li>
+      <li class="menu-item">
+        <a href="/dashboard/assistant"><i class="fa-solid fa-robot"></i> AI Farmer Assistant</a>
+      </li>
+      <li class="menu-item">
+        <a href="/dashboard/alerts">
+          <i class="fa-solid fa-bell"></i> Farm Alerts
+          <span class="menu-badge">2</span>
+        </a>
+      </li>
+      <li class="menu-item">
+        <a href="/dashboard/settings"><i class="fa-solid fa-gear"></i> Settings</a>
+      </li>
+      <li class="menu-item">
+        <a href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a>
+      </li>
+    </ul>
+
+    <!-- Bottom Scenery Card -->
+    <div class="sidebar-footer-art">
+      <div class="farm-art-box">
+        <img 
+          src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=500&q=80" 
+          alt="Lush Farm Fields" 
+        />
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN VIEWPORT ================= -->
+  <main class="main-viewport">
+
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="search-pill-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search anything..." />
+      </div>
+
+      <div class="top-bar-right">
+        <div class="lang-pill">
+          <i class="fa-solid fa-globe" style="color: #2E7D32;"></i>
+          <span>English</span>
+          <i class="fa-solid fa-angle-down" style="font-size: 0.75rem;"></i>
+        </div>
+
+        <div class="notification-btn" title="Notifications">
+          <i class="fa-solid fa-bell"></i>
+          <span class="notification-dot">2</span>
+        </div>
+
+        <div class="user-avatar-wrap">
+          <img 
+            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" 
+            alt="Farmer Ramesh" 
+            class="user-avatar-img" 
+          />
+          <span class="status-online-dot"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ================= MULTI-IMAGE BLURRED FUSION BANNER (4 SLIDES) ================= -->
+    <section class="banner-carousel-container" id="bannerCarousel">
+
+      <!-- SLIDE 1: Sunrise Soil Intelligence -->
+      <div class="banner-slide active-slide" style="background: linear-gradient(135deg, #FEF7DE 0%, #FFF3D6 45%, #E8F5E9 100%);">
+        <div class="banner-left-content">
+          <h2>
+            <i class="fa-solid fa-sun banner-icon"></i>
+            <span>Namaste <span class="highlight-name">{{ user or 'Ramesh' }}!</span></span>
+          </h2>
+          <p>May your crops thrive and your farm prosper! Ground sensor probes are reporting optimal moisture levels.</p>
+          <div class="banner-status-badge">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Your farm is healthy today</span>
+          </div>
+        </div>
+
+        <!-- Half-Side Image with Feathered Edge Blur -->
+        <div class="banner-image-backdrop">
+          <img 
+            src="https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=1200&q=80" 
+            alt="Farmer in Golden Wheat Field" 
+          />
+        </div>
+
+        <!-- Floating Insight 1 -->
+        <div class="banner-insight-card">
+          <div class="insight-header-tag">
+            <i class="fa-solid fa-lightbulb"></i>
+            <span>Today's Insight</span>
+          </div>
+          <p>Soil moisture is optimal at 72% for tillering stage.</p>
+          <a href="/dashboard/soil" class="btn-insight-action">
+            <span>View Details</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: Smart Irrigation Relay -->
+      <div class="banner-slide" style="background: linear-gradient(135deg, #E0F2FE 0%, #E8F5E9 50%, #FEF9E7 100%);">
+        <div class="banner-left-content">
+          <h2>
+            <i class="fa-solid fa-faucet-drip banner-icon" style="color: #0284C7;"></i>
+            <span>Smart Irrigation <span class="highlight-name">Active</span></span>
+          </h2>
+          <p>Sector 04 Drip line is synchronized with automated ESP32 relay. Conserved 35% water this week.</p>
+          <div class="banner-status-badge" style="color: #0284C7; border-color: #BAE6FD;">
+            <i class="fa-solid fa-droplet"></i>
+            <span>Auto-Cutoff Relay Armed</span>
+          </div>
+        </div>
+
+        <!-- Half-Side Image with Feathered Edge Blur -->
+        <div class="banner-image-backdrop">
+          <img 
+            src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1200&q=80" 
+            alt="Irrigation Sprinklers on Farmland" 
+          />
+        </div>
+
+        <!-- Floating Insight 2 -->
+        <div class="banner-insight-card">
+          <div class="insight-header-tag" style="color: #0284C7;">
+            <i class="fa-solid fa-cloud-sun-rain"></i>
+            <span>Water Advisory</span>
+          </div>
+          <p>Rain forecast in 48h. Next watering cycle delayed to save pump power.</p>
+          <a href="/dashboard/irrigation" class="btn-insight-action" style="color: #0284C7;">
+            <span>Pump Controls</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: AI Crop Disease Diagnostics -->
+      <div class="banner-slide" style="background: linear-gradient(135deg, #DCFCE7 0%, #FEF3E2 50%, #F0FDF4 100%);">
+        <div class="banner-left-content">
+          <h2>
+            <i class="fa-solid fa-shield-virus banner-icon" style="color: #16A34A;"></i>
+            <span>Crop Health <span class="highlight-name">Guard</span></span>
+          </h2>
+          <p>Zero active leaf pathogen infections detected across all 142 AI-scanned canopy samples.</p>
+          <div class="banner-status-badge" style="color: #16A34A; border-color: #BBF7D0;">
+            <i class="fa-solid fa-microscope"></i>
+            <span>98.4% Health Index</span>
+          </div>
+        </div>
+
+        <!-- Half-Side Image with Feathered Edge Blur -->
+        <div class="banner-image-backdrop">
+          <img 
+            src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=1200&q=80" 
+            alt="Vibrant Green Crop Leaf" 
+          />
+        </div>
+
+        <!-- Floating Insight 3 -->
+        <div class="banner-insight-card">
+          <div class="insight-header-tag" style="color: #16A34A;">
+            <i class="fa-solid fa-leaf"></i>
+            <span>Crop Advisory</span>
+          </div>
+          <p>Nitrogen balance healthy. No chemical spray required this week.</p>
+          <a href="/dashboard/disease" class="btn-insight-action" style="color: #16A34A;">
+            <span>Run Diagnostic</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: Live Perimeter & Animal Tracking -->
+      <div class="banner-slide" style="background: linear-gradient(135deg, #FEF3E2 0%, #FEE2E2 50%, #FAF5EE 100%);">
+        <div class="banner-left-content">
+          <h2>
+            <i class="fa-solid fa-video banner-icon" style="color: #D97706;"></i>
+            <span>Perimeter <span class="highlight-name">Defense</span></span>
+          </h2>
+          <p>24/7 AI computer vision monitoring fences. Livestock grazing safely within geofenced sectors.</p>
+          <div class="banner-status-badge" style="color: #D97706; border-color: #FDE68A;">
+            <i class="fa-solid fa-cow"></i>
+            <span>0 Boundary Intrusions</span>
+          </div>
+        </div>
+
+        <!-- Half-Side Image with Feathered Edge Blur -->
+        <div class="banner-image-backdrop">
+          <img 
+            src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1200&q=80" 
+            alt="Farmland Pasture and Cattle" 
+          />
+        </div>
+
+        <!-- Floating Insight 4 -->
+        <div class="banner-insight-card">
+          <div class="insight-header-tag" style="color: #D97706;">
+            <i class="fa-solid fa-paw"></i>
+            <span>Safety Status</span>
+          </div>
+          <p>South pasture herd grazing normally. Night infrared mode armed.</p>
+          <a href="/dashboard/monitoring" class="btn-insight-action" style="color: #D97706;">
+            <span>View Camera</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Carousel Navigation Dots & Arrows -->
+      <div class="carousel-controls-bar">
+        <button class="carousel-arrow-btn" onclick="prevBannerSlide()"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="indicator-pill active" onclick="jumpToBannerSlide(0)"></div>
+        <div class="indicator-pill" onclick="jumpToBannerSlide(1)"></div>
+        <div class="indicator-pill" onclick="jumpToBannerSlide(2)"></div>
+        <div class="indicator-pill" onclick="jumpToBannerSlide(3)"></div>
+        <button class="carousel-arrow-btn" onclick="nextBannerSlide()"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+
+    </section>
+
+    <!-- 4 Metric Cards Row with Sparklines -->
+    <section class="metric-cards-grid">
+      
+      <!-- 1. Soil Moisture -->
+      <div class="metric-box">
+        <div class="metric-icon-circle icon-bg-moisture">
+          <i class="fa-solid fa-seedling"></i>
+        </div>
+        <div class="metric-meta">
+          <div class="metric-label-title">Soil Moisture</div>
+          <div class="metric-stat-val">72%</div>
+          <div class="metric-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 5%</div>
+        </div>
+        <svg class="sparkline-svg" viewBox="0 0 60 30">
+          <path d="M0,25 Q15,5 30,18 T60,8" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <!-- 2. Soil pH -->
+      <div class="metric-box">
+        <div class="metric-icon-circle icon-bg-ph">
+          <i class="fa-solid fa-flask"></i>
+        </div>
+        <div class="metric-meta">
+          <div class="metric-label-title">Soil pH</div>
+          <div class="metric-stat-val">6.8</div>
+          <div class="metric-trend trend-stable"><i class="fa-solid fa-arrow-right"></i> Stable</div>
+        </div>
+        <svg class="sparkline-svg" viewBox="0 0 60 30">
+          <path d="M0,15 Q15,22 30,12 T60,16" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <!-- 3. Temperature -->
+      <div class="metric-box">
+        <div class="metric-icon-circle icon-bg-temp">
+          <i class="fa-solid fa-temperature-half"></i>
+        </div>
+        <div class="metric-meta">
+          <div class="metric-label-title">Temperature</div>
+          <div class="metric-stat-val">27°C</div>
+          <div class="metric-trend trend-up" style="color: #0284C7;"><i class="fa-solid fa-arrow-up"></i> 1°C</div>
+        </div>
+        <svg class="sparkline-svg" viewBox="0 0 60 30">
+          <path d="M0,20 Q15,8 30,22 T60,10" fill="none" stroke="#0284C7" stroke-width="2.5" stroke-linecap="round" />
+        </svg>
+      </div>
+
+      <!-- 4. Crop Health -->
+      <div class="metric-box">
+        <div class="metric-icon-circle icon-bg-health">
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+        <div class="metric-meta">
+          <div class="metric-label-title">Crop Health</div>
+          <div class="metric-stat-val">Excellent</div>
+          <div class="metric-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 95%</div>
+        </div>
+        <svg class="sparkline-svg" viewBox="0 0 60 30">
+          <path d="M0,22 Q15,10 30,16 T60,4" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" />
+        </svg>
+      </div>
+
+    </section>
+
+    <!-- Main Dashboard Mid-Grid -->
+    <div class="dashboard-mid-grid">
+      
+      <!-- Chart Panel: Soil Health Overview -->
+      <div class="card-panel">
+        <div class="card-panel-header">
+          <div class="panel-title">
+            <i class="fa-solid fa-chart-simple" style="color: #2E7D32;"></i>
+            <span>Soil Health Overview</span>
+          </div>
+          <select class="panel-select">
+            <option>Last 7 Days</option>
+            <option>Last 30 Days</option>
+          </select>
+        </div>
+
+        <div class="chart-container-wrap">
+          <canvas id="soilOverviewChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Recent Farm Alerts Panel -->
+      <div class="card-panel">
+        <div class="card-panel-header">
+          <div class="panel-title">
+            <i class="fa-solid fa-bell" style="color: #F59E0B;"></i>
+            <span>Recent Farm Alerts</span>
+          </div>
+          <a href="/dashboard/alerts" style="font-size: 0.78rem; font-weight: 700; color: #2E7D32; text-decoration: none;">View All &rarr;</a>
+        </div>
+
+        <div class="alert-items-list">
+          <!-- Alert 1 -->
+          <div class="alert-row">
+            <div class="alert-bubble alert-red">
+              <i class="fa-solid fa-circle-exclamation"></i>
+            </div>
+            <div class="alert-text-content">
+              <div class="alert-title-text">Soil moisture is below 30%</div>
+            </div>
+            <div class="alert-timestamp">2h ago</div>
+          </div>
+
+          <!-- Alert 2 -->
+          <div class="alert-row">
+            <div class="alert-bubble alert-green">
+              <i class="fa-solid fa-leaf"></i>
+            </div>
+            <div class="alert-text-content">
+              <div class="alert-title-text">Leaf disease detected (Healthy Leaf)</div>
+            </div>
+            <div class="alert-timestamp">4h ago</div>
+          </div>
+
+          <!-- Alert 3 -->
+          <div class="alert-row">
+            <div class="alert-bubble alert-amber">
+              <i class="fa-solid fa-tractor"></i>
+            </div>
+            <div class="alert-text-content">
+              <div class="alert-title-text">Animal detected near boundary</div>
+            </div>
+            <div class="alert-timestamp">5h ago</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Promo: Let's grow together! -->
+      <div class="grow-promo-card">
+        <h3>Let's grow<br>together!</h3>
+        <img 
+          src="https://illustrations.popsy.co/green/plant-in-hands.svg" 
+          alt="Sprout Growing" 
+          class="grow-sprout-img"
+          onerror="this.onerror=null; this.src='https://illustrations.popsy.co/amber/success.svg';"
+        />
+        <a href="#features" class="btn-explore-features">
+          <span>Explore Features</span>
+          <i class="fa-solid fa-arrow-right" style="margin-left: 6px;"></i>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Bottom 5-Pillar Feature Ribbon -->
+    <section class="features-bottom-ribbon">
+      <div class="ribbon-pillar">
+        <i class="fa-solid fa-seedling" style="color: #2E7D32;"></i>
+        <span>Smart Farming Made Simple</span>
+      </div>
+      <div class="pillar-divider"></div>
+
+      <div class="ribbon-pillar">
+        <i class="fa-solid fa-shield-halved" style="color: #16A34A;"></i>
+        <span>AI-Powered Insights</span>
+      </div>
+      <div class="pillar-divider"></div>
+
+      <div class="ribbon-pillar">
+        <i class="fa-solid fa-droplet" style="color: #0284C7;"></i>
+        <span>Water-Smart Irrigation</span>
+      </div>
+      <div class="pillar-divider"></div>
+
+      <div class="ribbon-pillar">
+        <i class="fa-solid fa-video" style="color: #D97706;"></i>
+        <span>Real-Time Monitoring</span>
+      </div>
+      <div class="pillar-divider"></div>
+
+      <div class="ribbon-pillar">
+        <i class="fa-solid fa-globe" style="color: #059669;"></i>
+        <span>Multilingual Support (English | हिंदी | मराठी)</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= BOTTOM-RIGHT FLOATING AI BOT ================= -->
+  <div class="floating-ai-assistant" onclick="alert('Namaste! AI Krishi Assistant is active and ready to help you.')">
+    <div class="bot-speech-bubble">
+      <span>How can I help you today?</span>
+    </div>
+    <div class="bot-character-icon">
+      <i class="fa-solid fa-robot"></i>
+    </div>
+  </div>
+
+  <!-- ================= CAROUSEL & CHART.JS SCRIPT ================= -->
+  <script>
+    // 1. DYNAMIC BANNER CAROUSEL LOGIC
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.banner-slide');
+    const pills = document.querySelectorAll('.indicator-pill');
+    let autoSlideTimer = null;
+
+    function showBannerSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active-slide');
+        pills[i].classList.remove('active');
+      });
+      slides[index].classList.add('active-slide');
+      pills[index].classList.add('active');
+      currentSlide = index;
+    }
+
+    function nextBannerSlide() {
+      let next = (currentSlide + 1) % slides.length;
+      showBannerSlide(next);
+    }
+
+    function prevBannerSlide() {
+      let prev = (currentSlide - 1 + slides.length) % slides.length;
+      showBannerSlide(prev);
+    }
+
+    function jumpToBannerSlide(index) {
+      showBannerSlide(index);
+      resetAutoSlide();
+    }
+
+    function startAutoSlide() {
+      autoSlideTimer = setInterval(nextBannerSlide, 5000); // changes every 5 seconds
+    }
+
+    function resetAutoSlide() {
+      clearInterval(autoSlideTimer);
+      startAutoSlide();
+    }
+
+    // Pause on hover
+    const carouselElem = document.getElementById('bannerCarousel');
+    carouselElem.addEventListener('mouseenter', () => clearInterval(autoSlideTimer));
+    carouselElem.addEventListener('mouseleave', () => startAutoSlide());
+
+    startAutoSlide();
+
+    // 2. SOIL HEALTH OVERVIEW CHART.JS
+    const ctx = document.getElementById('soilOverviewChart').getContext('2d');
+    
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [
+          {
+            label: 'Moisture',
+            data: [50, 68, 62, 70, 64, 78, 80],
+            borderColor: '#22C55E',
+            backgroundColor: '#22C55E',
+            borderWidth: 2.5,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.35
+          },
+          {
+            label: 'pH',
+            data: [40, 55, 60, 62, 65, 58, 62],
+            borderColor: '#F59E0B',
+            backgroundColor: '#F59E0B',
+            borderWidth: 2.5,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.35
+          },
+          {
+            label: 'Temperature',
+            data: [55, 58, 60, 65, 52, 60, 68],
+            borderColor: '#0284C7',
+            backgroundColor: '#0284C7',
+            borderWidth: 2.5,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            tension: 0.35
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              boxWidth: 8,
+              usePointStyle: true,
+              font: { size: 11, family: 'Plus Jakarta Sans', weight: '600' }
+            }
+          },
+          tooltip: {
+            backgroundColor: '#1E2922',
+            padding: 10,
+            cornerRadius: 8
+          }
+        },
+        scales: {
+          y: {
+            min: 0,
+            max: 100,
+            ticks: { stepSize: 25, font: { size: 10, family: 'Plus Jakarta Sans' } },
+            grid: { color: '#F1EFE9' },
+            border: { display: false }
+          },
+          x: {
+            grid: { display: false },
+            ticks: { font: { size: 11, family: 'Plus Jakarta Sans' } },
+            border: { display: false }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
