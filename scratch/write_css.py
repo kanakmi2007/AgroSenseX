@@ -1,0 +1,1783 @@
+# -*- coding: utf-8 -*-
+"""
+Generate complete polished CSS for static/css/soil_dashboard.css
+Matching the AgriNex Agricultural SaaS Design System
+"""
+
+css_content = '''/* ==========================================================================
+   TERRAVYX Agricultural Intelligence Dashboard Design System
+   Inspired by AgriNex Agricultural SaaS Reference Interface
+   
+   Color Palette:
+   - Canvas background: #F5F4F0 (Warm off-white)
+   - Left Sidebar: #06251C (Deep forest green)
+   - Earthy Brown Hero Panel: #94765C to #7D6047
+   - Botanical Green Accents: #087B50, #22C55E, #4ADE80
+   - Coral / Alert Accent: #E11D48 / #F43F5E / #D93848
+   - Clean White Cards: #FFFFFF with subtle borders #E5E9E3
+   - Primary Text: #1D2923, Secondary Muted: #778078
+   ========================================================================== */
+
+:root {
+  --bg-canvas: #F5F4F0;
+  --bg-card: #FFFFFF;
+  --sidebar-bg: #06251C;
+  --sidebar-hover: rgba(255, 255, 255, 0.08);
+  --sidebar-active: #087B50;
+  --accent-primary: #087B50;
+  --accent-secondary: #398653;
+  --analysis-bg: #94765C;
+  --analysis-bg-dark: #7D6047;
+  --text-primary: #1D2923;
+  --text-secondary: #778078;
+  --border-soft: #E5E9E3;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 4px 16px rgba(29, 41, 35, 0.06);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 1. NATURAL DOCUMENT SCROLLING (NO NESTED SCROLLBARS, NO HORIZONTAL OVERFLOW) */
+html {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-canvas) !important;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--text-primary);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Scroll margin so sticky top nav doesn't clip headers on anchor jump */
+section,
+.dashboard-two-col,
+.card[id],
+div[id] {
+  scroll-margin-top: 86px;
+}
+
+/* ==========================================================================
+   FIXED DARK-GREEN SIDEBAR (270px, AGRINEX STYLE)
+   ========================================================================== */
+.sidebar {
+  width: 270px;
+  background: var(--sidebar-bg);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 18px 24px 18px;
+  z-index: 1000;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  box-sizing: border-box;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+/* Sidebar Header & Brand */
+.sidebar-header {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.sidebar-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.brand-leaf-icon {
+  width: 34px;
+  height: 34px;
+  background: #E11D48;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(225, 29, 72, 0.35);
+}
+
+.sidebar-header-avatar img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+}
+
+.sidebar-tagline {
+  font-size: 0.7rem;
+  color: #8B9B90;
+  margin-top: 6px;
+  line-height: 1.2;
+}
+
+.sidebar-close-btn {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 4px;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+/* Sidebar Section Headers */
+.sidebar-section {
+  margin-bottom: 18px;
+}
+
+.sidebar-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.sidebar-section-header .section-link {
+  font-size: 0.68rem;
+  color: #728277;
+  text-decoration: none;
+  font-weight: 500;
+}
+.sidebar-section-header .section-link:hover {
+  color: #A3B5A9;
+}
+
+/* Section 1: Auto scenes Toggle Items */
+.scene-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+}
+
+.scene-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #D2DDD6;
+  font-size: 0.76rem;
+  font-weight: 500;
+}
+
+.scene-icon {
+  font-size: 0.8rem;
+  color: #8B9B90;
+}
+
+/* Switch Toggle Styling */
+.switch-toggle {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 18px;
+}
+
+.switch-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: .3s;
+  border-radius: 20px;
+}
+
+.switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+input:checked + .switch-slider {
+  background-color: #22C55E;
+}
+
+input:checked + .switch-slider:before {
+  transform: translateX(16px);
+}
+
+/* Section 2: Settings 2x3 Shortcuts Grid */
+.shortcuts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.shortcut-tile {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 10px 12px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: #D2DDD6;
+  transition: all 0.2s ease;
+}
+
+.shortcut-tile i {
+  font-size: 0.9rem;
+  color: #8B9B90;
+  margin-bottom: 2px;
+}
+
+.shortcut-tile .sc-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.shortcut-tile .sc-sub {
+  font-size: 0.6rem;
+  color: #728277;
+}
+
+.shortcut-tile:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.shortcut-tile.active {
+  background: rgba(8, 123, 80, 0.35);
+  border-color: #087B50;
+}
+.shortcut-tile.active i,
+.shortcut-tile.active .sc-title {
+  color: #4ADE80;
+}
+
+.shortcut-tile.add-tile {
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+}
+.shortcut-tile.add-tile i {
+  font-size: 0.8rem;
+  color: #8B9B90;
+}
+
+/* Sidebar Menu Navigation */
+.sidebar-menu {
+  list-style: none;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-item a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  color: #B4C4B9;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.menu-item a i {
+  font-size: 0.95rem;
+  width: 18px;
+  text-align: center;
+}
+
+.menu-item:hover a {
+  background: var(--sidebar-hover);
+  color: #FFFFFF;
+}
+
+.menu-item.active a {
+  background: var(--accent-primary);
+  color: #FFFFFF;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(8, 123, 80, 0.3);
+}
+
+/* Sidebar Bottom Icons Bar */
+.sidebar-bottom-bar {
+  margin-top: auto;
+  padding-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.sidebar-bottom-bar a {
+  color: #728277;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.sidebar-bottom-bar a:hover {
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   TOP NAVIGATION BAR (RESPONSIVE, NO OVERFLOW)
+   ========================================================================== */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 270px;
+  right: 0;
+  height: 68px;
+  background: rgba(245, 244, 240, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  z-index: 900;
+  box-sizing: border-box;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.top-nav .title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Navigation Tabs */
+.nav-links {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 1;
+  max-width: 580px;
+}
+.nav-links::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.nav-link.active {
+  color: #FFFFFF;
+  background: #1D2923;
+}
+
+/* Top Nav Right Actions */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.icon-action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-soft);
+  background: #FFFFFF;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.icon-action-btn:hover {
+  background: #F0EFEA;
+}
+
+.btn-add-member {
+  background: #D93848;
+  color: #FFFFFF;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
+}
+.btn-add-member:hover {
+  background: #C22D3D;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 8px;
+  border-left: 1px solid var(--border-soft);
+}
+
+.profile-avatar {
+  width: 34px;
+  height: 34px;
+  background: #E5E9E3;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #087B50;
+  font-size: 0.95rem;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-name {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.profile-role {
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   MAIN VIEWPORT (NATURAL DOCUMENT SCROLLING)
+   ========================================================================== */
+.main-viewport {
+  margin-left: 270px;
+  width: calc(100% - 270px);
+  max-width: 1600px;
+  padding: 88px 32px 60px 32px;
+  box-sizing: border-box;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.header-titles h2 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.header-titles .subtitle {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.demo-pill {
+  background: #E8F5E9;
+  color: #087B50;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  border: 1px solid rgba(8, 123, 80, 0.2);
+}
+
+.header-badge {
+  background: #FFFFFF;
+  border: 1px solid var(--border-soft);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #22C55E;
+  border-radius: 50%;
+  animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+/* ==========================================================================
+   EARTHY BROWN SOIL ANALYSIS HERO PANEL (AGRINEX STYLE)
+   ========================================================================== */
+.soil-analysis-hero {
+  background: linear-gradient(135deg, #94765C 0%, #7D6047 100%);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  color: #FFFFFF;
+  box-shadow: 0 8px 24px rgba(125, 96, 71, 0.25);
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.hero-top-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.hero-title-group h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.hero-date {
+  font-size: 0.76rem;
+  color: #E6D7CD;
+}
+
+.hero-ph-badge {
+  background: #E11D48;
+  color: #FFFFFF;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 14px;
+}
+
+.hero-top-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-right-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+.hero-details-link {
+  font-size: 0.78rem;
+  color: #E6D7CD;
+  text-decoration: none;
+}
+.hero-details-link:hover {
+  text-decoration: underline;
+}
+
+/* Hero Main Grid: 3D Strata Block on Left, Gauges on Right */
+.hero-main-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 24px;
+  align-items: center;
+}
+
+/* 3D Strata Visualization */
+.hero-strata-visual {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.depth-axis {
+  position: relative;
+  height: 160px;
+  width: 44px;
+  display: flex;
+  flex-direction: column;
+}
+
+.depth-point {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: #E6D7CD;
+  font-weight: 600;
+}
+
+.depth-line {
+  position: absolute;
+  right: 0;
+  top: 15px;
+  bottom: 25px;
+  width: 1px;
+  border-left: 1px dashed rgba(255, 255, 255, 0.4);
+}
+
+.soil-block-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.soil-3d-svg {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
+}
+
+/* Right: Stepped Moisture Bar & Circular Gauges */
+.hero-gauges-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.moisture-steps-wrapper {
+  background: rgba(0, 0, 0, 0.16);
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.moisture-steps-bar {
+  display: flex;
+  gap: 4px;
+  height: 10px;
+  margin-bottom: 6px;
+}
+
+.step-segment {
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.step-segment.filled {
+  background: #1D2923;
+}
+.step-segment.unfilled {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.moisture-steps-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: #E6D7CD;
+  font-weight: 500;
+}
+
+/* 3 Circular Radial Gauges */
+.hero-three-gauges {
+  display: flex;
+  justify-content: space-around;
+  gap: 12px;
+}
+
+.gauge-ring-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.gauge-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.12);
+  border: 4px solid #FFFFFF;
+}
+
+.gauge-circle.gauge-white {
+  border-color: #FFFFFF;
+}
+
+.gauge-circle.gauge-green {
+  border-color: #4ADE80;
+}
+
+.gauge-circle.gauge-cyan {
+  border-color: #38BDF8;
+}
+
+.gauge-val {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+.gauge-unit {
+  font-size: 0.6rem;
+  color: #E6D7CD;
+  margin-top: 2px;
+}
+
+.gauge-label {
+  font-size: 0.72rem;
+  color: #E6D7CD;
+}
+
+/* Bottom Strata Indicators */
+.strata-metrics-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  flex-wrap: wrap;
+}
+
+.strata-chip {
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 5px 12px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.strata-chip .sc-label {
+  font-size: 0.62rem;
+  color: #E6D7CD;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.strata-chip .sc-val {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   CARDS & SENSORS METRICS ROW
+   ========================================================================== */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.metrics-row {
+  margin-bottom: 24px;
+}
+
+.monitoring-triple {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.sensor-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.sensor-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.moisture-icon { background: #E8F5E9; color: #087B50; }
+.ph-icon { background: #E0F2FE; color: #0284C7; }
+.temp-icon { background: #FFF3E0; color: #E67E22; }
+
+.status-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+.status-good { background: #E8F5E9; color: #087B50; }
+.status-warning { background: #FFF3E0; color: #D35400; }
+
+.card-title {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.card-value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 4px 0;
+}
+
+.card-subtitle {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.mini-progress-bar {
+  height: 6px;
+  background: #E5E9E3;
+  border-radius: 3px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.mini-progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+/* ==========================================================================
+   2-COLUMN DASHBOARD LAYOUT (NUTRIENTS + MOISTURE CHART & GROWING FLOW)
+   ========================================================================== */
+.dashboard-two-col {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.card-main-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.card-link-more {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-weight: 500;
+}
+.card-link-more:hover {
+  color: var(--accent-primary);
+  text-decoration: underline;
+}
+
+/* Nutrients Levels List (AgriNex Reference Design) */
+.agrinex-nutrients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.agrinex-nutr-row {
+  display: grid;
+  grid-template-columns: 34px 110px 105px 1fr 65px;
+  align-items: center;
+  gap: 12px;
+}
+
+.nutr-symbol-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.badge-mg { background: #14B8A6; }
+.badge-ph { background: #0284C7; }
+.badge-p { background: #D97706; }
+.badge-k { background: #16A34A; }
+.badge-c { background: #BE123C; }
+.badge-n { background: #087B50; }
+
+.nutr-full-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.nutr-pie-range {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.nutr-bar-track {
+  height: 5px;
+  background: #E5E9E3;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.nutr-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.nutr-reading-val {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.nutrient-footer-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.upd-text {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+/* Right Stack Column (Lollipop Chart + Growing Flow) */
+.right-stack-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Lollipop Soil Moisture Chart Card */
+.lollipop-chart-card {
+  padding: 18px 20px;
+}
+
+.lollipop-chart-body {
+  margin-top: 10px;
+}
+
+.lollipop-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Growing Flow Card (AgriNex Style Green Card) */
+.growing-flow-card {
+  background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+  color: #FFFFFF;
+  border: none;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(27, 94, 32, 0.25);
+}
+
+.growing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.growing-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.growing-sub {
+  font-size: 0.72rem;
+  color: #C8E6C9;
+}
+
+.crop-flow-select {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+}
+.crop-flow-select option {
+  background: #1D2923;
+  color: #FFFFFF;
+}
+
+.growing-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.growing-left-pill {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.phase-badge {
+  background: #E11D48;
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 14px;
+  box-shadow: 0 3px 8px rgba(225, 29, 72, 0.35);
+}
+
+.flow-cycle-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.growing-center-img img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.growing-right-status .circle-check {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 0.95rem;
+}
+
+.growing-footer-metrics {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.crop-score-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.crop-score-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.crop-score-details h4 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.crop-summary-desc {
+  font-size: 0.72rem;
+  color: #E8F5E9;
+  margin-top: 2px;
+}
+
+.factors-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.crop-factor-item {
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.factor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.factor-sub {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  color: #C8E6C9;
+  margin: 4px 0;
+}
+
+.factor-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.factor-bar-fill {
+  height: 100%;
+}
+
+.limiting-factor-note {
+  background: rgba(225, 29, 72, 0.25);
+  border: 1px solid rgba(225, 29, 72, 0.4);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.72rem;
+  color: #FFE4E6;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ==========================================================================
+   OVERALL HEALTH SCORE & ACTIONABLE RECOMMENDATIONS
+   ========================================================================== */
+.card-title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.card-title-bar h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tag-status {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.demo-tag-mini {
+  background: #E8F5E9;
+  color: #087B50;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.health-score-layout {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.health-score-left {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.circular-progress {
+  width: 130px;
+  height: 130px;
+}
+
+.center-label {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.center-label strong {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.center-label span {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #087B50;
+  margin-top: 2px;
+}
+
+.score-subtext {
+  display: none;
+}
+
+.health-score-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.parameter-row {
+  display: grid;
+  grid-template-columns: 140px 1fr 45px;
+  align-items: center;
+  gap: 12px;
+}
+
+.param-name {
+  font-size: 0.78rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.param-name i {
+  color: #087B50;
+  font-size: 0.85rem;
+}
+
+.param-bar-bg {
+  height: 6px;
+  background: #E5E9E3;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.param-bar-fill {
+  height: 100%;
+  background: #087B50;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.param-score {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+/* Actionable Recommendations List */
+.badge-counter {
+  background: #E8F5E9;
+  color: #087B50;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.recs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recommendation-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #F9F9F7;
+  border: 1px solid var(--border-soft);
+  padding: 12px 14px;
+  border-radius: 10px;
+}
+
+.rec-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #E8F5E9;
+  color: #087B50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.rec-content h4 {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.rec-content p {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   AI ADVISOR SECTION
+   ========================================================================== */
+.ai-header-flex {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ai-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #087B50;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.ai-desc {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.ai-pitch {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.btn-primary {
+  background: #087B50;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+.btn-primary:hover {
+  background: #06623F;
+}
+
+.ai-results-panel {
+  margin-top: 16px;
+}
+
+.ai-placeholder {
+  background: #F9F9F7;
+  border: 1px dashed var(--border-soft);
+  border-radius: 10px;
+  padding: 24px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+.ai-placeholder i {
+  font-size: 1.8rem;
+  color: #8B9B90;
+  margin-bottom: 8px;
+}
+
+.ai-output-box {
+  background: #FFFFFF;
+  border: 1px solid var(--border-soft);
+  border-left: 4px solid #087B50;
+  border-radius: 10px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ai-output-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ai-output-header {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #087B50;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ai-section-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ai-conditions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ai-cond-chip {
+  background: #F9F9F7;
+  border: 1px solid var(--border-soft);
+  padding: 8px 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ai-cond-label {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+}
+
+.ai-cond-val {
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.ai-analysis-block {
+  background: #F9F9F7;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.ai-recs-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.78rem;
+}
+.ai-recs-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.ai-recs-list li i {
+  color: #087B50;
+  margin-top: 2px;
+}
+
+/* ==========================================================================
+   HISTORICAL SOIL TRENDS (4 CHARTS GRID)
+   ========================================================================== */
+.historical-section {
+  margin-top: 28px;
+}
+
+.section-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.section-header-bar h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-sub {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.filter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-label {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.filter-select {
+  background: #FFFFFF;
+  border: 1px solid var(--border-soft);
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  outline: none;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.chart-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.chart-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chart-val-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #087B50;
+  background: #E8F5E9;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 200px;
+  width: 100%;
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS (TESTED FOR 1366px, 1024px & MOBILE)
+   ========================================================================== */
+@media (max-width: 1200px) {
+  .dashboard-two-col {
+    grid-template-columns: 1fr;
+  }
+  .hero-main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+  .sidebar-close-btn {
+    display: block;
+  }
+  .sidebar-backdrop.mobile-open {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  .top-nav {
+    left: 0;
+  }
+  .mobile-menu-btn {
+    display: block;
+  }
+  .main-viewport {
+    margin-left: 0;
+    width: 100%;
+    padding: 82px 18px 40px 18px;
+  }
+  .monitoring-triple {
+    grid-template-columns: 1fr;
+  }
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  .ai-conditions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+'''
+
+with open('static/css/soil_dashboard.css', 'w', encoding='utf-8') as f:
+    f.write(css_content)
+
+print('Updated static/css/soil_dashboard.css successfully!')
+

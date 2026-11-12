@@ -827,7 +827,7 @@
         <a href="/dashboard"><i class="fa-solid fa-house"></i> Overview</a>
       </li>
       <li class="menu-item">
-        <a href="/dashboard/soil"><i class="fa-solid fa-seedling"></i> Soil Intelligence</a>
+        <a href="{{ url_for('soil_dashboard') }}"><i class="fa-solid fa-seedling"></i> Soil Intelligence</a>
       </li>
       <li class="menu-item">
         <a href="/dashboard/disease"><i class="fa-solid fa-crop-simple"></i> Plant Disease Detection</a>
@@ -930,9 +930,9 @@
             <i class="fa-solid fa-lightbulb"></i>
             <span>Today's Insight</span>
           </div>
-          <p>Soil moisture is optimal at 72% for tillering stage.</p>
-          <a href="/dashboard/soil" class="btn-insight-action">
-            <span>View Details</span>
+          <p>Soil moisture is stable at {{ soil.moisture }}% with optimal pH {{ soil.ph }}.</p>
+          <a href="{{ url_for('soil_dashboard') }}" class="btn-insight-action">
+            <span>View Soil Details</span>
             <i class="fa-solid fa-arrow-right"></i>
           </a>
         </div>
@@ -1062,13 +1062,13 @@
     <section class="metric-cards-grid">
       
       <!-- 1. Soil Moisture -->
-      <div class="metric-box">
+      <div class="metric-box" onclick="window.location.href='{{ url_for('soil_dashboard') }}'" style="cursor: pointer;" title="Open Soil Intelligence">
         <div class="metric-icon-circle icon-bg-moisture">
           <i class="fa-solid fa-seedling"></i>
         </div>
         <div class="metric-meta">
           <div class="metric-label-title">Soil Moisture</div>
-          <div class="metric-stat-val">72%</div>
+          <div class="metric-stat-val">{{ soil.moisture }}%</div>
           <div class="metric-trend trend-up"><i class="fa-solid fa-arrow-up"></i> 5%</div>
         </div>
         <svg class="sparkline-svg" viewBox="0 0 60 30">
@@ -1077,13 +1077,13 @@
       </div>
 
       <!-- 2. Soil pH -->
-      <div class="metric-box">
+      <div class="metric-box" onclick="window.location.href='{{ url_for('soil_dashboard') }}'" style="cursor: pointer;" title="Open Soil Intelligence">
         <div class="metric-icon-circle icon-bg-ph">
           <i class="fa-solid fa-flask"></i>
         </div>
         <div class="metric-meta">
           <div class="metric-label-title">Soil pH</div>
-          <div class="metric-stat-val">6.8</div>
+          <div class="metric-stat-val">{{ soil.ph }}</div>
           <div class="metric-trend trend-stable"><i class="fa-solid fa-arrow-right"></i> Stable</div>
         </div>
         <svg class="sparkline-svg" viewBox="0 0 60 30">
@@ -1092,13 +1092,13 @@
       </div>
 
       <!-- 3. Temperature -->
-      <div class="metric-box">
+      <div class="metric-box" onclick="window.location.href='{{ url_for('soil_dashboard') }}'" style="cursor: pointer;" title="Open Soil Intelligence">
         <div class="metric-icon-circle icon-bg-temp">
           <i class="fa-solid fa-temperature-half"></i>
         </div>
         <div class="metric-meta">
           <div class="metric-label-title">Temperature</div>
-          <div class="metric-stat-val">27°C</div>
+          <div class="metric-stat-val">{{ soil.temperature }}°C</div>
           <div class="metric-trend trend-up" style="color: #0284C7;"><i class="fa-solid fa-arrow-up"></i> 1°C</div>
         </div>
         <svg class="sparkline-svg" viewBox="0 0 60 30">
@@ -1133,10 +1133,16 @@
             <i class="fa-solid fa-chart-simple" style="color: #2E7D32;"></i>
             <span>Soil Health Overview</span>
           </div>
-          <select class="panel-select">
-            <option>Last 7 Days</option>
-            <option>Last 30 Days</option>
-          </select>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <a href="{{ url_for('soil_dashboard') }}" style="font-size: 0.8rem; font-weight: 700; color: #2E7D32; text-decoration: none; display: flex; align-items: center; gap: 4px;">
+              <span>Soil Intelligence</span>
+              <i class="fa-solid fa-arrow-right" style="font-size: 0.75rem;"></i>
+            </a>
+            <select class="panel-select">
+              <option>Last 7 Days</option>
+              <option>Last 30 Days</option>
+            </select>
+          </div>
         </div>
 
         <div class="chart-container-wrap">
