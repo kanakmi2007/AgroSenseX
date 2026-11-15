@@ -1061,6 +1061,79 @@
       max-width: 90%;
     }
 
+    .chat-markdown {
+      color: inherit;
+      line-height: 1.6;
+      word-break: break-word;
+    }
+
+    .chat-markdown > *:first-child { margin-top: 0; }
+    .chat-markdown > *:last-child { margin-bottom: 0; }
+
+    .chat-markdown p,
+    .chat-markdown ul,
+    .chat-markdown ol,
+    .chat-markdown blockquote,
+    .chat-markdown h1,
+    .chat-markdown h2,
+    .chat-markdown h3,
+    .chat-markdown h4,
+    .chat-markdown h5,
+    .chat-markdown h6,
+    .chat-markdown hr {
+      margin: 0 0 0.7rem;
+    }
+
+    .chat-markdown h1,
+    .chat-markdown h2,
+    .chat-markdown h3,
+    .chat-markdown h4,
+    .chat-markdown h5,
+    .chat-markdown h6 {
+      color: #F0FDF4;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-top: 0.8rem;
+    }
+
+    .chat-markdown strong {
+      color: #F0FDF4;
+      font-weight: 700;
+    }
+
+    .chat-markdown ul,
+    .chat-markdown ol {
+      padding-left: 1.2rem;
+    }
+
+    .chat-markdown li + li {
+      margin-top: 0.25rem;
+    }
+
+    .chat-markdown hr {
+      border: 0;
+      border-top: 1px solid rgba(148, 163, 184, 0.35);
+      margin: 0.75rem 0;
+    }
+
+    .chat-markdown code {
+      background: rgba(15, 23, 42, 0.4);
+      border-radius: 6px;
+      padding: 0.12rem 0.35rem;
+      font-family: inherit;
+    }
+
+    .chat-markdown a {
+      color: #A7F3D0;
+      text-decoration: underline;
+    }
+
+    .chat-markdown blockquote {
+      border-left: 3px solid rgba(16, 185, 129, 0.8);
+      padding-left: 0.8rem;
+      color: #D1FAE5;
+    }
+
     .chat-bot {
       background: rgba(16, 185, 129, 0.12);
       border: 1px solid var(--border-light);
@@ -1159,6 +1232,12 @@
     .chat-send-btn:hover {
       transform: scale(1.08);
       background: var(--accent-mint);
+    }
+
+    .chat-send-btn:disabled {
+      cursor: wait;
+      opacity: 0.6;
+      transform: none;
     }
 
     /* Floating AI Bot */
@@ -4670,58 +4749,125 @@
     }
 
     // ================= 10. AI CHAT DRAWER WITH ZERO SCROLLBAR =================
-    function toggleAIChat() {
+    let chatHistory = [];
+    let isAiChatRequestPending = false;
+
+    function toggleAIChat(forceOpen) {
       const drawer = document.getElementById('aiChatDrawer');
-      if (drawer) drawer.classList.toggle('open-chat');
+      if (!drawer) return;
+
+      const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : !drawer.classList.contains('open-chat');
+      drawer.classList.toggle('open-chat', shouldOpen);
+      drawer.setAttribute('aria-hidden', String(!shouldOpen));
+
+      if (shouldOpen) {
+        const input = document.getElementById('chatInput');
+        if (input) {
+          setTimeout(() => input.focus(), 60);
+        }
+      }
     }
 
     function handleChatKey(e) {
-      if (e.key === 'Enter') sendChatMessage();
-    }
-
-    function askQuickPrompt(question) {
-      const input = document.getElementById('chatInput');
-      if (input) {
-        input.value = question;
+      if (e.key === 'Enter') {
+        e.preventDefault();
         sendChatMessage();
       }
     }
 
-    function sendChatMessage() {
+    function askQuickPrompt(question) {
       const input = document.getElementById('chatInput');
       if (!input) return;
+      input.value = question;
+      sendChatMessage();
+    }
+
+    async function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const area = document.getElementById('chatMessages');
+      const sendButton = document.querySelector('.chat-send-btn');
+
+      if (!input || !area || isAiChatRequestPending) return;
+
       const text = input.value.trim();
       if (!text) return;
 
-      const area = document.getElementById('chatMessages');
+      isAiChatRequestPending = true;
+      input.disabled = true;
+      if (sendButton) sendButton.disabled = true;
 
-      // User Message
       const userBubble = document.createElement('div');
       userBubble.className = 'chat-bubble chat-user';
       userBubble.textContent = text;
       area.appendChild(userBubble);
       input.value = '';
+
+      const loadingBubble = document.createElement('div');
+      loadingBubble.className = 'chat-bubble chat-bot';
+      loadingBubble.textContent = '🌱 Analysing your farm conditions...';
+      area.appendChild(loadingBubble);
       area.scrollTop = area.scrollHeight;
 
-      // Smart Bot Response Simulation
-      setTimeout(() => {
+      const previousHistory = chatHistory.slice(-10);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 190000);
+
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text, history: previousHistory }),
+          signal: controller.signal
+        });
+
+        let data;
+        try {
+          data = await response.json();
+        } catch (jsonError) {
+          throw new Error('The AI service returned an invalid JSON response.');
+        }
+
         const botBubble = document.createElement('div');
         botBubble.className = 'chat-bubble chat-bot';
 
-        if (text.toLowerCase().includes('ph')) {
-          botBubble.innerHTML = 'For wheat, the ideal soil pH is <strong>6.0 to 7.0</strong>. Your current reading is <strong>6.8 pH</strong>, which is optimal for nutrient uptake.';
-        } else if (text.toLowerCase().includes('pump') || text.toLowerCase().includes('water')) {
-          botBubble.innerHTML = 'Current soil moisture is <strong>72%</strong>. The threshold for irrigation is 50%, so you do <strong>not need to run the pump today</strong>.';
-        } else if (text.toLowerCase().includes('blight') || text.toLowerCase().includes('tomato')) {
-          botBubble.innerHTML = 'To prevent tomato early blight, avoid overhead irrigation, ensure good airflow between rows, and apply a preventative neem oil or copper spray.';
+        if (!response.ok || !data.success) {
+          botBubble.textContent = data && data.error ? data.error : 'Something went wrong. Please try again.';
         } else {
-          botBubble.innerHTML = `Based on Sector 04 telemetry, conditions are stable. I have logged your query regarding "${text}".`;
+          const renderedReply = data.reply || 'I could not generate a response right now.';
+          const markdownRoot = document.createElement('div');
+          markdownRoot.className = 'chat-markdown';
+          markdownRoot.innerHTML = DOMPurify.sanitize(marked.parse(renderedReply, { breaks: true, gfm: true }));
+          botBubble.appendChild(markdownRoot);
+          chatHistory.push({ role: 'user', content: text });
+          chatHistory.push({ role: 'model', content: renderedReply });
+          chatHistory = chatHistory.slice(-12);
         }
 
         area.appendChild(botBubble);
+      } catch (error) {
+        const errorBubble = document.createElement('div');
+        errorBubble.className = 'chat-bubble chat-bot';
+
+        if (error && error.name === 'AbortError') {
+          errorBubble.textContent = 'The Gemini service is taking too long to respond. Please try again in a moment.';
+        } else {
+          errorBubble.textContent = 'Gemini could not respond right now. Please try again shortly.';
+        }
+
+        area.appendChild(errorBubble);
+        console.error('AI Chat Error:', error);
+      } finally {
+        clearTimeout(timeoutId);
+        loadingBubble.remove();
+        input.disabled = false;
+        if (sendButton) sendButton.disabled = false;
+        isAiChatRequestPending = false;
+        input.focus();
         area.scrollTop = area.scrollHeight;
-      }, 600);
+      }
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
 </body>
 </html>

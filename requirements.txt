@@ -10,3 +10,5 @@ google-genai
 pydantic
 python-dotenv
 jinja2
+google-genai
+python-dotenv

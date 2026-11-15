@@ -1061,6 +1061,79 @@
       max-width: 90%;
     }
 
+    .chat-markdown {
+      color: inherit;
+      line-height: 1.6;
+      word-break: break-word;
+    }
+
+    .chat-markdown > *:first-child { margin-top: 0; }
+    .chat-markdown > *:last-child { margin-bottom: 0; }
+
+    .chat-markdown p,
+    .chat-markdown ul,
+    .chat-markdown ol,
+    .chat-markdown blockquote,
+    .chat-markdown h1,
+    .chat-markdown h2,
+    .chat-markdown h3,
+    .chat-markdown h4,
+    .chat-markdown h5,
+    .chat-markdown h6,
+    .chat-markdown hr {
+      margin: 0 0 0.7rem;
+    }
+
+    .chat-markdown h1,
+    .chat-markdown h2,
+    .chat-markdown h3,
+    .chat-markdown h4,
+    .chat-markdown h5,
+    .chat-markdown h6 {
+      color: #F0FDF4;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-top: 0.8rem;
+    }
+
+    .chat-markdown strong {
+      color: #F0FDF4;
+      font-weight: 700;
+    }
+
+    .chat-markdown ul,
+    .chat-markdown ol {
+      padding-left: 1.2rem;
+    }
+
+    .chat-markdown li + li {
+      margin-top: 0.25rem;
+    }
+
+    .chat-markdown hr {
+      border: 0;
+      border-top: 1px solid rgba(148, 163, 184, 0.35);
+      margin: 0.75rem 0;
+    }
+
+    .chat-markdown code {
+      background: rgba(15, 23, 42, 0.4);
+      border-radius: 6px;
+      padding: 0.12rem 0.35rem;
+      font-family: inherit;
+    }
+
+    .chat-markdown a {
+      color: #A7F3D0;
+      text-decoration: underline;
+    }
+
+    .chat-markdown blockquote {
+      border-left: 3px solid rgba(16, 185, 129, 0.8);
+      padding-left: 0.8rem;
+      color: #D1FAE5;
+    }
+
     .chat-bot {
       background: rgba(16, 185, 129, 0.12);
       border: 1px solid var(--border-light);
@@ -1159,6 +1232,12 @@
     .chat-send-btn:hover {
       transform: scale(1.08);
       background: var(--accent-mint);
+    }
+
+    .chat-send-btn:disabled {
+      cursor: wait;
+      opacity: 0.6;
+      transform: none;
     }
 
     /* Floating AI Bot */
@@ -2745,15 +2824,12 @@
       <li class="menu-item {{ 'active' if active_tab not in ['disease', 'monitoring'] else '' }}" id="menu-overview" data-tab="overview">
         <a href="/dashboard" onclick="return handleNavClick('overview', event)" title="Dashboard"><i class="fa-solid fa-house"></i> <span>Dashboard</span></a>
       </li>
-<<<<<<< HEAD
-    <li class="menu-item" id="menu-soil">
-    <a href="{{ url_for('soil_dashboard') }}"
-       onclick="return handleNavClick('soil', event)"
-       title="Soil Intelligence">
-        <i class="fa-solid fa-seedling"></i>
-        Soil Intelligence
-    </a>
-</li>
+      <li class="menu-item" id="menu-soil">
+        <a href="{{ url_for('soil_dashboard') }}" title="Soil Intelligence">
+          <i class="fa-solid fa-seedling"></i>
+          <span>Soil Intelligence</span>
+        </a>
+      </li>
       <li class="menu-item {{ 'active' if active_tab == 'disease' else '' }}" id="menu-disease" data-tab="disease">
         <a href="/dashboard/disease" onclick="return handleNavClick('disease', event)" title="Plant Disease Detection"><i class="fa-solid fa-crop-simple"></i> <span>Plant Disease</span></a>
       </li>
@@ -2813,13 +2889,13 @@
           </button>
 
           <div class="sector-menu-dropdown">
-            <div class="sector-option" onclick="switchSector('Sector 01 — South Orchard', 68, 6.7, 28.1, 96)">
+            <div class="sector-option" onclick="switchSector('Sector 01 — South Orchard', 68, 6.7, 28.1, 96, event)">
               <span>🌱 Sector 01 — South Orchard</span>
             </div>
-            <div class="sector-option" onclick="switchSector('Sector 02 — Wheat Fields', 64, 6.9, 26.8, 97)">
+            <div class="sector-option" onclick="switchSector('Sector 02 — Wheat Fields', 64, 6.9, 26.8, 97, event)">
               <span>🌾 Sector 02 — Wheat Fields</span>
             </div>
-            <div class="sector-option active-sector" onclick="switchSector('Sector 04 — North Acre', 72, 6.8, 27.4, 98.4)">
+            <div class="sector-option active-sector" onclick="switchSector('Sector 04 — North Acre', 72, 6.8, 27.4, 98.4, event)">
               <span>📍 Sector 04 — North Acre (Active)</span>
             </div>
           </div>
@@ -2848,14 +2924,14 @@
           </button>
           
           <div class="lang-menu-dropdown">
-            <div class="lang-option active-lang" onclick="selectLanguage('English', 'en')">
+            <div class="lang-option active-lang" onclick="selectLanguage('English', 'en', event)">
               <span>🇬🇧 English</span>
               <i class="fa-solid fa-check"></i>
             </div>
-            <div class="lang-option" onclick="selectLanguage('हिंदी (Hindi)', 'hi')">
+            <div class="lang-option" onclick="selectLanguage('हिंदी (Hindi)', 'hi', event)">
               <span>🇮🇳 हिंदी (Hindi)</span>
             </div>
-            <div class="lang-option" onclick="selectLanguage('मराठी (Marathi)', 'mr')">
+            <div class="lang-option" onclick="selectLanguage('मराठी (Marathi)', 'mr', event)">
               <span>🇮🇳 मराठी (Marathi)</span>
             </div>
           </div>
@@ -2907,7 +2983,7 @@
               <span>Sector 04 Operator</span>
             </div>
             <a href="/dashboard/settings" class="user-menu-link"><i class="fa-solid fa-user-gear"></i> Account Settings</a>
-            <a href="/dashboard/soil" class="user-menu-link"><i class="fa-solid fa-sliders"></i> Sensor Calibrations</a>
+            <a href="{{ url_for('soil_dashboard') }}" class="user-menu-link"><i class="fa-solid fa-sliders"></i> Sensor Calibrations</a>
             <a href="/logout" class="user-menu-link" style="color: #FDA4AF;"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</a>
           </div>
         </div>
@@ -2974,7 +3050,7 @@
     <section class="metric-cards-grid">
       
       <!-- 1. Soil Moisture -->
-      <div class="metric-box" onclick="window.location.href='{{ url_for('soil_dashboard') }}'" style="cursor: pointer;" title="Open Soil Intelligence">
+      <div class="metric-box" onclick="window.location.href=&quot;{{ url_for('soil_dashboard') }}&quot;" style="cursor: pointer;" title="Open Soil Intelligence">
         <div class="metric-icon-circle icon-bg-moisture">
           <i class="fa-solid fa-seedling"></i>
         </div>
@@ -3000,29 +3076,6 @@
         </div>
         <svg class="sparkline-svg" viewBox="0 0 60 30">
           <path d="M0,15 Q15,22 30,12 T60,16" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" />
-      <!-- 1. Moisture -->
-      <div class="metric-card-box" onclick="showMetricDetail('Soil Moisture', '72%', 'Optimal Target Range: 65% - 75%', 'Drip irrigation trigger set to 50%. Next automated replenishment scheduled in 14 hours.')">
-        <div class="metric-circle-icon bg-moisture"><i class="fa-solid fa-droplet"></i></div>
-        <div class="metric-info-col">
-          <div class="metric-type-label">Soil Moisture</div>
-          <div class="metric-bold-value" id="valMoisture">72%</div>
-          <div class="metric-trend-row trend-blue"><i class="fa-solid fa-arrow-up"></i> +5.2% vs yesterday</div>
-        </div>
-        <svg class="wave-sparkline-svg" viewBox="0 0 60 30">
-          <path d="M0,22 Q15,8 30,20 T60,10" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" />
-        </svg>
-      </div>
-
-      <!-- 2. pH -->
-      <div class="metric-card-box" onclick="showMetricDetail('Soil pH Level', '6.8 pH', 'Neutral & Healthy (6.5 - 7.0)', 'Micro-nutrient uptake is at maximum efficiency. Phosphorus bioavailability is 94%.')">
-        <div class="metric-circle-icon bg-ph"><i class="fa-solid fa-flask"></i></div>
-        <div class="metric-info-col">
-          <div class="metric-type-label">Soil pH Level</div>
-          <div class="metric-bold-value" id="valPH">6.8</div>
-          <div class="metric-trend-row trend-orange"><i class="fa-solid fa-arrow-right"></i> Stable Neutral</div>
-        </div>
-        <svg class="wave-sparkline-svg" viewBox="0 0 60 30">
-          <path d="M0,18 Q15,24 30,12 T60,16" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" />
         </svg>
       </div>
 
@@ -3038,30 +3091,20 @@
         </div>
         <svg class="sparkline-svg" viewBox="0 0 60 30">
           <path d="M0,20 Q15,8 30,22 T60,10" fill="none" stroke="#0284C7" stroke-width="2.5" stroke-linecap="round" />
-      <div class="metric-card-box" onclick="showMetricDetail('Ground Temperature', '27.4°C', 'Favorable Ambient Range', 'Root respiration rate is normal. Evapotranspiration index: 3.2 mm/day.')">
-        <div class="metric-circle-icon bg-temp"><i class="fa-solid fa-temperature-half"></i></div>
-        <div class="metric-info-col">
-          <div class="metric-type-label">Ground Temp</div>
-          <div class="metric-bold-value" id="valTemp">27.4°C</div>
-          <div class="metric-trend-row trend-green"><i class="fa-solid fa-arrow-up"></i> +1.1°C Optimal</div>
-        </div>
-        <svg class="wave-sparkline-svg" viewBox="0 0 60 30">
-          <path d="M0,20 Q15,6 30,18 T60,8" fill="none" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" />
         </svg>
       </div>
 
       <!-- 4. Crop Health -->
-      <div class="metric-card-box" onclick="showMetricDetail('Crop Health Index', '98.4%', 'Low Pathogen Risk', 'AI Leaf Pathology scan of 142 samples completed. 0 active blight lesions found.')">
-        <div class="metric-circle-icon bg-health"><i class="fa-solid fa-leaf"></i></div>
-        <div class="metric-info-col">
-          <div class="metric-type-label">Crop Health Index</div>
-          <div class="metric-bold-value" style="display: flex; align-items: center; gap: 8px;">
-            <span id="valHealth">98.4%</span>
-            <i class="fa-solid fa-circle-check" style="color: #22C55E; font-size: 1.1rem;"></i>
-          </div>
-          <div class="metric-trend-row trend-green"><i class="fa-solid fa-shield"></i> Low Pathogen Risk</div>
+      <div class="metric-box" onclick="window.location.href='{{ url_for('soil_dashboard') }}'" style="cursor: pointer;" title="Open Soil Intelligence">
+        <div class="metric-icon-circle icon-bg-health">
+          <i class="fa-solid fa-leaf"></i>
         </div>
-        <svg class="wave-sparkline-svg" viewBox="0 0 60 30">
+        <div class="metric-meta">
+          <div class="metric-label-title">Crop Health</div>
+          <div class="metric-stat-val">98.4%</div>
+          <div class="metric-trend trend-up"><i class="fa-solid fa-shield"></i> Healthy</div>
+        </div>
+        <svg class="sparkline-svg" viewBox="0 0 60 30">
           <path d="M0,24 Q15,12 30,18 T60,6" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" />
         </svg>
       </div>
@@ -3091,6 +3134,9 @@
 
         <div class="chart-container-wrap">
           <canvas id="soilOverviewChart"></canvas>
+        </div>
+      </div>
+    </div>
     <!-- ================= 5 CORE PLATFORM FEATURES (BALANCED EQUAL-HEIGHT CARDS) ================= -->
     <section class="features-hub-section">
       <div class="hub-header">
@@ -3102,7 +3148,7 @@
 
       <div class="core-features-grid" id="coreFeaturesGrid">
         <!-- Feature 1: Soil Intelligence -->
-        <a href="/dashboard/soil" class="core-feature-card" data-keyword="soil intelligence moisture ph npk nutrients">
+        <a href="{{ url_for('soil_dashboard') }}" class="core-feature-card" data-keyword="soil intelligence moisture ph npk nutrients">
           <div>
             <div class="feat-card-top">
               <div class="feat-icon-box icon-soil"><i class="fa-solid fa-flask-vial"></i></div>
@@ -3321,9 +3367,9 @@
         <!-- Quick Scenarios Presets -->
         <div class="condition-presets-bar">
           <span class="presets-text">Quick Scenarios:</span>
-          <button type="button" class="preset-tag active" onclick="setTelemetryPreset(72, 6.8, 27)">Live Field (72%, 6.8, 27°C)</button>
-          <button type="button" class="preset-tag" onclick="setTelemetryPreset(85, 6.2, 29)">High Moisture (85%, 6.2, 29°C)</button>
-          <button type="button" class="preset-tag" onclick="setTelemetryPreset('', '', '')">Reset</button>
+          <button type="button" class="preset-tag active" onclick="setTelemetryPreset(72, 6.8, 27, event)">Live Field (72%, 6.8, 27°C)</button>
+          <button type="button" class="preset-tag" onclick="setTelemetryPreset(85, 6.2, 29, event)">High Moisture (85%, 6.2, 29°C)</button>
+          <button type="button" class="preset-tag" onclick="setTelemetryPreset('', '', '', event)">Reset</button>
         </div>
 
         <!-- Action Button -->
@@ -3811,10 +3857,11 @@
       document.getElementById('sectorDropdown').classList.toggle('open');
     }
 
-    function switchSector(sectorName, moisture, ph, temp, health) {
+    function switchSector(sectorName, moisture, ph, temp, health, event) {
       document.getElementById('currentSectorLabel').textContent = sectorName;
       document.querySelectorAll('.sector-option').forEach(el => el.classList.remove('active-sector'));
-      event.currentTarget.classList.add('active-sector');
+      const target = (event && event.currentTarget) || this;
+      if (target && target.classList) target.classList.add('active-sector');
       document.getElementById('sectorDropdown').classList.remove('open');
 
       document.getElementById('valMoisture').textContent = `${moisture}%`;
@@ -3830,10 +3877,11 @@
       document.getElementById('langDropdown').classList.toggle('open');
     }
 
-    function selectLanguage(langName, langCode) {
+    function selectLanguage(langName, langCode, event) {
       document.getElementById('selectedLangText').textContent = langName.split(' ')[0];
       document.querySelectorAll('.lang-option').forEach(opt => opt.classList.remove('active-lang'));
-      event.currentTarget.classList.add('active-lang');
+      const target = (event && event.currentTarget) || this;
+      if (target && target.classList) target.classList.add('active-lang');
       document.getElementById('langDropdown').classList.remove('open');
 
       const eyebrow = document.getElementById('greetingEyebrow');
@@ -4073,13 +4121,14 @@
       });
     }
 
-    function setTelemetryPreset(moisture, ph, temp) {
+    function setTelemetryPreset(moisture, ph, temp, event) {
       document.getElementById('diseaseMoisture').value = moisture;
       document.getElementById('diseasePh').value = ph;
       document.getElementById('diseaseTemp').value = temp;
 
       document.querySelectorAll('.preset-tag').forEach(btn => btn.classList.remove('active'));
-      if (window.event && window.event.target) window.event.target.classList.add('active');
+      const target = (event && event.currentTarget) || this;
+      if (target && target.classList) target.classList.add('active');
     }
 
     function showDiseaseError(msg) {
@@ -4744,58 +4793,144 @@
     }
 
     // ================= 10. AI CHAT DRAWER WITH ZERO SCROLLBAR =================
-    function toggleAIChat() {
+    let chatHistory = [];
+    let isAiChatRequestPending = false;
+
+    function toggleAIChat(forceOpen) {
       const drawer = document.getElementById('aiChatDrawer');
-      if (drawer) drawer.classList.toggle('open-chat');
+      if (!drawer) return;
+
+      const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : !drawer.classList.contains('open-chat');
+      drawer.classList.toggle('open-chat', shouldOpen);
+      drawer.setAttribute('aria-hidden', String(!shouldOpen));
+
+      if (shouldOpen) {
+        const input = document.getElementById('chatInput');
+        if (input) {
+          setTimeout(() => input.focus(), 60);
+        }
+      }
     }
 
     function handleChatKey(e) {
-      if (e.key === 'Enter') sendChatMessage();
-    }
-
-    function askQuickPrompt(question) {
-      const input = document.getElementById('chatInput');
-      if (input) {
-        input.value = question;
+      if (e.key === 'Enter') {
+        e.preventDefault();
         sendChatMessage();
       }
     }
 
-    function sendChatMessage() {
+    function askQuickPrompt(question) {
       const input = document.getElementById('chatInput');
       if (!input) return;
+      input.value = question;
+      sendChatMessage();
+    }
+
+    async function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const area = document.getElementById('chatMessages');
+      const sendButton = document.querySelector('.chat-send-btn');
+
+      if (!input || !area || isAiChatRequestPending) return;
+
       const text = input.value.trim();
       if (!text) return;
 
-      const area = document.getElementById('chatMessages');
+      isAiChatRequestPending = true;
+      input.disabled = true;
+      if (sendButton) sendButton.disabled = true;
 
-      // User Message
       const userBubble = document.createElement('div');
       userBubble.className = 'chat-bubble chat-user';
       userBubble.textContent = text;
       area.appendChild(userBubble);
+
       input.value = '';
+
+      const loadingBubble = document.createElement('div');
+      loadingBubble.className = 'chat-bubble chat-bot';
+      loadingBubble.textContent = '🌱 Analysing your farm conditions...';
+      area.appendChild(loadingBubble);
       area.scrollTop = area.scrollHeight;
 
-      // Smart Bot Response Simulation
-      setTimeout(() => {
-        const botBubble = document.createElement('div');
-        botBubble.className = 'chat-bubble chat-bot';
+      let controller = null;
+      let timeoutId = null;
 
-        if (text.toLowerCase().includes('ph')) {
-          botBubble.innerHTML = 'For wheat, the ideal soil pH is <strong>6.0 to 7.0</strong>. Your current reading is <strong>6.8 pH</strong>, which is optimal for nutrient uptake.';
-        } else if (text.toLowerCase().includes('pump') || text.toLowerCase().includes('water')) {
-          botBubble.innerHTML = 'Current soil moisture is <strong>72%</strong>. The threshold for irrigation is 50%, so you do <strong>not need to run the pump today</strong>.';
-        } else if (text.toLowerCase().includes('blight') || text.toLowerCase().includes('tomato')) {
-          botBubble.innerHTML = 'To prevent tomato early blight, avoid overhead irrigation, ensure good airflow between rows, and apply a preventative neem oil or copper spray.';
-        } else {
-          botBubble.innerHTML = `Based on Sector 04 telemetry, conditions are stable. I have logged your query regarding "${text}".`;
+      try {
+        const previousHistory = chatHistory.slice(-10);
+        controller = new AbortController();
+        timeoutId = setTimeout(() => controller.abort(), 100000);
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: text,
+            history: previousHistory
+          }),
+          signal: controller.signal
+        });
+
+        let data = null;
+        try {
+          data = await response.json();
+        } catch (jsonError) {
+          throw new Error('Gemini returned an invalid response. Please try again shortly.');
         }
 
+        if (!response.ok || !data || data.success !== true) {
+          throw new Error(data && typeof data.error === 'string'
+            ? data.error
+            : `Gemini request failed (HTTP ${response.status}).`);
+        }
+
+        const renderedReply = typeof data.reply === 'string' ? data.reply.trim() : '';
+        if (!renderedReply) {
+          throw new Error('Gemini returned an empty response. Please try again.');
+        }
+
+        const botBubble = document.createElement('div');
+        botBubble.className = 'chat-bubble chat-bot';
+        if (window.marked && window.DOMPurify) {
+          const markdownRoot = document.createElement('div');
+          markdownRoot.className = 'chat-markdown';
+          markdownRoot.innerHTML = window.DOMPurify.sanitize(window.marked.parse(renderedReply, { breaks: true, gfm: true }));
+          botBubble.appendChild(markdownRoot);
+        } else {
+          botBubble.textContent = renderedReply;
+        }
         area.appendChild(botBubble);
+        chatHistory.push({ role: 'user', content: text });
+        chatHistory.push({ role: 'model', content: renderedReply });
+        chatHistory = chatHistory.slice(-12);
+      } catch (error) {
+        const errorBubble = document.createElement('div');
+        errorBubble.className = 'chat-bubble chat-bot';
+
+        if (error && error.name === 'AbortError') {
+          errorBubble.textContent = 'Gemini is taking too long to respond. Please try again in a moment.';
+        } else {
+          errorBubble.textContent = error instanceof Error
+            ? error.message
+            : 'Gemini could not respond right now. Please try again shortly.';
+        }
+
+        area.appendChild(errorBubble);
+        console.error('AI Chat Error:', error);
+      } finally {
+        if (timeoutId) clearTimeout(timeoutId);
+        if (controller) controller.abort();
+        loadingBubble.remove();
+        input.disabled = false;
+        if (sendButton) sendButton.disabled = false;
+        isAiChatRequestPending = false;
+        input.focus();
         area.scrollTop = area.scrollHeight;
-      }, 600);
+      }
     }
+
+      
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
 </body>
 </html>

@@ -203,59 +203,59 @@
         <!-- Left: Depth Scale & 3D Isometric Soil Block -->
         <div class="hero-strata-visual">
           <div class="depth-axis">
-            <div class="depth-point" style="top: 15px;"><span>1.3m</span></div>
-            <div class="depth-point" style="top: 75px;"><span>0.7m</span></div>
-            <div class="depth-point" style="top: 135px;"><span>-1.2m</span></div>
+            <div class="depth-point" style="top: 30px;"><span>1.3m</span><span class="depth-tick"></span></div>
+            <div class="depth-point" style="top: 94px;"><span>0.7m</span><span class="depth-tick"></span></div>
+            <div class="depth-point" style="top: 154px;"><span>-1.2m</span><span class="depth-tick"></span></div>
             <div class="depth-line"></div>
           </div>
 
-          <!-- 3D Layered Isometric Soil SVG Graphic -->
+          <!-- 3D Layered Isometric Soil SVG Graphic (No Clipped Labels) -->
           <div class="soil-block-wrapper">
-            <svg class="soil-3d-svg" viewBox="0 0 240 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="soil-3d-svg" viewBox="0 0 250 205" fill="none" xmlns="http://www.w3.org/2000/svg">
               <!-- Top turf / grass slice -->
               <g class="turf-layer">
                 <!-- Top Face -->
-                <polygon points="120,20 200,50 120,80 40,50" fill="#4ADE80" stroke="#22C55E" stroke-width="1.5" />
+                <polygon points="125,48 205,76 125,104 45,76" fill="#4ADE80" stroke="#22C55E" stroke-width="1.5" />
                 <!-- Turf grass texture -->
-                <path d="M70,42 L72,36 M90,35 L92,29 M115,30 L117,24 M140,36 L142,30 M165,42 L167,36 M100,50 L102,44 M130,52 L132,46 M155,58 L157,52" stroke="#15803D" stroke-width="2" stroke-linecap="round" />
+                <path d="M75,68 L77,62 M95,61 L97,55 M120,56 L122,50 M145,62 L147,56 M170,68 L172,62 M105,76 L107,70 M135,78 L137,72 M160,84 L162,78" stroke="#15803D" stroke-width="2" stroke-linecap="round" />
                 <!-- Left Face -->
-                <polygon points="40,50 120,80 120,95 40,65" fill="#2E7D32" />
+                <polygon points="45,76 125,104 125,118 45,90" fill="#2E7D32" />
                 <!-- Right Face -->
-                <polygon points="120,80 200,50 200,65 120,95" fill="#1B5E20" />
+                <polygon points="125,104 205,76 205,90 125,118" fill="#1B5E20" />
               </g>
 
-              <!-- Top Pin marker -->
+              <!-- Top Pin marker (Safely inside viewBox, y=9 to y=27) -->
               <g class="callout-pin top-pin">
-                <line x1="120" y1="20" x2="120" y2="4" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-dasharray="2 2" />
-                <circle cx="120" cy="20" r="3" fill="#FFFFFF" />
-                <rect x="95" y="-12" width="50" height="18" rx="9" fill="#1D2923" stroke="rgba(255,255,255,0.3)" />
-                <text x="120" y="0" fill="#FFFFFF" font-size="9" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">pH 5,7%</text>
+                <line x1="125" y1="48" x2="125" y2="27" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-dasharray="2 2" />
+                <circle cx="125" cy="48" r="3" fill="#FFFFFF" />
+                <rect x="98" y="9" width="54" height="18" rx="9" fill="#1D2923" stroke="rgba(255,255,255,0.35)" />
+                <text x="125" y="22" fill="#FFFFFF" font-size="9" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">pH 5.7%</text>
               </g>
 
               <!-- Middle dark humus soil slice -->
-              <g class="humus-layer" transform="translate(0, 22)">
+              <g class="humus-layer" transform="translate(0, 16)">
                 <!-- Top Face -->
-                <polygon points="120,70 195,98 120,126 45,98" fill="#5A3E2B" />
+                <polygon points="125,96 200,123 125,150 50,123" fill="#5A3E2B" />
                 <!-- Left Face -->
-                <polygon points="45,98 120,126 120,144 45,116" fill="#3E2718" />
+                <polygon points="50,123 125,150 125,166 50,139" fill="#3E2718" />
                 <!-- Right Face -->
-                <polygon points="120,126 195,98 195,116 120,144" fill="#2E1B10" />
+                <polygon points="125,150 200,123 200,139 125,166" fill="#2E1B10" />
               </g>
 
               <!-- Middle Pin marker -->
               <g class="callout-pin mid-pin">
-                <line x1="160" y1="108" x2="160" y2="86" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-dasharray="2 2" />
-                <circle cx="160" cy="108" r="3" fill="#FFFFFF" />
-                <rect x="138" y="72" width="44" height="18" rx="9" fill="#1D2923" stroke="rgba(255,255,255,0.3)" />
-                <text x="160" y="84" fill="#FFFFFF" font-size="9" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">pH 2%</text>
+                <line x1="165" y1="130" x2="165" y2="108" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" stroke-dasharray="2 2" />
+                <circle cx="165" cy="130" r="3" fill="#FFFFFF" />
+                <rect x="142" y="90" width="46" height="18" rx="9" fill="#1D2923" stroke="rgba(255,255,255,0.35)" />
+                <text x="165" y="103" fill="#FFFFFF" font-size="9" font-weight="700" text-anchor="middle" font-family="'Plus Jakarta Sans', sans-serif">pH 2%</text>
               </g>
 
               <!-- Bottom clay / subsoil slice -->
-              <g class="clay-layer" transform="translate(0, 42)">
+              <g class="clay-layer" transform="translate(0, 32)">
                 <!-- Left Face -->
-                <polygon points="50,132 120,158 120,174 50,148" fill="#8D6E53" />
+                <polygon points="55,150 125,175 125,190 55,165" fill="#8D6E53" />
                 <!-- Right Face -->
-                <polygon points="120,158 190,132 190,148 120,174" fill="#755940" />
+                <polygon points="125,175 195,150 195,165 125,190" fill="#755940" />
               </g>
             </svg>
           </div>
@@ -693,58 +693,150 @@
       </div>
     </div>
 
-    <!-- Historical Soil Trends (4 Separate Readable Charts) -->
+        <!-- Historical Soil Analytics Section -->
     <section class="historical-section" id="historical-section">
       <div class="section-header-bar">
         <div>
-          <h3><i class="fas fa-chart-line" style="color: #087B50;"></i> Historical Soil Trends</h3>
-          <p class="section-sub">Parameter trajectory across field sensors &bull; <span class="demo-tag-mini">Simulated Series</span></p>
+          <h3><i class="fas fa-chart-line" style="color: #087B50;"></i> Historical Soil Analytics</h3>
+          <p class="section-sub">Parameter trajectory across field sensors &bull; <span class="demo-tag-mini"><i class="fas fa-database"></i> SIMULATED HISTORICAL READINGS</span></p>
         </div>
-        <div class="filter-wrapper">
-          <label for="time-filter" class="filter-label"><i class="fas fa-clock"></i> Time Window:</label>
-          <select class="dropdown filter-select" id="time-filter">
-            <option value="24h" selected>Last 24 Hours</option>
-            <option value="7d">Last 7 Days</option>
-            <option value="30d">Last 30 Days</option>
-          </select>
+        <div class="historical-actions-group">
+          <div class="filter-wrapper">
+            <label for="time-filter" class="filter-label"><i class="fas fa-clock"></i> Time Window:</label>
+            <select class="dropdown filter-select" id="time-filter" title="Select Historical Time Window">
+              <option value="24h" selected>24 Hours</option>
+              <option value="7d">7 Days</option>
+              <option value="30d">30 Days</option>
+            </select>
+          </div>
+          <button class="btn-export-csv" id="export-csv-btn" title="Download Historical Soil Telemetry CSV">
+            <i class="fa-solid fa-file-arrow-down"></i> Export CSV
+          </button>
         </div>
       </div>
 
       <div class="charts-grid">
+        <!-- 1. Soil Moisture Chart -->
         <div class="chart-card">
           <div class="chart-header">
             <span class="chart-title"><i class="fas fa-tint" style="color:#087B50;"></i> Soil Moisture (%)</span>
-            <span class="chart-val-badge">35% Current</span>
+            <span class="chart-val-badge" id="moisture-current-badge">{{ soil.moisture }}% Current</span>
+          </div>
+          <div class="chart-stats-strip">
+            <div class="stat-stat-item">
+              <span class="stat-stat-label">Avg:</span>
+              <span class="stat-stat-val" id="moisture-avg">--%</span>
+            </div>
+            <div class="stat-stat-item">
+              <span class="stat-stat-label">Min:</span>
+              <span class="stat-stat-val" id="moisture-min">--%</span>
+            </div>
+            <div class="stat-stat-item">
+              <span class="stat-stat-label">Max:</span>
+              <span class="stat-stat-val" id="moisture-max">--%</span>
+            </div>
           </div>
           <div class="chart-wrapper">
             <canvas id="moisture-chart"></canvas>
           </div>
         </div>
 
+        <!-- 2. Soil pH Chart -->
         <div class="chart-card">
           <div class="chart-header">
             <span class="chart-title"><i class="fas fa-flask" style="color:#0284C7;"></i> Soil pH</span>
-            <span class="chart-val-badge">6.8 pH</span>
+            <span class="chart-val-badge" id="ph-current-badge">{{ soil.ph }} pH</span>
+          </div>
+          <div class="chart-stats-strip">
+            <div class="stat-stat-item">
+              <span class="stat-stat-label">Avg:</span>
+              <span class="stat-stat-val" id="ph-avg">--</span>
+            </div>
+            <div class="stat-stat-item">
+              <span class="stat-stat-label">Min:</span>
+              <span class="stat-stat-val" id="ph-min">--</span>
+            </div>
+            <div class="stat-stat-item">
+              <span class="stat-stat-label">Max:</span>
+              <span class="stat-stat-val" id="ph-max">--</span>
+            </div>
           </div>
           <div class="chart-wrapper">
             <canvas id="ph-chart"></canvas>
           </div>
         </div>
 
+        <!-- 3. Soil Temperature Chart -->
         <div class="chart-card">
           <div class="chart-header">
             <span class="chart-title"><i class="fas fa-thermometer-half" style="color:#E67E22;"></i> Soil Temperature (°C)</span>
-            <span class="chart-val-badge">28°C Current</span>
+            <span class="chart-val-badge" id="temp-current-badge">{{ soil.temperature }}°C Current</span>
+          </div>
+          <div class="chart-stats-strip">
+            <div class="stat-stat-item">
+              <span class="stat-stat-label">Avg:</span>
+              <span class="stat-stat-val" id="temp-avg">--°C</span>
+            </div>
+            <div class="stat-stat-item">
+              <span class="stat-stat-label">Min:</span>
+              <span class="stat-stat-val" id="temp-min">--°C</span>
+            </div>
+            <div class="stat-stat-item">
+              <span class="stat-stat-label">Max:</span>
+              <span class="stat-stat-val" id="temp-max">--°C</span>
+            </div>
           </div>
           <div class="chart-wrapper">
             <canvas id="temp-chart"></canvas>
           </div>
         </div>
 
+        <!-- 4. NPK Nutrients Chart -->
         <div class="chart-card">
           <div class="chart-header">
             <span class="chart-title"><i class="fas fa-vial" style="color:#2E7D32;"></i> NPK Nutrients (mg/kg)</span>
-            <span class="chart-val-badge">Multi-Vector</span>
+            <span class="chart-val-badge" id="npk-current-badge">Multi-Vector</span>
+          </div>
+          <div class="npk-table-wrap">
+            <table class="npk-stat-table">
+              <thead>
+                <tr>
+                  <th class="npk-th npk-th-nutrient">Nutrient</th>
+                  <th class="npk-th npk-th-num">AVG</th>
+                  <th class="npk-th npk-th-num">MIN</th>
+                  <th class="npk-th npk-th-num">MAX</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="npk-tr">
+                  <td class="npk-td-nutrient">
+                    <span class="npk-dot" style="background:#087B50;"></span>
+                    <span class="npk-name" style="color:#087B50;">Nitrogen (N)</span>
+                  </td>
+                  <td class="npk-td-num"><span id="n-avg">--</span></td>
+                  <td class="npk-td-num"><span id="n-min">--</span></td>
+                  <td class="npk-td-num"><span id="n-max">--</span></td>
+                </tr>
+                <tr class="npk-tr">
+                  <td class="npk-td-nutrient">
+                    <span class="npk-dot" style="background:#FF9800;"></span>
+                    <span class="npk-name" style="color:#E67E00;">Phosphorus (P)</span>
+                  </td>
+                  <td class="npk-td-num"><span id="p-avg">--</span></td>
+                  <td class="npk-td-num"><span id="p-min">--</span></td>
+                  <td class="npk-td-num"><span id="p-max">--</span></td>
+                </tr>
+                <tr class="npk-tr">
+                  <td class="npk-td-nutrient">
+                    <span class="npk-dot" style="background:#0284C7;"></span>
+                    <span class="npk-name" style="color:#0284C7;">Potassium (K)</span>
+                  </td>
+                  <td class="npk-td-num"><span id="k-avg">--</span></td>
+                  <td class="npk-td-num"><span id="k-min">--</span></td>
+                  <td class="npk-td-num"><span id="k-max">--</span></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <div class="chart-wrapper">
             <canvas id="npk-chart"></canvas>
@@ -752,6 +844,12 @@
         </div>
       </div>
     </section>
+
+    <!-- Toast Notification for CSV Export -->
+    <div id="csv-export-toast" class="csv-toast">
+      <i class="fa-solid fa-circle-check" style="color:#4ADE80;"></i>
+      <span id="csv-toast-msg">Historical soil readings exported to CSV!</span>
+    </div>
   </main>
 
   <!-- JavaScript Functionality -->
@@ -1145,7 +1243,106 @@
       });
     }
 
-    // ---------- Improved Historical Charts Readability ----------
+        // ---------- 3. Improved Historical Charts & Telemetry Datasets ----------
+    const historicalDatasets = {
+      '24h': {
+        timeframeLabel: '24 Hours',
+        labels: ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'],
+        fullTimestamps: [
+          'Today 00:00', 'Today 03:00', 'Today 06:00', 'Today 09:00',
+          'Today 12:00', 'Today 15:00', 'Today 18:00', 'Today 21:00'
+        ],
+        moisture: [38.2, 37.5, 36.8, 35.4, 33.8, 33.1, 34.2, 35.0],
+        ph: [6.75, 6.78, 6.80, 6.84, 6.82, 6.80, 6.79, 6.80],
+        temperature: [22.4, 21.8, 22.5, 25.6, 29.8, 30.2, 28.9, 28.0],
+        npk: {
+          N: [46.5, 46.2, 45.8, 45.4, 45.1, 44.8, 45.0, 45.0],
+          P: [33.0, 32.8, 32.5, 32.2, 32.0, 31.8, 32.0, 32.0],
+          K: [39.2, 39.0, 38.6, 38.4, 38.1, 37.9, 38.0, 38.0]
+        }
+      },
+      '7d': {
+        timeframeLabel: '7 Days',
+        labels: ['Nov 8', 'Nov 9', 'Nov 10', 'Nov 11', 'Nov 12', 'Nov 13', 'Nov 14'],
+        fullTimestamps: [
+          'Nov 8, 2026', 'Nov 9, 2026', 'Nov 10, 2026', 'Nov 11, 2026',
+          'Nov 12, 2026', 'Nov 13, 2026', 'Nov 14, 2026'
+        ],
+        moisture: [29.4, 28.0, 43.5, 41.2, 38.6, 36.4, 35.0],
+        ph: [6.65, 6.70, 6.90, 6.85, 6.82, 6.80, 6.80],
+        temperature: [26.2, 27.5, 25.8, 26.9, 27.8, 28.4, 28.0],
+        npk: {
+          N: [49.0, 48.2, 47.0, 46.5, 45.8, 45.2, 45.0],
+          P: [34.5, 34.0, 33.2, 32.8, 32.4, 32.1, 32.0],
+          K: [41.0, 40.2, 39.5, 39.0, 38.5, 38.2, 38.0]
+        }
+      },
+      '30d': {
+        timeframeLabel: '30 Days',
+        labels: ['Oct 16', 'Oct 19', 'Oct 22', 'Oct 25', 'Oct 28', 'Oct 31', 'Nov 3', 'Nov 6', 'Nov 9', 'Nov 14'],
+        fullTimestamps: [
+          'Oct 16, 2026', 'Oct 19, 2026', 'Oct 22, 2026', 'Oct 25, 2026',
+          'Oct 28, 2026', 'Oct 31, 2026', 'Nov 3, 2026', 'Nov 6, 2026',
+          'Nov 9, 2026', 'Nov 14, 2026'
+        ],
+        moisture: [32.0, 27.5, 45.0, 41.5, 36.8, 30.2, 44.0, 39.5, 36.2, 35.0],
+        ph: [6.50, 6.55, 6.72, 6.85, 6.80, 6.68, 6.75, 6.82, 6.80, 6.80],
+        temperature: [24.5, 25.2, 26.0, 27.1, 28.5, 29.0, 27.4, 26.8, 27.5, 28.0],
+        npk: {
+          N: [54.0, 52.5, 51.0, 49.5, 48.0, 47.0, 46.2, 45.5, 45.2, 45.0],
+          P: [36.5, 35.8, 35.0, 34.2, 33.5, 33.0, 32.6, 32.2, 32.1, 32.0],
+          K: [44.0, 43.0, 42.1, 41.0, 40.2, 39.5, 38.8, 38.4, 38.2, 38.0]
+        }
+      }
+    };
+
+    function calcStats(arr) {
+      if (!arr || !arr.length) return { avg: 0, min: 0, max: 0 };
+      const min = Math.min(...arr);
+      const max = Math.max(...arr);
+      const sum = arr.reduce((acc, v) => acc + v, 0);
+      const avg = sum / arr.length;
+      return { avg, min, max };
+    }
+
+    function setStatText(elementId, text) {
+      const el = document.getElementById(elementId);
+      if (el) el.textContent = text;
+    }
+
+    function updateHistoricalStats(dataset) {
+      const mStats = calcStats(dataset.moisture);
+      setStatText('moisture-avg', mStats.avg.toFixed(1) + '%');
+      setStatText('moisture-min', mStats.min.toFixed(1) + '%');
+      setStatText('moisture-max', mStats.max.toFixed(1) + '%');
+
+      const pStats = calcStats(dataset.ph);
+      setStatText('ph-avg', pStats.avg.toFixed(2));
+      setStatText('ph-min', pStats.min.toFixed(2));
+      setStatText('ph-max', pStats.max.toFixed(2));
+
+      const tStats = calcStats(dataset.temperature);
+      setStatText('temp-avg', tStats.avg.toFixed(1) + '°C');
+      setStatText('temp-min', tStats.min.toFixed(1) + '°C');
+      setStatText('temp-max', tStats.max.toFixed(1) + '°C');
+
+      const nStats = calcStats(dataset.npk.N);
+      const pKStats = calcStats(dataset.npk.P);
+      const kStats = calcStats(dataset.npk.K);
+      // Populate N stats
+      setStatText('n-avg', nStats.avg.toFixed(1));
+      setStatText('n-min', nStats.min.toFixed(1));
+      setStatText('n-max', nStats.max.toFixed(1));
+      // Populate P stats
+      setStatText('p-avg', pKStats.avg.toFixed(1));
+      setStatText('p-min', pKStats.min.toFixed(1));
+      setStatText('p-max', pKStats.max.toFixed(1));
+      // Populate K stats
+      setStatText('k-avg', kStats.avg.toFixed(1));
+      setStatText('k-min', kStats.min.toFixed(1));
+      setStatText('k-max', kStats.max.toFixed(1));
+    }
+
     let charts = {};
     function initCharts() {
       const ctxM = document.getElementById('moisture-chart');
@@ -1154,34 +1351,58 @@
       const ctxN = document.getElementById('npk-chart');
       if (!ctxM || !ctxP || !ctxT || !ctxN) return;
 
-      const labels = generateTimeLabels('24h');
-      
+      const initialKey = '24h';
+      const initialData = historicalDatasets[initialKey];
+      const labels = initialData.labels;
+
       const commonOptions = {
         responsive: true,
         maintainAspectRatio: false,
         layout: {
           padding: { top: 6, bottom: 2, left: 4, right: 6 }
         },
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
         plugins: {
           legend: { display: false },
           tooltip: {
+            mode: 'index',
+            intersect: false,
             backgroundColor: '#06251C',
             titleColor: '#E8F5E9',
             bodyColor: '#FFFFFF',
+            borderColor: 'rgba(255, 255, 255, 0.12)',
+            borderWidth: 1,
             padding: 10,
             cornerRadius: 8,
-            titleFont: { family: 'Plus Jakarta Sans', size: 12, weight: 600 },
+            titleFont: { family: 'Plus Jakarta Sans', size: 12, weight: 700 },
             bodyFont: { family: 'Plus Jakarta Sans', size: 12 },
             displayColors: true,
             boxPadding: 4,
             callbacks: {
+              title: function(items) {
+                if (!items.length) return '';
+                const idx = items[0].dataIndex;
+                const selectEl = document.getElementById('time-filter');
+                const range = selectEl ? selectEl.value : '24h';
+                const ds = historicalDatasets[range] || historicalDatasets['24h'];
+                return ds.fullTimestamps[idx] || items[0].label;
+              },
               label: function(context) {
                 let label = context.dataset.label || '';
-                if (label) label += ': ';
-                if (context.parsed.y !== null) {
-                  label += context.parsed.y;
+                const val = context.parsed.y;
+                if (val !== null) {
+                  if (label.includes('Moisture')) return ` Soil Moisture: ${val.toFixed(1)}%`;
+                  if (label.includes('pH')) return ` Soil pH: ${val.toFixed(2)} pH`;
+                  if (label.includes('Temp')) return ` Temperature: ${val.toFixed(1)}°C`;
+                  if (context.dataset.label === 'N') return ` Nitrogen (N): ${val.toFixed(1)} mg/kg`;
+                  if (context.dataset.label === 'P') return ` Phosphorus (P): ${val.toFixed(1)} mg/kg`;
+                  if (context.dataset.label === 'K') return ` Potassium (K): ${val.toFixed(1)} mg/kg`;
+                  return ` ${label}: ${val}`;
                 }
-                return ' ' + label;
+                return label;
               }
             }
           }
@@ -1192,7 +1413,7 @@
             ticks: {
               color: '#778078',
               font: { family: 'Plus Jakarta Sans', size: 11, weight: 500 },
-              maxTicksLimit: 6,
+              maxTicksLimit: 8,
               maxRotation: 0,
               autoSkip: true,
               padding: 6
@@ -1215,13 +1436,13 @@
           labels,
           datasets: [{
             label: 'Moisture (%)',
-            data: generateDemoSeries(labels, demoData.moisture),
+            data: initialData.moisture,
             borderColor: '#087B50',
             backgroundColor: 'rgba(8, 123, 80, 0.08)',
             fill: true,
             tension: 0.35,
-            pointRadius: 3,
-            pointHoverRadius: 5
+            pointRadius: 3.5,
+            pointHoverRadius: 6
           }]
         },
         options: commonOptions
@@ -1233,13 +1454,13 @@
           labels,
           datasets: [{
             label: 'pH Level',
-            data: generateDemoSeries(labels, demoData.ph),
+            data: initialData.ph,
             borderColor: '#0284C7',
             backgroundColor: 'rgba(2, 132, 199, 0.08)',
             fill: true,
             tension: 0.35,
-            pointRadius: 3,
-            pointHoverRadius: 5
+            pointRadius: 3.5,
+            pointHoverRadius: 6
           }]
         },
         options: commonOptions
@@ -1251,13 +1472,13 @@
           labels,
           datasets: [{
             label: 'Temp (°C)',
-            data: generateDemoSeries(labels, demoData.temperature),
+            data: initialData.temperature,
             borderColor: '#E67E22',
             backgroundColor: 'rgba(230, 126, 34, 0.08)',
             fill: true,
             tension: 0.35,
-            pointRadius: 3,
-            pointHoverRadius: 5
+            pointRadius: 3.5,
+            pointHoverRadius: 6
           }]
         },
         options: commonOptions
@@ -1276,70 +1497,112 @@
         data: {
           labels,
           datasets: [
-            { label: 'N', data: generateDemoSeries(labels, demoData.npk.N), borderColor: '#087B50', tension: 0.35, pointRadius: 2.5 },
-            { label: 'P', data: generateDemoSeries(labels, demoData.npk.P), borderColor: '#FF9800', tension: 0.35, pointRadius: 2.5 },
-            { label: 'K', data: generateDemoSeries(labels, demoData.npk.K), borderColor: '#0284C7', tension: 0.35, pointRadius: 2.5 }
+            { label: 'N', data: initialData.npk.N, borderColor: '#087B50', tension: 0.35, pointRadius: 3 },
+            { label: 'P', data: initialData.npk.P, borderColor: '#FF9800', tension: 0.35, pointRadius: 3 },
+            { label: 'K', data: initialData.npk.K, borderColor: '#0284C7', tension: 0.35, pointRadius: 3 }
           ]
         },
         options: npkOptions
       });
+
+      // Compute initial summary statistics
+      updateHistoricalStats(initialData);
     }
 
-    // Clean, uncrowded time labels generator
-    function generateTimeLabels(range) {
-      const now = Date.now();
-      const labels = [];
-      
-      if (range === '24h') {
-        const count = 8;
-        const step = 3 * 60 * 60 * 1000;
-        for (let i = count - 1; i >= 0; i--) {
-          const d = new Date(now - i * step);
-          labels.push(d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
+    // Fetch historical telemetry series directly from the Flask API endpoint
+    async function fetchHistoricalData(range) {
+      try {
+        const res = await fetch(`/api/historical-soil-data?timeframe=${encodeURIComponent(range)}`);
+        if (res.ok) {
+          const json = await res.json();
+          if (json && Array.isArray(json.records) && json.records.length > 0) {
+            return {
+              timeframeLabel: json.label || (range === '24h' ? '24 Hours' : range === '7d' ? '7 Days' : '30 Days'),
+              labels: json.records.map(r => r.timestamp),
+              fullTimestamps: json.records.map(r => r.full_time),
+              moisture: json.records.map(r => r.moisture),
+              ph: json.records.map(r => r.ph),
+              temperature: json.records.map(r => r.temperature),
+              npk: {
+                N: json.records.map(r => r.N),
+                P: json.records.map(r => r.P),
+                K: json.records.map(r => r.K)
+              }
+            };
+          }
         }
-      } else if (range === '7d') {
-        const count = 7;
-        const step = 24 * 60 * 60 * 1000;
-        for (let i = count - 1; i >= 0; i--) {
-          const d = new Date(now - i * step);
-          labels.push(d.toLocaleDateString([], { weekday: 'short', day: 'numeric' }));
-        }
-      } else {
-        const count = 6;
-        const step = 5 * 24 * 60 * 60 * 1000;
-        for (let i = count - 1; i >= 0; i--) {
-          const d = new Date(now - i * step);
-          labels.push(d.toLocaleDateString([], { month: 'short', day: 'numeric' }));
-        }
+      } catch (err) {
+        console.warn('API fetch error, using local fallback:', err);
       }
-      return labels;
+      return historicalDatasets[range] || historicalDatasets['24h'];
     }
 
-    function generateDemoSeries(labels, base) {
-      const arr = [];
-      let val = base;
-      for (let i = 0; i < labels.length; i++) {
-        val = val + (Math.random() * 2 - 1);
-        arr.push(Math.round(val * 10) / 10);
+    // Actual time filter update handler connected to HISTORICAL_SOIL_DATA API
+    async function applyTimeFilter(range) {
+      const dataset = await fetchHistoricalData(range);
+      const labels = dataset.labels;
+
+      if (charts.moisture) {
+        charts.moisture.data.labels = labels;
+        charts.moisture.data.datasets[0].data = dataset.moisture;
+        charts.moisture.update();
       }
-      return arr;
+
+      if (charts.ph) {
+        charts.ph.data.labels = labels;
+        charts.ph.data.datasets[0].data = dataset.ph;
+        charts.ph.update();
+      }
+
+      if (charts.temp) {
+        charts.temp.data.labels = labels;
+        charts.temp.data.datasets[0].data = dataset.temperature;
+        charts.temp.update();
+      }
+
+      if (charts.npk) {
+        charts.npk.data.labels = labels;
+        charts.npk.data.datasets[0].data = dataset.npk.N;
+        charts.npk.data.datasets[1].data = dataset.npk.P;
+        charts.npk.data.datasets[2].data = dataset.npk.K;
+        charts.npk.update();
+      }
+
+      // Recompute and update Avg, Min, Max stats
+      updateHistoricalStats(dataset);
     }
 
     const timeFilter = document.getElementById('time-filter');
     if (timeFilter) {
       timeFilter.addEventListener('change', (e) => {
-        const range = e.target.value;
-        const labels = generateTimeLabels(range);
-        Object.values(charts).forEach(ch => {
-          ch.data.labels = labels;
-          ch.data.datasets.forEach(ds => {
-            const baseVal = ds.data[0] || 30;
-            ds.data = generateDemoSeries(labels, baseVal);
-          });
-          ch.update();
-        });
+        applyTimeFilter(e.target.value);
       });
     }
+
+    // ---------- 5. Export CSV Button for Historical Soil Readings ----------
+    function showCsvToast(msg) {
+      const toast = document.getElementById('csv-export-toast');
+      const text = document.getElementById('csv-toast-msg');
+      if (!toast) return;
+      if (text) text.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+
+    function exportHistoricalCSV() {
+      const selectEl = document.getElementById('time-filter');
+      const range = selectEl ? selectEl.value : '24h';
+      window.location.href = `/api/export-soil-csv?timeframe=${encodeURIComponent(range)}`;
+      showCsvToast(`Downloading historical soil readings for ${range === '24h' ? '24 Hours' : range === '7d' ? '7 Days' : '30 Days'}...`);
+    }
+
+    const exportBtn = document.getElementById('export-csv-btn');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', exportHistoricalCSV);
+    }
+
 
     // ---------- Actionable Recommendations ----------
     function generateRecommendations() {
@@ -1460,6 +1723,7 @@
       }
 
       initCharts();
+      applyTimeFilter('24h');
       generateRecommendations();
       setupNavigation();
     }

@@ -1161,6 +1161,12 @@
       background: var(--accent-mint);
     }
 
+    .chat-send-btn:disabled {
+      cursor: wait;
+      opacity: 0.6;
+      transform: none;
+    }
+
     /* Floating AI Bot */
     .floating-ai-assistant {
       position: fixed;
@@ -4670,58 +4676,125 @@
     }
 
     // ================= 10. AI CHAT DRAWER WITH ZERO SCROLLBAR =================
-    function toggleAIChat() {
+    let chatHistory = [];
+    let isAiChatRequestPending = false;
+
+    function toggleAIChat(forceOpen) {
       const drawer = document.getElementById('aiChatDrawer');
-      if (drawer) drawer.classList.toggle('open-chat');
+      if (!drawer) return;
+
+      const shouldOpen = typeof forceOpen === 'boolean' ? forceOpen : !drawer.classList.contains('open-chat');
+      drawer.classList.toggle('open-chat', shouldOpen);
+      drawer.setAttribute('aria-hidden', String(!shouldOpen));
+
+      if (shouldOpen) {
+        const input = document.getElementById('chatInput');
+        if (input) {
+          setTimeout(() => input.focus(), 60);
+        }
+      }
     }
 
     function handleChatKey(e) {
-      if (e.key === 'Enter') sendChatMessage();
-    }
-
-    function askQuickPrompt(question) {
-      const input = document.getElementById('chatInput');
-      if (input) {
-        input.value = question;
+      if (e.key === 'Enter') {
+        e.preventDefault();
         sendChatMessage();
       }
     }
 
-    function sendChatMessage() {
+    function askQuickPrompt(question) {
       const input = document.getElementById('chatInput');
       if (!input) return;
+      input.value = question;
+      sendChatMessage();
+    }
+
+    async function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const area = document.getElementById('chatMessages');
+      const sendButton = document.querySelector('.chat-send-btn');
+
+      if (!input || !area || isAiChatRequestPending) return;
+
       const text = input.value.trim();
       if (!text) return;
 
-      const area = document.getElementById('chatMessages');
+      isAiChatRequestPending = true;
+      input.disabled = true;
+      if (sendButton) sendButton.disabled = true;
 
-      // User Message
       const userBubble = document.createElement('div');
       userBubble.className = 'chat-bubble chat-user';
       userBubble.textContent = text;
       area.appendChild(userBubble);
       input.value = '';
+
+      const loadingBubble = document.createElement('div');
+      loadingBubble.className = 'chat-bubble chat-bot';
+      loadingBubble.textContent = '🌱 Analysing your farm conditions...';
+      area.appendChild(loadingBubble);
       area.scrollTop = area.scrollHeight;
 
-      // Smart Bot Response Simulation
-      setTimeout(() => {
+      const previousHistory = chatHistory.slice(-10);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 190000);
+
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text, history: previousHistory }),
+          signal: controller.signal
+        });
+
+        let data;
+        try {
+          data = await response.json();
+        } catch (jsonError) {
+          throw new Error('The AI service returned an invalid JSON response.');
+        }
+
         const botBubble = document.createElement('div');
         botBubble.className = 'chat-bubble chat-bot';
 
-        if (text.toLowerCase().includes('ph')) {
-          botBubble.innerHTML = 'For wheat, the ideal soil pH is <strong>6.0 to 7.0</strong>. Your current reading is <strong>6.8 pH</strong>, which is optimal for nutrient uptake.';
-        } else if (text.toLowerCase().includes('pump') || text.toLowerCase().includes('water')) {
-          botBubble.innerHTML = 'Current soil moisture is <strong>72%</strong>. The threshold for irrigation is 50%, so you do <strong>not need to run the pump today</strong>.';
-        } else if (text.toLowerCase().includes('blight') || text.toLowerCase().includes('tomato')) {
-          botBubble.innerHTML = 'To prevent tomato early blight, avoid overhead irrigation, ensure good airflow between rows, and apply a preventative neem oil or copper spray.';
+        if (!response.ok || !data.success) {
+          botBubble.textContent = data && data.error ? data.error : 'Something went wrong. Please try again.';
         } else {
-          botBubble.innerHTML = `Based on Sector 04 telemetry, conditions are stable. I have logged your query regarding "${text}".`;
+          const renderedReply = data.reply || 'I could not generate a response right now.';
+          const markdownRoot = document.createElement('div');
+          markdownRoot.className = 'chat-markdown';
+          markdownRoot.innerHTML = DOMPurify.sanitize(marked.parse(renderedReply, { breaks: true, gfm: true }));
+          botBubble.appendChild(markdownRoot);
+          chatHistory.push({ role: 'user', content: text });
+          chatHistory.push({ role: 'model', content: renderedReply });
+          chatHistory = chatHistory.slice(-12);
         }
 
         area.appendChild(botBubble);
+      } catch (error) {
+        const errorBubble = document.createElement('div');
+        errorBubble.className = 'chat-bubble chat-bot';
+
+        if (error && error.name === 'AbortError') {
+          errorBubble.textContent = 'The Gemini service is taking too long to respond. Please try again in a moment.';
+        } else {
+          errorBubble.textContent = 'Gemini could not respond right now. Please try again shortly.';
+        }
+
+        area.appendChild(errorBubble);
+        console.error('AI Chat Error:', error);
+      } finally {
+        clearTimeout(timeoutId);
+        loadingBubble.remove();
+        input.disabled = false;
+        if (sendButton) sendButton.disabled = false;
+        isAiChatRequestPending = false;
+        input.focus();
         area.scrollTop = area.scrollHeight;
-      }, 600);
+      }
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
 </body>
 </html>
